@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FaComments, FaUserCircle, FaChevronDown } from 'react-icons/fa';
 import './Navbar.css';
@@ -12,6 +12,20 @@ function Navbar() {
     setShowProfileMenu(!showProfileMenu);
   };
 
+  const profileRef = useRef(null);
+
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (profileRef.current && !profileRef.current.contains(event.target)) {
+          setShowProfileMenu(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
   return (
     <>
       <nav className="navbar">
@@ -42,21 +56,34 @@ function Navbar() {
             Post Item
           </button>
 
-          <div 
-            className="profile-section" 
-            title="Profile"
-            onClick={handleProfileClick}
-          >
-            <FaUserCircle size={28} />
-            <FaChevronDown 
-              size={14} 
-              className={`dropdown-arrow-icon ${showProfileMenu ? 'rotated' : ''}`} 
-            />
-
+          <div ref={profileRef} style={{ position: 'relative' }}>
+            <div 
+              className="profile-section" 
+              title="Profile"
+              onClick={handleProfileClick}
+            >
+              <FaUserCircle size={28} />
+              <FaChevronDown 
+                size={14} 
+                className={`dropdown-arrow-icon ${showProfileMenu ? 'rotated' : ''}`} 
+              />
+            </div>
             {showProfileMenu && (
               <div className="profile-menu">
-                <p><strong>John Doe</strong></p>
-                <p>john@example.com</p>
+                <div className="profile-header">
+                  <img 
+                    src={require('../assets/dj.jpg')} 
+                    alt="Profile"
+                    className="avatar-image"
+                  />
+                  <div className="profile-details">
+                    <p className="profile-name">John Doe</p>
+                    <p className="profile-email">john@example.com</p>
+                  </div>
+                </div>
+                <hr />
+                <Link to="/profile" className="profile-option">View Profile</Link>
+                <Link to="/settings" className="profile-option">Settings</Link>
                 <button className="logout-button">Logout</button>
               </div>
             )}
