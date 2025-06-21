@@ -1,0 +1,213 @@
+:root {
+    --primary-color: #730000;
+    --secondary-color: #920009;
+    --middle-color: #FFBD00;
+    --light-color: #F3EFD0;
+    --lighter-color: #FFFFFF;
+    --text-yellow: #FFD700;
+    --hover-yellow: #ffda44;
+}
+
+/* Base Styles */
+body {
+    margin: 0;
+    font-family: 'Century Gothic', sans-serif;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--primary-color);
+    padding: 0;
+    position: relative;
+    height: 105px;
+}
+
+/* Logo Container */
+.logo-container {
+    position: relative;
+    height: 100%;
+    min-width: 250px;
+}
+
+.logo-bg {
+    position: absolute;
+    width: 602px;
+    height: auto;
+    filter: drop-shadow(5px 0px 10px rgba(0, 0, 0, 0.25));
+    z-index: 0;
+}
+
+.logo-bg svg {
+    width: 100%;
+    height: 100%;
+}
+
+.logo-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 20px;
+}
+
+.logo-img {
+    width: 75px;
+    height: 75px;
+    margin-right: 10px;
+}
+
+.brand-name {
+    font-weight: bold;
+    font-size: 50px;
+    color: var(--primary-color);
+}
+
+.highlight {
+    color: var(--middle-color);
+}
+
+/* Navigation */
+.main-nav {
+    display: flex;
+    gap: 25px;
+}
+
+.main-nav a {
+    color: var(--text-yellow);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    white-space: nowrap;
+}
+
+/* Right Side Actions */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .logo-bg {
+        width: 450px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 80px;
+        flex-wrap: wrap;
+        padding-bottom: 0;
+    }
+    
+    .logo-container {
+        height: 80px;
+        min-width: 180px;
+    }
+    
+    .logo-bg {
+        width: 350px;
+        height: 80px;
+    }
+    
+    .brand-name {
+        font-size: 20px;
+    }
+    
+    .main-nav {
+        display: none;
+        width: 100%;
+        order: 3;
+        flex-direction: column;
+        background-color: var(--secondary-color);
+        padding: 15px 0;
+        margin-top: 10px;
+    }
+    
+    .main-nav.active {
+        display: flex;
+    }
+}
+
+@media (max-width: 576px) {
+    .logo-container {
+        min-width: 150px;
+    }
+    
+    .logo-bg {
+        width: 280px;
+    }
+    
+    .brand-name {
+        font-size: 18px;
+    }
+    
+    .nav-actions {
+        gap: 15px;
+    }
+}
+
+/* Navigation */
+.main-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--text-yellow);
+    font-weight: bold;
+    transition: color 0.2s ease;
+}
+
+.main-nav a:hover {
+    color: var(--hover-yellow);
+    text-decoration: underline;
+}
+
+/* Right Side Actions */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.message-btn {
+    background: none;
+    border: none;
+    color: var(--text-yellow);
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px;
+    transition: all 0.2s ease;
+}
+
+.message-btn:hover {
+    transform: scale(1.1);
+    color: var(--hover-yellow);
+}
+
+.post-btn {
+    background-color: var(--lighter-color);
+    color: var(--primary-color);
+    border: none;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.post-btn:hover {
+    background-color: var(--hover-yellow);
+}
+
+.profile-dropdown i {
+    color: var(--text-yellow);
+    font-size: 20px;
+}

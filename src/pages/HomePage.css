@@ -1,0 +1,132 @@
+body {
+    background-image: url('../assets/MainPage.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 1440px;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.HomePage {
+    padding: 20px;
+}
+
+.Header {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 100px; /* space below header */
+}
+
+.BrowseButton {
+    background-color: #9B000A; /* dark red */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.PostButton {
+    background-color: #f5f0c4; /* light yellow */
+    color: #8B0000;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.MainContent {
+    max-width: 600px;
+}
+
+.MainTitle {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #8B0000;
+    margin-bottom: 20px;
+    padding-left: 15%;
+    margin-top: 50px;
+}
+
+.SubTitle {
+    font-size: 1.2rem;
+    color: #8B0000;
+    margin-bottom: 30px;
+    padding-left: 15%;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    .MainTitle {
+        font-size: 1.8rem;  /* smaller on phone */
+        padding-left: 5%;   /* less padding */
+        margin-top: 30px;
+    }
+
+    .SubTitle {
+        font-size: 1rem;    /* smaller on phone */
+        padding-left: 5%;   /* less padding */
+    }
+
+    .ActionButtons {
+        flex-wrap: nowrap; /* force one line */
+        justify-content: center; /* center on phone */
+        padding-left: -5%;
+        margin-left: -80px;
+        gap: 10px;
+    }
+
+    .GetStartedButton,
+    .HowItWorksButton {
+        font-size: 0.9rem; /* smaller text */
+        padding: 10px 16px; /* smaller padding */
+    }
+}
+
+.ActionButtons {
+    display: flex;
+    gap: 15px;
+    padding-left: 13%;;
+    flex-wrap: wrap;
+}
+
+.GetStartedButton {
+    background-color: #9B000A;
+    color: #ffc107;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin-left: 10px;
+}
+
+.GetStartedButton:hover{
+    Background-color: #ffc107;
+    color: #9B000A;
+    
+}
+
+.HowItWorksButton {
+    background-color: #ffc107; /* yellow */
+    color: #9B000A;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    
+}
+
+.HowItWorksButton:hover{
+    background-color: #9B000A;
+    color: #ffc107;
+}

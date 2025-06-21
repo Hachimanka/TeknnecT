@@ -1,0 +1,162 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 95%;
+  max-height: 90vh;   /* LIMIT HEIGHT */
+  overflow-y: auto;   /* allow scroll inside if too long */
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  animation: slideIn 0.4s ease;
+}
+
+
+@keyframes slideIn {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.8rem;
+  color: #8B0000;
+  margin-bottom: 1rem;
+}
+
+.plus-icon {
+  background-color: #9B000A;
+  color: white;
+  border-radius: 6px;
+  padding: 4px 8px;
+  margin-right: 0.8rem;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #8B0000;
+}
+
+.form-label input,
+.form-label textarea,
+.form-label select {
+  margin-top: 0.4rem;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.form-icon {
+  display: inline-block;
+  margin-bottom: 0.3rem;
+}
+
+.item-type-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 0.5rem;
+}
+
+.type-button {
+  padding: 8px 16px;
+  border: 1px solid #8B0000;
+  border-radius: 8px;
+  background: white;
+  color: #8B0000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.type-button:hover {
+  background-color: #9B000A;
+  color: #ffc107;
+}
+
+.upload-box {
+  margin-top: 0.5rem;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  color: #888;
+  cursor: pointer;
+}
+
+.browse-files {
+  color: #9B000A;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.cancel-button {
+  padding: 0.6rem 1.2rem;
+  background: #eee;
+  color: #444;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #ddd;
+}
+
+.post-button {
+  padding: 0.6rem 1.2rem;
+  background-color: #9B000A;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.post-button:hover {
+  background-color: #a30000;
+}
+
+@media (max-width: 600px) {
+  .modal-content {
+    padding: 1.5rem;
+  }
+
+  .modal-title {
+    font-size: 1.4rem;
+  }
+
+  .type-button {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+}
