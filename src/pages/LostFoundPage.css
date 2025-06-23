@@ -65,33 +65,104 @@
 }
 
 .item-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  background-color: #f0f0f0;
+  max-width: 350px;
+  margin: 1rem auto;
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.item-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Top badge */
+.item-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #9B000A;
+  color: #FFBD00;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+/* Image section */
+.item-image {
+  height: 180px;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Icon for image placeholder */
+.item-image img {
+  width: 60px;
+  height: 60px;
+  opacity: 0.5;
+}
+
+/* Info section */
+.item-info {
+  background-color: #ffc107;
   padding: 1rem;
-  margin-bottom: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 162px;
 }
 
+/* Title */
 .item-title {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: bold;
-  color: #333;
+  color: white;
+  margin-bottom: 0.25rem;
 }
 
+/* Description */
 .item-description {
-  margin-top: 0.5rem;
-  color: #555;
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 0.5rem;
 }
 
-.item-status {
-  margin-top: 0.5rem;
+/* Bottom row */
+.item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* User name */
+.item-user {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #222;
+}
+
+.item-user::before {
+  content: '👤';
+  margin-right: 5px;
+}
+
+/* Button */
+.item-action-button {
+  background-color: #9B000A;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
   font-weight: bold;
-}
-
-.item-status.lost {
-  color: #9B000A;
-}
-
-.item-status.found {
-  color: #007bff;
+  font-size: 0.85rem;
+  cursor: pointer;
 }

@@ -16,15 +16,22 @@ function LostFoundPage() {
         <h2 className="section-title">Recent Posts</h2>
 
         <div className="item-card">
-          <h3 className="item-title">Black Wallet</h3>
-          <p className="item-description">Found near the library entrance on June 20. Contains IDs and cards.</p>
-          <p className="item-status found">FOUND</p>
-        </div>
+          <div className="item-badge">Lost</div>
 
-        <div className="item-card">
-          <h3 className="item-title">iPhone 13 (Red)</h3>
-          <p className="item-description">Lost at the cafeteria around 1:00 PM. Please contact if found.</p>
-          <p className="item-status lost">LOST</p>
+          <div className="item-image">
+            <img src="https://img.icons8.com/ios-filled/100/image.png" alt="placeholder" />
+          </div>
+
+          <div className="item-info">
+            <div>
+              <h3 className="item-title">Calculator</h3>
+              <p className="item-description">2nd Edition, Used Once</p>
+            </div>
+            <div className="item-footer">
+              <span className="item-user">Divan J.</span>
+              <button className="item-action-button">I Found It</button>
+            </div>
+          </div>
         </div>
 
         {/* You can add more item cards here */}
