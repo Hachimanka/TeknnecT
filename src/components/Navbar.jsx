@@ -7,19 +7,25 @@ import PostItemModal from './PostItemModal';
 function Navbar() {
   const [showModal, setShowModal] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [darkMode, setDarkMode] = useState(false); // Dark Mode state
 
   const handleProfileClick = () => {
     setShowProfileMenu(!showProfileMenu);
   };
 
+  const handleToggleMode = () => {
+    setDarkMode(!darkMode);
+    document.body.classList.toggle('dark-mode', !darkMode);
+  };
+
   return (
-    <>
+    <div className="page-header" style={{ position: 'relative' }}>
       <nav className="navbar">
         <div className="navbar-left">
-        <Link to="/" className="navbar-logo">
-        <img src={require('../assets/logo.png')} alt="icon" className="logo-img" />
-         Tek<span className="highlight">nnec</span>T
-         </Link>
+          <Link to="/" className="navbar-logo">
+            <img src={require('../assets/logo.png')} alt="icon" className="logo-img" />
+            Tek<span className="highlight">nnec</span>T
+          </Link>
         </div>
 
         <div className="navbar-center">
@@ -35,39 +41,53 @@ function Navbar() {
             <FaComments size={24} />
           </div>
 
-          <button 
-            className="post-item-button" 
+          <button
+            className="post-item-button"
             onClick={() => setShowModal(true)}
           >
             Post Item
           </button>
 
-          <div 
-            className="profile-section" 
+          <div
+            className="profile-section"
             title="Profile"
             onClick={handleProfileClick}
           >
             <FaUserCircle size={28} />
-            <FaChevronDown 
-              size={14} 
-              className={`dropdown-arrow-icon ${showProfileMenu ? 'rotated' : ''}`} 
+            <FaChevronDown
+              size={14}
+              className={`dropdown-arrow-icon ${showProfileMenu ? 'rotated' : ''}`}
             />
-
-            {showProfileMenu && (
-              <div className="profile-menu">
-                <p><strong>John Doe</strong></p>
-                <p>john@example.com</p>
-                <button className="logout-button">Logout</button>
-              </div>
-            )}
           </div>
         </div>
       </nav>
 
+      {/* Profile menu moved OUTSIDE navbar */}
+      {showProfileMenu && (
+        <div className="profile-menu">
+          <div className="profile-header">
+            <img 
+              src={require('../assets/logo.png')} 
+              alt="Profile"
+              className="avatar-image"
+            />
+            <p className="profile-name">John Doe</p>
+            <p className="profile-email">john@example.com</p>
+          </div>
+          <hr />
+          <button className="mode-toggle" onClick={handleToggleMode}>
+            {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          </button>
+          <hr />
+          <button className="logout-button">Logout</button>
+        </div>
+      )}
+
+      {/* Modal */}
       {showModal && (
         <PostItemModal onClose={() => setShowModal(false)} />
       )}
-    </>
+    </div>
   );
 }
 

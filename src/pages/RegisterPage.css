@@ -129,32 +129,3 @@ h4 {
   color: #a30000;
 }
 
-.card, .box, .modal, .post-item {
-  background-color: #fff;
-  color: #333;
-  border: 1px solid #ccc;
-  border-radius: 12px;
-  padding: 1rem;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-body.dark-mode .card, 
-body.dark-mode .box, 
-body.dark-mode .modal, 
-body.dark-mode .post-item {
-  background-color: #222;
-  color: #f0f0f0;
-  border-color: #555;
-}
-
-body.dark-mode button {
-  background-color: #444;
-  color: #f0f0f0;
-  border-color: #555;
-}
-
-body.dark-mode button:hover {
-  background-color: #555;
-}
-
-

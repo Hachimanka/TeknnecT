@@ -30,7 +30,7 @@ function LoginPage() {
 
           <div className="Links">
             <Link to="/forgotpassword">Forgot Password?</Link>
-            <Link to="/registeraccount">Register</Link>
+            <Link to="/register">Register</Link>
           </div>
 
           <button type="submit">Login</button>

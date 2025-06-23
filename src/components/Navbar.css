@@ -12,8 +12,10 @@
   background-position: -220px;
   background-size: auto;
   flex-wrap: nowrap; /* FORCE one line */
-  overflow-x: auto;  /* allow scroll on very small phones */
   background-attachment: scroll;
+  overflow-x: auto;         /* allow horizontal scroll */
+  overflow-y: visible;      /* allow dropdown to appear */
+
 }
 
 .navbar-left,
@@ -181,26 +183,158 @@
   cursor: pointer;
 }
 
+.page-header {
+  position: relative; /* very important */
+}
+
 .profile-menu {
   position: absolute;
-  top: 120%; /* a bit below the icon */
-  right: 0;
-  background: white;
+  top: 70px; /* below navbar (navbar is 60px tall) */
+  right: 1.5rem;
+  background-color: #fff;
   color: #333;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  z-index: 999;
-  min-width: 160px;
+  border-radius: 12px;
+  padding: 16px 14px;
+  min-width: 220px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 9999;
+  font-size: 0.9rem;
 }
 
-.profile-info {
-  padding: 8px 12px;
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.avatar-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #FFBD00;
+  margin-bottom: 8px;
+}
+
+.profile-name {
+  font-weight: bold;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.profile-email {
+  font-size: 0.85rem;
+  color: #555;
+  margin: 0;
+}
+
+.profile-menu p {
+  margin: 6px 0;
+}
+
+.profile-menu hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 8px 0;
+}
+
+.logout-button {
+  width: 100%;
+  padding: 8px;
+  background-color: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
 }
 
-.profile-info:hover {
-  background-color: #f9f9f9;
+.logout-button:hover {
+  background-color: #c92c3e;
 }
+
+.mode-toggle {
+  margin-top: 8px;
+  padding: 8px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
+
+.mode-toggle:hover {
+  background-color: #e0e0e0;
+}
+
+/* Dark overlay for body */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 18, 18, 0); /* no overlay in light */
+  pointer-events: none;
+  z-index: -1;
+  transition: background 0.3s ease;
+}
+
+body.dark-mode::before {
+  background: rgba(18, 18, 18, 0.7); /* 70% dark overlay */
+}
+
+/* Navbar dark */
+body.dark-mode .navbar {
+  background-color: #222;
+  color: #f0f0f0;
+}
+
+body.dark-mode .navbar-center a {
+  color: #f0f0f0;
+}
+
+/* Profile dropdown dark */
+body.dark-mode .profile-menu {
+  background-color: #333;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+/* Toggle button dark */
+body.dark-mode .mode-toggle {
+  background-color: #444;
+  color: #f0f0f0;
+}
+
+/* Logout button dark */
+body.dark-mode .logout-button {
+  background-color: #b00020;
+}
+
+/* Optional: Links, headings */
+body.dark-mode a {
+  color: #f0f0f0;
+}
+
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode p {
+  color: #f0f0f0;
+}
+
+/* Dark mode for navbar-logo */
+body.dark-mode .navbar-logo {
+  color: #FFBD00;
+  background: linear-gradient(145deg, #333, #222);
+  box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
 
