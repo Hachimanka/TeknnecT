@@ -84,6 +84,7 @@ function LostFoundPage() {
             <p>{selectedItem.description}</p>
             <p><strong>Status:</strong> {selectedItem.status}</p>
             <p><strong>Reported by:</strong> {selectedItem.user}</p>
+            <button className="chat-button">Chat With Uploader</button>
           </div>
         </div>
       )}

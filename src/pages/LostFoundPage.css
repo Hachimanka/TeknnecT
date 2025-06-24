@@ -31,9 +31,33 @@
 
 .items-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
+  justify-content: center;
+}
+
+@media (min-width: 1200px) {
+  .items-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1199px) {
+  .items-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .items-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 599px) {
+  .items-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* === Buttons === */
@@ -76,15 +100,20 @@
 /* === Card Styles === */
 .item-card {
   display: flex;
-  flex-direction: column;
-  width: 350px;
-  margin: 1rem auto;
+  width: 100%;
+  max-width: 300px;
+  min-width: 300px;
+  height: 350px;
+  margin: auto;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   background-color: rgb(240, 240, 240);
   position: relative;
   transition: transform 0.3s;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .item-card:hover {
@@ -111,8 +140,8 @@
 }
 
 .item-image img {
-  width: 200px;
-  height: 200px;
+  width: 175px;
+  height: 175px;
   opacity: 100;
 }
 
@@ -179,23 +208,30 @@
   align-items: center;
   justify-content: center;
   z-index: 999;
+  overflow-y: auto;
 }
 
 .modal-content {
+  max-height: 90vh;
+  overflow-y: auto;
   background: white;
   padding: 2rem;
   border-radius: 12px;
   max-width: 500px;
-  width: 90%;
+  width: 90%; /* ✅ Adapts to smaller screens */
   position: relative;
   text-align: center;
+  overflow-wrap: break-word; /* ✅ Prevent long text from breaking layout */
+  box-sizing: border-box;
 }
+
 
 .modal-image {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
   margin: 1rem 0;
+  object-fit: contain;
 }
 
 .modal-close {
@@ -252,6 +288,43 @@
 }
 
 .item-card.found .item-action-button {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+
+@media (max-width: 480px) {
+  .modal-content {
+    padding: 1rem;
+    max-width: 95%;
+  }
+
+  .modal-content h2 {
+    font-size: 1.25rem;
+  }
+
+  .modal-content p {
+    font-size: 0.95rem;
+  }
+
+  .modal-image {
+    max-height: 250px;
+  }
+}
+
+.chat-button {
+  margin-top: 1.5rem;
+  padding: 10px 20px;
+  background-color: #9B000A;
+  color: #FFBD00;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-button:hover {
   background-color: #FFBD00;
   color: #9B000A;
 }
