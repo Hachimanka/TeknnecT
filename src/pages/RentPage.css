@@ -1,45 +1,181 @@
+/* === Layout === */
 .rent-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: Arial, sans-serif;
 }
 
 .page-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #9B000A;
-    margin-bottom: 0.5rem;
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #9B000A;
+  margin-bottom: 0.5rem;
 }
 
 .page-subtitle {
-    font-size: 1.2rem;
-    color: #555;
-    margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 1.5rem;
 }
 
-.rent-items {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-    margin-top: 2rem;
+.section-title {
+  font-size: 1.8rem;
+  color: #9B000A;
+  margin-bottom: 1rem;
 }
 
+.rent-items-section {
+  margin-top: 2rem;
+}
+
+.rent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* === Card Styles === */
 .rent-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  margin: 1rem auto;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  background-color: rgb(240, 240, 240);
+  position: relative;
+  transition: transform 0.3s;
+}
+
+.rent-card:hover {
+  transform: translateY(-5px);
+}
+
+.rent-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background-color: #007BFF;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.rent-image {
+  height: 225px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rent-image img {
+  width: 200px;
+  height: 200px;
+  opacity: 100;
+}
+
+.rent-info {
+  background-color: #FFBD00;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 125px;
 }
 
 .item-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
+  margin-top: -6px;
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #9B000A;
+  margin-bottom: 0.25rem;
+  text-align: left;
 }
 
 .item-description {
-    margin-top: 0.5rem;
-    color: #555;
+  font-size: 0.95rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.item-user {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  gap: 6px;
+}
+
+.profile-pic {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.rent-action-button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.rent-action-button:hover {
+  background-color: #0056b3;
+}
+
+/* === Modal Styles (reused) === */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  position: relative;
+  text-align: center;
+}
+
+.modal-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  font-size: 1.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
