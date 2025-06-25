@@ -337,4 +337,41 @@ body.dark-mode .navbar-logo {
   box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
 }
 
+.profile-picture-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+}
+
+.avatar-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #FFBD00;
+}
+
+.upload-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: #FFBD00;
+  color: #000;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: bold;
+  border: 2px solid white;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.upload-icon:hover {
+  background-color: #ffcc33;
+}
 

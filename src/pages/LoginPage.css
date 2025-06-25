@@ -1,3 +1,4 @@
+
 .LoginPage {
   height: 100vh; /* full height */
   display: flex;
@@ -156,5 +157,31 @@ body.dark-mode button {
 body.dark-mode button:hover {
   background-color: #555;
 }
+
+.ModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(8px); /* Blur the background */
+  background-color: rgba(0, 0, 0, 0.3); /* Optional dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Make sure it’s on top */
+}
+
+.LoginBox {
+  background: white; /* Keep your original design */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  width: 320px;
+  max-width: 90%;
+}
+
+/* You can keep your other styles the same (LoginForm, PasswordInput, etc.) */
+
 
 
