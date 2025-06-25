@@ -196,6 +196,18 @@
   cursor: pointer;
 }
 
+.item-date {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/* For dark mode in found items */
+.item-card.found .item-date {
+  color: #ccc;
+}
+
 /* === Modal === */
 .modal-overlay {
   position: fixed;
