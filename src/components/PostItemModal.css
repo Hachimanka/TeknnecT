@@ -10,20 +10,21 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 80px 20px 20px 20px;
+  box-sizing: border-box;
 }
 
 .modal-content {
   background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  max-width: 500px;
-  width: 95%;
-  max-height: 90vh;   /* LIMIT HEIGHT */
-  overflow-y: auto;   /* allow scroll inside if too long */
+  padding: 0.8rem;
+  border-radius: 10px;
+  width: 420px;
+  height: 480px;
   box-shadow: 0 0 15px rgba(0,0,0,0.3);
   animation: slideIn 0.4s ease;
+  display: flex;
+  flex-direction: column;
 }
-
 
 @keyframes slideIn {
   from { transform: translateY(-50px); opacity: 0; }
@@ -33,23 +34,27 @@
 .modal-title {
   display: flex;
   align-items: center;
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   color: #8B0000;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
 }
 
 .plus-icon {
   background-color: #9B000A;
   color: white;
-  border-radius: 6px;
-  padding: 4px 8px;
-  margin-right: 0.8rem;
+  border-radius: 4px;
+  padding: 2px 5px;
+  margin-right: 0.5rem;
+  font-size: 0.8rem;
 }
 
 .post-form {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
+  gap: 0.4rem;
+  flex: 1;
+  overflow: hidden;
 }
 
 .form-label {
@@ -57,53 +62,80 @@
   flex-direction: column;
   font-weight: bold;
   color: #8B0000;
+  font-size: 0.75rem;
 }
 
-.form-label input,
-.form-label textarea,
-.form-label select {
-  margin-top: 0.4rem;
-  padding: 10px 14px;
-  border-radius: 8px;
+.form-label input, .form-label textarea, .form-label select {
+  margin-top: 0.1rem;
+  padding: 5px 8px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  font-size: 1rem;
+  font-size: 0.85rem;
+}
+
+.form-label textarea {
+  resize: none;
+  height: 32px;
 }
 
 .form-icon {
   display: inline-block;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.1rem;
+  font-size: 0.75rem;
+}
+
+/* Two-column layout for efficiency */
+.form-row {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.form-row .form-label {
+  flex: 1;
+}
+
+.category-field {
+  flex: 1 !important;
 }
 
 .item-type-buttons {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 0.5rem;
+  gap: 2px;
+  margin-top: 0.1rem;
 }
 
 .type-button {
-  padding: 8px 16px;
+  padding: 5px 8px;
   border: 1px solid #8B0000;
-  border-radius: 8px;
+  border-radius: 5px;
   background: white;
   color: #8B0000;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  flex: 1;
+  box-sizing: border-box;
 }
 
-.type-button:hover {
+.type-button.active {
+  background-color: #8B0000 !important;
+  color: #ffc107 !important;
+}
+
+.type-button:hover:not(.active) {
   background-color: #9B000A;
   color: #ffc107;
 }
 
 .upload-box {
-  margin-top: 0.5rem;
+  margin-top: 0.1rem;
   border: 2px dashed #ccc;
-  border-radius: 10px;
-  padding: 2rem;
+  border-radius: 6px;
+  padding: 1.2rem;
   text-align: center;
   color: #888;
   cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .browse-files {
@@ -115,67 +147,86 @@
 .form-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  flex-shrink: 0;
+  padding-top: 0.3rem;
 }
 
-.cancel-button {
-  padding: 0.6rem 1.2rem;
-  background: #eee;
-  color: #444;
+.cancel-button, .post-button {
+  padding: 0.3rem 0.6rem;
   border: none;
-  border-radius: 8px;
+  border-radius: 4px;
   cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .cancel-button:hover {
-  background: #ddd;
-}
-
-.post-button {
-  padding: 0.6rem 1.2rem;
-  background-color: #9B000A;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+  background: #dc3545;
+  color: #ffc107;
 }
 
 .post-button:hover {
-  background-color: #a30000;
+  background-color: #ffc107;
+  color: #9B000A;
+}
+
+.cancel-button {
+  background: #eee;
+  color: #444;
+}
+
+.cancel-button:hover {
+  background: #9B000A;
+}
+
+.post-button {
+  background-color: #9B000A;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.post-button:hover {
+  background-color: #ffc107;
 }
 
 @media (max-width: 600px) {
   .modal-content {
-    padding: 1.5rem;
+    width: 95%;
+    height: 450px;
+    padding: 0.8rem;
   }
-
+  
   .modal-title {
-    font-size: 1.4rem;
+    font-size: 1.1rem;
   }
-
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  
+  .category-field {
+    flex: 1 !important;
+  }
+  
+  .item-type-buttons {
+    flex-wrap: wrap;
+  }
+  
   .type-button {
-    font-size: 0.9rem;
-    padding: 6px 12px;
+    font-size: 0.65rem;
+    padding: 3px 5px;
+  }
+  
+  .modal-overlay {
+    padding: 70px 10px 10px 10px;
   }
 }
 
-.modal-content {
-  background-color: #fff; /* light mode */
-  color: #333;
-  border-radius: 12px;
-  padding: 1.5rem;
-  max-width: 500px;
-  margin: 2rem auto;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.3s, color 0.3s;
-}
-
-
-
+/* Dark mode styles */
 body.dark-mode .modal-content {
-  background-color: #222; /* dark bg */
+  background-color: #222;
   color: #f0f0f0;
   border: 1px solid #555;
 }
@@ -184,9 +235,12 @@ body.dark-mode .modal-title {
   color: #f0f0f0;
 }
 
-body.dark-mode input,
-body.dark-mode textarea,
-body.dark-mode select {
+/* Changed label colors to magenta/pink in dark mode */
+body.dark-mode .form-label {
+  color: #FF69B4; /* Hot pink for better visibility */
+}
+
+body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
   background-color: #333;
   color: #f0f0f0;
   border: 1px solid #555;
@@ -196,25 +250,45 @@ body.dark-mode .upload-box {
   background-color: #333;
   color: #f0f0f0;
   border: 1px dashed #555;
+  
 }
-
+body.dark-mode .browse-files {
+  color: #FF69B4;
+}
 body.dark-mode .type-button {
   background-color: #444;
   color: #f0f0f0;
   border-color: #555;
 }
 
-body.dark-mode .type-button:hover {
-  background-color: #555;
+/* Yellow highlight for active item type buttons in dark mode */
+body.dark-mode .type-button.active {
+  background-color: #FFBD00 !important;
+  color: #222 !important;
+  border-color: #FFD700;
+  box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
 }
 
-body.dark-mode .cancel-button,
-body.dark-mode .post-button {
+body.dark-mode .type-button:hover:not(.active) {
+  background-color: rgba(255, 189, 0, 0.15);
+  text-decoration: none;
+}
+
+/* Yellow styling for buttons in dark mode */
+body.dark-mode .cancel-button, body.dark-mode .post-button {
   background-color: #444;
   color: #f0f0f0;
+  transition: all 0.2s ease;
 }
 
-body.dark-mode .cancel-button:hover,
+body.dark-mode .cancel-button:hover {
+  background-color: #9B000A;
+  color: #f0f0f0;
+  box-shadow: 0 2px 8px rgba(255, 0, 128, 0.342);
+}
+
 body.dark-mode .post-button:hover {
-  background-color: #555;
+  background-color: #FFBD00;
+  color: #222;
+  box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
 }
