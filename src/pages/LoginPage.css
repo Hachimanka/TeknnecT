@@ -69,11 +69,9 @@
   font-size: 1rem;
 }
 
-
 .LoginForm input,
 .PasswordInput input {
-  
-  border: 1.3 px solid #8B0000; /* red border always */
+  border: 1.3px solid #8B0000; /* red border always */
   outline: none; /* remove blue outline */
   transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -157,4 +155,66 @@ body.dark-mode button:hover {
   background-color: #555;
 }
 
+/* Dark Mode Login Styles */
+body.dark-mode .LoginBox {
+  background-color: #2a2a2a; /* Different shade from modal */
+  border: 1px solid #555;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
 
+/* Welcome, Login button text, Forgot Password, Register - Pink/Magenta */
+body.dark-mode .LoginBox h2,
+body.dark-mode h3 {
+  color: #FF69B4; /* Hot pink */
+}
+
+body.dark-mode .Links a {
+  color: #FF1493; /* Deep pink */
+}
+
+body.dark-mode .Links a:hover {
+  color: #FFBD00; /* Yellow on hover */
+  text-decoration: underline;
+}
+
+/* Input labels (Email, Password) - White */
+body.dark-mode .LoginForm input::placeholder {
+  color: #f0f0f0;
+}
+
+body.dark-mode .LoginForm input,
+body.dark-mode .PasswordInput input {
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1.3px solid #555;
+  box-shadow: 0 0 5px rgba(85, 85, 85, 0.4);
+}
+
+/* Yellow focus highlight */
+body.dark-mode .LoginForm input:focus,
+body.dark-mode .PasswordInput input:focus {
+  border-color: #FFBD00;
+  box-shadow: 0 0 8px rgba(255, 189, 0, 0.4);
+}
+
+/* Login button styling */
+body.dark-mode .LoginForm button {
+  background-color: #444;
+  color: #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+body.dark-mode .LoginForm button:hover {
+  background-color: #FFBD00;
+  color: #222;
+  box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
+}
+
+/* Password toggle icon */
+body.dark-mode .PasswordToggle {
+  color: #FF69B4;
+}
+
+body.dark-mode .PasswordToggle:hover {
+  color: #FFBD00;
+}

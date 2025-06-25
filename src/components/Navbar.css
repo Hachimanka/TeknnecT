@@ -15,7 +15,14 @@
   background-attachment: scroll;
   overflow-x: auto;         /* allow horizontal scroll */
   overflow-y: visible;      /* allow dropdown to appear */
-
+  
+  /* Make navbar sticky */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-left,
@@ -44,8 +51,6 @@
   }
 }
 
-
-
 .icon {
   width: 33px;
   height: 33px;
@@ -57,20 +62,15 @@
 .navbar-logo {
   display: flex;
   align-items: center;
-
-
   font-size: 1.6rem; /* bigger text */
   font-weight: bold;
   color: #9B000A;
-
   background: linear-gradient(145deg, #f7f4e8, #e8e4d8); /* soft gradient */
   padding: 0.5rem 1.2rem; /* bigger box */
   border-radius: 18px; /* more rounded */
   font-family: 'Fira Code', Consolas, 'Courier New', monospace;
-
   margin-left: 10px;
   white-space: nowrap;
-
   /* Soft shadow (like floating drop) */
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s, box-shadow 0.2s;
@@ -89,21 +89,51 @@
   width: auto;
 }
 
-
-
 .highlight{
  color: #FFBD00;
 }
+
 .navbar-center a {
   color: #FFBD00;
   text-decoration: none;
   margin: 0 1rem;
   font-size: .9rem;
   white-space: nowrap;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .navbar-center a:hover {
-  text-decoration: underline;
+  background-color: rgba(255, 189, 0, 0.15);
+  text-decoration: none;
+}
+
+/* Active link styles */
+.navbar-center a.active {
+  background-color: #FFBD00;
+  color: #9B000A;
+  font-weight: bold;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(255, 189, 0, 0.3);
+}
+
+/* Alternative active style with underline only */
+.navbar-center a.active-underline {
+  position: relative;
+}
+
+.navbar-center a.active-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background-color: #FFBD00;
+  border-radius: 1px;
 }
 
 .navbar-right {
@@ -167,6 +197,7 @@
   .navbar-center a {
     font-size: 0.9rem;
     margin: 0 0.3rem;
+    padding: 0.3rem 0.6rem;
   }
 
   .post-item-button {
@@ -185,6 +216,11 @@
 
 .page-header {
   position: relative; /* very important */
+}
+
+/* Add padding to body to prevent content from hiding behind fixed navbar */
+body {
+  padding-top: 60px;
 }
 
 .profile-menu {
@@ -294,11 +330,24 @@ body.dark-mode::before {
 /* Navbar dark */
 body.dark-mode .navbar {
   background-color: #222;
-  color: #f0f0f0;
+  color: #FFBD00;
 }
 
 body.dark-mode .navbar-center a {
-  color: #f0f0f0;
+  color: #FFBD00;
+}
+
+/* Dark mode active link styles */
+body.dark-mode .navbar-center a.active {
+  background-color: #FFBD00;
+  color: #222;
+  border-bottom-color: #FFD700;
+  box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
+}
+
+body.dark-mode .navbar-center a:hover {
+  background-color: rgba(255, 189, 0, 0.15);
+  text-decoration: none;
 }
 
 /* Profile dropdown dark */
@@ -310,7 +359,7 @@ body.dark-mode .profile-menu {
 
 /* Toggle button dark */
 body.dark-mode .mode-toggle {
-  background-color: #444;
+  background-color: #b00020;
   color: #f0f0f0;
 }
 
@@ -336,5 +385,3 @@ body.dark-mode .navbar-logo {
   background: linear-gradient(145deg, #333, #222);
   box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
 }
-
-
