@@ -1,13 +1,5 @@
 body {
-    background-image: url('../assets/MainPage.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    min-height: 1440px;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+  overflow-y: hidden;
 }
 
 .HomePage {
@@ -19,6 +11,7 @@ body {
     justify-content: flex-start;
     gap: 10px;
     margin-bottom: 100px; /* space below header */
+    font-family: "Century Gothic", sans-serif;
 }
 
 .BrowseButton {
@@ -29,6 +22,7 @@ body {
     font-size: 1rem;
     border-radius: 5px;
     cursor: pointer;
+    font-family: "Century Gothic", sans-serif;
 }
 
 .PostButton {
@@ -39,10 +33,12 @@ body {
     font-size: 1rem;
     border-radius: 5px;
     cursor: pointer;
+    font-family: "Century Gothic", sans-serif;
 }
 
 .MainContent {
     max-width: 600px;
+    font-family: "Century Gothic", sans-serif;
 }
 
 .MainTitle {
@@ -52,6 +48,7 @@ body {
     margin-bottom: 20px;
     padding-left: 15%;
     margin-top: 50px;
+    font-family: "Century Gothic", sans-serif;
 }
 
 .SubTitle {
@@ -59,6 +56,7 @@ body {
     color: #8B0000;
     margin-bottom: 30px;
     padding-left: 15%;
+    font-family: "Century Gothic", sans-serif;
 }
 
 /* --- Responsive --- */
@@ -130,3 +128,216 @@ body {
     background-color: #9B000A;
     color: #ffc107;
 }
+.PageWrapper {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: 100vh;
+  scrollbar-width: none;
+}
+
+.Section {
+  height: 100vh;
+  width: 100vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.section1 {
+  background-image: url('../assets/MainPage.png');
+}
+
+.section2 {
+  background-image: url('../assets/RedBg.png');
+}
+.section3 {
+  background-image: url('../assets/RedBackground.png');
+}
+.section4 {
+  background-image: url('../assets/BottomPage.png');
+}
+.Section4Heading {
+  background-color: transparent;
+  font-size: 2.5rem;
+  color: white;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  color: #ffc107;
+  /* Move lower */
+  position: relative;
+  transform: translateY(300%);
+  font-family: "Century Gothic", sans-serif;
+}
+.ContactRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 300px;
+  padding: 0 17%;
+  font-family: "Century Gothic", sans-serif;
+}
+
+.Email,
+.Phone,
+.Location {
+  font-size: 1.2rem;
+  color: rgb(0, 0, 0);
+  margin: 0;
+  flex: 1;
+  font-family: "Century Gothic", sans-serif;
+}
+
+/* Align Email to the left */
+.Email {
+  text-align: left;
+  padding-left: 5%; /* slight horizontal padding for balance */
+}
+
+/* Align Phone to the center */
+.Phone {
+  text-align: center;
+}
+
+/* Align Location to the right */
+.Location {
+  text-align: right;
+  padding-right: 5%; /* slight horizontal padding for balance */
+}
+.Contacts {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15%;  /* narrower padding moves the group more toward center */
+  margin-top: 10px;
+  font-family: "Century Gothic", sans-serif;
+}
+.message {
+  text-align: left;
+  padding-left: 5%;  /* match your .Contacts or adjust as needed */
+  font-size: 1.1rem;  /* optional: adjust size */
+  margin-top: 250px;   /* optional: spacing from above */
+  color: #000000;     /* optional: ensure it's visible */
+  font-family: "Century Gothic", sans-serif;
+}
+
+.BottomText{
+  margin-left: 47%;
+  text-align: left;
+  padding-left: 0%;  /* match your .Contacts or adjust as needed */
+  font-size: 1.1rem;  /* optional: adjust size */
+  margin-top: -165px;   /* optional: spacing from above */
+  color: #000000;     /* optional: ensure it's visible */
+  font-family: "Century Gothic", sans-serif;
+}
+.Resources{
+  margin-left: 65%;
+  text-align: left;
+  padding-right: 5%;  /* match your .Contacts or adjust as needed */
+  font-size: 1.1rem;  /* optional: adjust size */
+  margin-top: -165px;   /* optional: spacing from above */
+  color: #000000;     /* optional: ensure it's visible */
+  font-family: "Century Gothic", sans-serif;
+}
+.searchBar {
+  display: flex;
+  align-items: center;
+  background-color: #eee6f0;
+  width: 400px; /* Increase if needed */
+  border-radius: 30px;
+  height: 40px;
+  font-family: "Century Gothic";
+  padding: 4px;
+  margin-left: 100px;
+  gap: 8px; /* Nice spacing between input and dropdown */
+}
+
+ 
+.borderless-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  color: #333;
+  font-family: "Century Gothic";
+  text-indent: 20px;
+  width: 100%;
+}
+ 
+.dropdown {
+  padding: 8px 20px;
+  border-radius: 30px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  background-color: white;
+  color: #333;
+  font-family: "Century Gothic";
+  height: 40px; /* Match the .searchBar height */
+  margin-left: 10px; /* Keep it inside the container */
+}
+.pageTitle {
+  position: relative;
+  top: -50px; /* adjust as needed */
+  color: #FFBD00;
+  font-family: "Century Gothic", sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0 0 20px;
+  font-size: 45px;
+}
+.card1 {
+  width: 270px;
+  height: 230px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+.card2 {
+  width: 270px;
+  height: 230px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+.card3 {
+  width: 270px;
+  height: 230px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+}
+
+
+.title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 5rem;
+}
+
+.description {
+  margin-top: 1rem;
+  color: #555;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+.trade-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(375px, 1fr));
+  gap: 1.5rem; /* ✅ controls the spacing between cards */
+  justify-items: center;
+  margin-top: 2rem;
+  padding: 0 2rem;
+}
+
+
+
+
