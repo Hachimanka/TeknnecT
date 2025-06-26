@@ -225,18 +225,42 @@
 
 .modal-content {
   max-height: 90vh;
-  overflow-y: auto;
   background: white;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 12px;
   max-width: 500px;
   width: 90%; /* ✅ Adapts to smaller screens */
   position: relative;
   text-align: center;
-  overflow-wrap: break-word; /* ✅ Prevent long text from breaking layout */
-  box-sizing: border-box;
+  overflow: hidden; /* prevent scrollbar overflow outside corners */
+  display: flex;
+  flex-direction: column;
 }
 
+/* Scrollable wrapper */
+.modal-scroll-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  max-height: calc(90vh - 2rem); /* matches modal max-height minus padding */
+  padding-right: 1rem; /* spacing from scrollbar */
+  margin-right: -1.5rem; /* bring scrollbar to the edge */
+  scrollbar-gutter: stable;
+  border-radius: inherit;
+}
+
+/* Optional scrollbar styles */
+.modal-scroll-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-scroll-wrapper::-webkit-scrollbar-thumb {
+  background: #8E0009;
+  border-radius: 4px;
+}
+
+.modal-scroll-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
 
 .modal-image {
   max-width: 100%;

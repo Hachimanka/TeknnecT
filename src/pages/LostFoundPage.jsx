@@ -89,21 +89,24 @@ function LostFoundPage() {
         <div className="modal-overlay" onClick={closeModal}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={closeModal}>×</button>
-            <h2>{selectedItem.title}</h2>
-            <img src={selectedItem.image} alt="Enlarged item" className="modal-image" />
-            <p>{selectedItem.description}</p>
-            <p><strong>Status:</strong> {selectedItem.status}</p>
-            <p>
-              <strong>
-                {selectedItem.status === 'Lost' ? 'Lost on:' : 'Found on:'}
-              </strong> {formatDate(selectedItem.status === 'Lost' ? selectedItem.dateLost : selectedItem.dateFound)}
-            </p>
-            <p><strong>Reported by:</strong> {selectedItem.user}</p>
-            <button className="chat-button">Chat With Uploader</button>
+
+            {/* Scrollable content inside modal */}
+            <div className="modal-scroll-wrapper">
+              <h2>{selectedItem.title}</h2>
+              <img src={selectedItem.image} alt="Enlarged item" className="modal-image" />
+              <p>{selectedItem.description}</p>
+              <p><strong>Status:</strong> {selectedItem.status}</p>
+              <p>
+                <strong>{selectedItem.status === 'Lost' ? 'Lost on:' : 'Found on:'}</strong> 
+                {formatDate(selectedItem.status === 'Lost' ? selectedItem.dateLost : selectedItem.dateFound)}
+              </p>
+              <p><strong>Reported by:</strong> {selectedItem.user}</p>
+              <button className="chat-button">Chat With Uploader</button>
+            </div>
           </div>
         </div>
       )}
-
+      
       {/* Post Item Modal */}
       {showPostModal && <PostItemModal onClose={closePostModal} />}
     </main>
