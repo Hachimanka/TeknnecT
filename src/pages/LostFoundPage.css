@@ -213,37 +213,42 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 999;
-  overflow-y: auto;
+  padding: 1rem;
+  overflow: hidden; /* 🚫 Remove scrollbars on the overlay */
 }
 
 .modal-content {
-  max-height: 90vh;
-  overflow-y: auto;
+  max-width: 500px;
+  width: 100%;
   background: white;
   padding: 2rem;
   border-radius: 12px;
-  max-width: 500px;
-  width: 90%; /* ✅ Adapts to smaller screens */
-  position: relative;
-  text-align: center;
-  overflow-wrap: break-word; /* ✅ Prevent long text from breaking layout */
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden; /* 🚫 Prevent scrollbars inside modal */
+  text-align: center;
+  overflow-wrap: break-word;
+  max-height: none; /* 🟢 Allow content to expand naturally */
+  height: auto;      /* 🟢 Shrink-wrap content */
+  transition: all 0.3s ease;
 }
 
-
 .modal-image {
-  max-width: 100%;
-  height: auto;
+  width: 100%;
+  max-width: 400px;
+  height: 250px; /* Fixed height box */
+  object-fit: contain; /* Show full image, preserve aspect ratio */
   border-radius: 8px;
-  margin: 1rem 0;
-  object-fit: contain;
+  margin: 1rem auto;
+  display: block;
+  background-color: #f5f5f5; /* Optional: light background for padding effect */
 }
 
 .modal-close {
@@ -306,8 +311,8 @@
 
 @media (max-width: 480px) {
   .modal-content {
-    padding: 1rem;
     max-width: 95%;
+    padding: 1rem;
   }
 
   .modal-content h2 {
