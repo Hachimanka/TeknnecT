@@ -8,11 +8,42 @@ function TradePage() {
   const [showPostModal, setShowPostModal] = useState(false);
 
   const items = [
-    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Trade', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') },
-    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Trade', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') },
-    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Trade', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') },
-    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Trade', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') },
-    { title: 'Black Wallet', description: 'Minor scractches', status: 'Trade', user: 'Mica H.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') }
+    {
+      title: 'Calculator', description: '2nd Edition, Used Once', status: 'Trade', uploadDate: 'June 20, 2025', user: 'Divan J.', image: LogoPlaceholder,profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Black Wallet', description: 'Minor scratches', status: 'Trade', uploadDate: 'June 18, 2025', user: 'Mica H.', image: LogoPlaceholder, profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Math Notebook', description: 'With notes, good condition', status: 'Trade', uploadDate: 'June 15, 2025', user: 'Ella R.', image: LogoPlaceholder, profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Calculator', description: '2nd Edition, Used Once', status: 'Trade', uploadDate: 'June 20, 2025', user: 'Divan J.', image: LogoPlaceholder,profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Black Wallet', description: 'Minor scratches', status: 'Trade', uploadDate: 'June 18, 2025', user: 'Mica H.', image: LogoPlaceholder, profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Math Notebook', description: 'With notes, good condition', status: 'Trade', uploadDate: 'June 15, 2025', user: 'Ella R.', image: LogoPlaceholder, profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Calculator', description: '2nd Edition, Used Once', status: 'Trade', uploadDate: 'June 20, 2025', user: 'Divan J.', image: LogoPlaceholder,profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Black Wallet', description: 'Minor scratches', status: 'Trade', uploadDate: 'June 18, 2025', user: 'Mica H.', image: LogoPlaceholder, profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Math Notebook', description: 'With notes, good condition', status: 'Trade', uploadDate: 'June 15, 2025', user: 'Ella R.', image: LogoPlaceholder, profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Calculator', description: '2nd Edition, Used Once', status: 'Trade', uploadDate: 'June 20, 2025', user: 'Divan J.', image: LogoPlaceholder,profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Black Wallet', description: 'Minor scratches', status: 'Trade', uploadDate: 'June 18, 2025', user: 'Mica H.', image: LogoPlaceholder, profile: require('../assets/dj.jpg')
+    },
+    {
+      title: 'Math Notebook', description: 'With notes, good condition', status: 'Trade', uploadDate: 'June 15, 2025', user: 'Ella R.', image: LogoPlaceholder, profile: require('../assets/dj.jpg')
+    }
   ];
 
   const handleCardClick = (item) => {
@@ -34,7 +65,7 @@ function TradePage() {
   return (
     <main className="trade-page">
       <h1 className="page-title">Trade Items</h1>
-      <p className="page-subtitle">Looking to trade items with fellow students? Browse listings below!</p>
+      <p className="page-subtitle">Looking to trade items with fellow Technologians? Browse listings below!</p>
 
       <button className="item-action-button" onClick={openPostModal} style={{ padding: '12px 24px', marginBottom: '2rem' }}>
         Post Trade Item
@@ -57,6 +88,7 @@ function TradePage() {
                 <div>
                   <h3 className="item-title">{item.title}</h3>
                   <p className="item-description">{item.description}</p>
+                  <p className="item-date">Uploaded: {item.uploadDate}</p>
                 </div>
                 <div className="item-footer">
                   <div className="item-user">
@@ -81,7 +113,7 @@ function TradePage() {
             <h2>{selectedItem.title}</h2>
             <img src={selectedItem.image} alt="Enlarged item" className="modal-image" />
             <p>{selectedItem.description}</p>
-            <p><strong>Status:</strong> {selectedItem.status}</p>
+            <p><strong>Date uploaded:</strong> {selectedItem.uploadDate}</p>
             <p><strong>Posted by:</strong> {selectedItem.user}</p>
             <button className="item-action-button" style={{ marginTop: '1rem' }}>
               Make Trade Offer

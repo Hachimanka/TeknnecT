@@ -1,6 +1,6 @@
 /* === Layout === */
 .trade-page {
-  max-width: 1300px; /* Slightly wider to fit 4 cards */
+  max-width: 1300px; 
   margin: 0 auto;
   padding: 2rem;
   font-family: Arial, sans-serif;
@@ -40,8 +40,8 @@
 .item-card {
   display: flex;
   flex-direction: column;
-  width: 300px; /* Fixed width */
-  height: 350px; /* Fixed height */
+  width: 300px;
+  height: 350px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
@@ -54,7 +54,6 @@
   transform: translateY(-5px);
 }
 
-/* Badge */
 .item-badge {
   position: absolute;
   top: 12px;
@@ -63,17 +62,29 @@
   font-weight: bold;
   padding: 5px 10px;
   border-radius: 6px;
-  background-color: #2E8B57;
+  background-color: #2E8B57; /* Green */
   color: white;
 }
 
-/* Image section */
+/* Upload Date Badge */
+.item-badge.date-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 6px;
+  background-color: #666;
+  color: white;
+}
+
 .item-image {
   height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #fff; /* White background for images */
+  background-color: #fff;
 }
 
 .item-image img {
@@ -147,6 +158,11 @@
 
 .item-action-button:hover {
   background-color: #1F6F4A;
+}
+.item-date {
+  font-size: 0.75rem;
+  color: #333;
+  margin-top: 4px;
 }
 
 /* === Modal === */
