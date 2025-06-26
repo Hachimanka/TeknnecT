@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useRef, useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaComments, FaUserCircle, FaChevronDown } from 'react-icons/fa';
 import { auth, db, storage } from '../firebase';
@@ -7,6 +7,7 @@ import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './Navbar.css';
 import PostItemModal from './PostItemModal';
 import { onAuthStateChanged } from 'firebase/auth';
+import ChatBox from '../components/Chatbox';
 
 function Navbar() {
   const [showModal, setShowModal] = useState(false);
@@ -14,8 +15,38 @@ function Navbar() {
   const [darkMode, setDarkMode] = useState(false);
   const [user, setUser] = useState(null);
   const [photoURL, setPhotoURL] = useState(null);
+  const [showChatBox, setShowChatBox] = useState(false);
+  const chatBoxRef = useRef(null);
+  const profileMenuRef = useRef(null);
+  const chatButtonRef = useRef(null);
+  const profileButtonRef = useRef(null);
 
   const navigate = useNavigate();
+  
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        chatBoxRef.current &&
+        !chatBoxRef.current.contains(event.target) &&
+        !chatButtonRef.current.contains(event.target)
+      ) {
+        setShowChatBox(false);
+      }
+
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target) &&
+        !profileButtonRef.current.contains(event.target)
+      ) {
+        setShowProfileMenu(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -115,15 +146,24 @@ function Navbar() {
         </div>
 
         <div className="navbar-right">
-          <div className="navbar-icon chat-icon" title="Messages">
+          <div
+            className="navbar-icon chat-icon"
+            title="Messages"
+            onClick={() => setShowChatBox((prev) => !prev)}
+            ref={chatButtonRef}
+          >
             <FaComments size={24} />
           </div>
-
           <button className="post-item-button" onClick={() => setShowModal(true)}>
             Post Item
           </button>
 
-          <div className="profile-section" title="Profile" onClick={handleProfileClick}>
+          <div
+            className="profile-section"
+            title="Profile"
+            onClick={() => setShowProfileMenu((prev) => !prev)}
+            ref={profileButtonRef}
+          >
             <FaUserCircle size={28} />
             <FaChevronDown
               size={14}
@@ -134,7 +174,7 @@ function Navbar() {
       </nav>
 
       {showProfileMenu && (
-        <div className="profile-menu">
+          <div className="profile-menu" ref={profileMenuRef}>
           <div className="profile-header">
             <div className="profile-picture-container">
               <img
@@ -169,6 +209,12 @@ function Navbar() {
 
       {showModal && (
         <PostItemModal onClose={() => setShowModal(false)} />
+      )}
+      
+      {showChatBox && (
+        <div className="chatbox-wrapper" ref={chatBoxRef}>
+          <ChatBox />
+        </div>
       )}
     </div>
   );
