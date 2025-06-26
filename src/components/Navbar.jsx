@@ -8,7 +8,6 @@ import './Navbar.css';
 import PostItemModal from './PostItemModal';
 import { onAuthStateChanged } from 'firebase/auth';
 
-
 function Navbar() {
   const [showModal, setShowModal] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -19,29 +18,28 @@ function Navbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-    console.log('🔄 Auth state changed. Current user:', currentUser);
-    try {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        const userDocRef = doc(db, 'users', currentUser.uid);
-        const userDoc = await getDoc(userDocRef);
-        if (userDoc.exists()) {
-          console.log('📄 User doc found:', userDoc.data());
-          setPhotoURL(userDoc.data().photoURL || null);
-        } else {
-          console.log('⚠️ No user doc found');
+        try {
+          const userDocRef = doc(db, 'users', currentUser.uid);
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+            setPhotoURL(userDoc.data().photoURL || null);
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
         }
       }
-    } catch (error) {
-      console.error('❌ Error fetching user data:', error);
-    }
-  });
+    });
 
-  return () => unsubscribe();
-}, []);
+    return () => unsubscribe();
+  }, []);
 
-
+  // ✅ Helper Functions
+  const isActiveLink = (path) => {
+    return window.location.pathname === path;
+  };
 
   const handleProfileClick = () => {
     setShowProfileMenu(!showProfileMenu);
@@ -62,52 +60,39 @@ function Navbar() {
       });
   };
 
- const handlePhotoUpload = async (e) => {
-  const file = e.target.files[0];
-  if (!file || !user) return;
+  const handlePhotoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file || !user) return;
 
-  try {
-    // Validate file type
-    const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    if (!validTypes.includes(file.type)) {
-      alert('Please select a valid image file (JPEG, PNG, GIF)');
-      return;
+    try {
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      if (!validTypes.includes(file.type)) {
+        alert('Please select a valid image file (JPEG, PNG, GIF)');
+        return;
+      }
+
+      if (file.size > 2 * 1024 * 1024) {
+        alert('File size too large (max 2MB)');
+        return;
+      }
+
+      const fileExtension = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExtension}`;
+      const storageRef = ref(storage, `profilePictures/${user.uid}/${fileName}`);
+
+      const snapshot = await uploadBytes(storageRef, file);
+      const downloadURL = await getDownloadURL(storageRef);
+
+      const userDocRef = doc(db, 'users', user.uid);
+      await updateDoc(userDocRef, { photoURL: downloadURL });
+
+      setPhotoURL(downloadURL);
+      alert('Profile picture updated!');
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      alert('Failed to upload profile picture. Please try again.');
     }
-
-    // Validate file size (2MB max)
-    if (file.size > 2 * 1024 * 1024) {
-      alert('File size too large (max 2MB)');
-      return;
-    }
-
-    // Generate a unique file name
-    const fileExtension = file.name.split('.').pop();
-    const fileName = `${Date.now()}.${fileExtension}`;
-
-    // Create a storage reference
-  const storageRef = ref(storage, `profilePictures/${user.uid}/${fileName}`);
-
-    // Upload the file using Firebase SDK
-    const snapshot = await uploadBytes(storageRef, file);
-    console.log('Upload successful:', snapshot);
-
-    // Get the download URL
-    const downloadURL = await getDownloadURL(storageRef);
-    console.log('File URL:', downloadURL);
-
-    // Update user Firestore document
-    const userDocRef = doc(db, 'users', user.uid);
-    await updateDoc(userDocRef, { photoURL: downloadURL });
-
-    // Update state
-    setPhotoURL(downloadURL);
-    alert('Profile picture updated!');
-  } catch (error) {
-    console.error('Error uploading profile picture:', error);
-    alert('Failed to upload profile picture. Please try again.');
-  }
-};
-
+  };
 
   const displayName = user?.email ? user.email.replace('@cit.edu', '') : 'Guest';
 
@@ -122,36 +107,11 @@ function Navbar() {
         </div>
 
         <div className="navbar-center">
-          <Link 
-            to="/" 
-            className={isActiveLink('/') ? 'active' : ''}
-          >
-            Home
-          </Link>
-          <Link 
-            to="/trade" 
-            className={isActiveLink('/trade') ? 'active' : ''}
-          >
-            Trade
-          </Link>
-          <Link 
-            to="/rent" 
-            className={isActiveLink('/rent') ? 'active' : ''}
-          >
-            Rent
-          </Link>
-          <Link 
-            to="/lost-found" 
-            className={isActiveLink('/lost-found') ? 'active' : ''}
-          >
-            Lost & Found
-          </Link>
-          <Link 
-            to="/donations" 
-            className={isActiveLink('/donations') ? 'active' : ''}
-          >
-            Donations
-          </Link>
+          <Link to="/" className={isActiveLink('/') ? 'active' : ''}>Home</Link>
+          <Link to="/trade" className={isActiveLink('/trade') ? 'active' : ''}>Trade</Link>
+          <Link to="/rent" className={isActiveLink('/rent') ? 'active' : ''}>Rent</Link>
+          <Link to="/lost-found" className={isActiveLink('/lost-found') ? 'active' : ''}>Lost & Found</Link>
+          <Link to="/donations" className={isActiveLink('/donations') ? 'active' : ''}>Donations</Link>
         </div>
 
         <div className="navbar-right">
@@ -159,18 +119,11 @@ function Navbar() {
             <FaComments size={24} />
           </div>
 
-          <button
-            className="post-item-button"
-            onClick={() => setShowModal(true)}
-          >
+          <button className="post-item-button" onClick={() => setShowModal(true)}>
             Post Item
           </button>
 
-          <div
-            className="profile-section"
-            title="Profile"
-            onClick={handleProfileClick}
-          >
+          <div className="profile-section" title="Profile" onClick={handleProfileClick}>
             <FaUserCircle size={28} />
             <FaChevronDown
               size={14}
@@ -181,22 +134,22 @@ function Navbar() {
       </nav>
 
       {showProfileMenu && (
-  <div className="profile-menu">
-    <div className="profile-header">
-      <div className="profile-picture-container">
-        <img
-          src={photoURL || require('../assets/logo.png')}
-          alt="Profile"
-          className="avatar-image"
-          key={photoURL} // ← this is very good
-        />
-        <label htmlFor="file-upload" className="upload-icon">+</label>
-        <input
-          id="file-upload"
-          type="file"
-          accept="image/*"
-          onChange={handlePhotoUpload}
-          style={{ display: 'none' }}
+        <div className="profile-menu">
+          <div className="profile-header">
+            <div className="profile-picture-container">
+              <img
+                src={photoURL || require('../assets/logo.png')}
+                alt="Profile"
+                className="avatar-image"
+                key={photoURL}
+              />
+              <label htmlFor="file-upload" className="upload-icon">+</label>
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoUpload}
+                style={{ display: 'none' }}
               />
             </div>
 

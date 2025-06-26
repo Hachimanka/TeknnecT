@@ -11,6 +11,12 @@ function PostItemModal({ onClose }) {
     };
   }, []);
 
+  const [selectedType, setSelectedType] = useState('trade');
+
+  const handleTypeClick = (type) => {
+    setSelectedType(type);
+  };
+
   return (
     <div className="modal-overlay">
       <div className="modal-content">
