@@ -1,133 +1,108 @@
+/* ============================
+   ✅ DESKTOP / DEFAULT STYLES - RESPONSIVE SCALING
+============================ */
+
+:root {
+  font-size: calc(12px + 0.3vw); /* Base font size that scales with viewport width */
+}
+
 body {
   overflow-y: hidden;
 }
 
 .HomePage {
-    padding: 20px;
+  padding: 2vw;
 }
 
 .Header {
-    display: flex;
-    justify-content: flex-start;
-    gap: 10px;
-    margin-bottom: 100px; /* space below header */
-    font-family: "Century Gothic", sans-serif;
+  display: flex;
+  justify-content: flex-start;
+  gap: 1vw;
+  margin-bottom: 10vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.BrowseButton, .PostButton {
+  border: none;
+  padding: 1vh 2vw;
+  font-size: 1rem;
+  border-radius: 0.5vw;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
 }
 
 .BrowseButton {
-    background-color: #9B000A; /* dark red */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: "Century Gothic", sans-serif;
+  background-color: #9B000A;
+  color: white;
 }
 
 .PostButton {
-    background-color: #f5f0c4; /* light yellow */
-    color: #8B0000;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: "Century Gothic", sans-serif;
+  background-color: #f5f0c4;
+  color: #8B0000;
 }
 
 .MainContent {
-    max-width: 600px;
-    font-family: "Century Gothic", sans-serif;
+  max-width: 50vw;
+  font-family: 'Poppins', sans-serif;
+  transform: translateY(10vh);
+  padding-left: 1%;
 }
 
 .MainTitle {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #8B0000;
-    margin-bottom: 20px;
-    padding-left: 15%;
-    margin-top: 50px;
-    font-family: "Century Gothic", sans-serif;
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #8B0000;
+  margin-bottom: 2vh;
+  padding-left: 20%;
+  margin-top: 5vh;
+  font-family: 'Poppins', sans-serif;
 }
 
 .SubTitle {
-    font-size: 1.2rem;
-    color: #8B0000;
-    margin-bottom: 30px;
-    padding-left: 15%;
-    font-family: "Century Gothic", sans-serif;
-}
-
-/* --- Responsive --- */
-@media (max-width: 600px) {
-    .MainTitle {
-        font-size: 1.8rem;  /* smaller on phone */
-        padding-left: 5%;   /* less padding */
-        margin-top: 30px;
-    }
-
-    .SubTitle {
-        font-size: 1rem;    /* smaller on phone */
-        padding-left: 5%;   /* less padding */
-    }
-
-    .ActionButtons {
-        flex-wrap: nowrap; /* force one line */
-        justify-content: center; /* center on phone */
-        padding-left: -5%;
-        margin-left: -80px;
-        gap: 10px;
-    }
-
-    .GetStartedButton,
-    .HowItWorksButton {
-        font-size: 0.9rem; /* smaller text */
-        padding: 10px 16px; /* smaller padding */
-    }
+  font-size: 1.2rem;
+  color: #8B0000;
+  margin-bottom: 3vh;
+  padding-left: 20%;
+  font-family: "Century Gothic", sans-serif;
 }
 
 .ActionButtons {
-    display: flex;
-    gap: 15px;
-    padding-left: 13%;;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 1.5vw;
+  padding-left: 17%;
+  flex-wrap: wrap;
+}
+
+.GetStartedButton, .HowItWorksButton {
+  border: none;
+  padding: 1.2vh 2.4vw;
+  font-size: 1rem;
+  border-radius: 0.5vw;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .GetStartedButton {
-    background-color: #9B000A;
-    color: #ffc107;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-left: 10px;
+  background-color: #9B000A;
+  color: #ffc107;
+  margin-left: 1vw;
 }
 
-.GetStartedButton:hover{
-    Background-color: #ffc107;
-    color: #9B000A;
-    
+.GetStartedButton:hover {
+  background-color: #ffc107;
+  color: #9B000A;
 }
 
 .HowItWorksButton {
-    background-color: #ffc107; /* yellow */
-    color: #9B000A;
-    border: none;
-    padding: 12px 24px;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    
+  background-color: #ffc107;
+  color: #9B000A;
 }
 
-.HowItWorksButton:hover{
-    background-color: #9B000A;
-    color: #ffc107;
+.HowItWorksButton:hover {
+  background-color: #9B000A;
+  color: #ffc107;
 }
+
 .PageWrapper {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
@@ -147,197 +122,530 @@ body {
   background-image: url('../assets/MainPage.png');
 }
 
-.section2 {
+.section3 {
   background-image: url('../assets/RedBg.png');
 }
-.section3 {
-  background-image: url('../assets/RedBackground.png');
+
+.icon2 {
+  width: 3.5vw;
+  display: block;
+  margin: 0 auto;
+  transform: translateY(2vh);
 }
+
+.TeknecT-Works {
+  justify-content: center;
+  position: relative;
+  color: #FFBD00;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+  font-size: 2.5vw;
+  margin-bottom: 1vh;
+  margin-top: 5vh;
+}
+
+.Work-as {
+  font-family: 'Poppins', sans-serif;
+  justify-content: center;
+  text-align: center;
+  color: #FFBD00;
+  font-size: calc(12px + 0.5vw); /* Responsive font size */
+  margin-bottom: 5vh;
+}
+
+.IconsS2 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10vw;
+  text-align: center;
+  padding: 2vh 1vw;
+  flex-wrap: wrap;
+}
+
+.icon-group {
+  width: 20vw;
+}
+
+.icon3 {
+  width: 3.5vw;
+  margin-bottom: 0.5vh;
+}
+
+.PostText {
+  font-size: 2vw;
+  font-family: 'Poppins', sans-serif;
+  margin: 0.5vh 0;
+  color: #FFBD00;
+}
+
+.desc1 {
+  font-size: calc(12px + 0.5vw); /* Responsive font size */
+  font-family: 'Poppins', sans-serif;
+  color: #FFBD00;
+  transform: translateY(2vh);
+}
+
+.desc {
+  font-size: calc(12px + 0.5vw); /* Responsive font size */
+  font-family: 'Poppins', sans-serif;
+  color: #FFBD00;
+}
+
 .section4 {
   background-image: url('../assets/BottomPage.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
+
 .Section4Heading {
   background-color: transparent;
   font-size: 2.5rem;
-  color: white;
+  color: #ffc107;
   margin: 0;
   padding: 0;
   text-align: center;
-  color: #ffc107;
-  /* Move lower */
   position: relative;
-  transform: translateY(300%);
-  font-family: "Century Gothic", sans-serif;
-}
-.ContactRow {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 300px;
-  padding: 0 17%;
-  font-family: "Century Gothic", sans-serif;
+  transform: translateY(15vh);
+  font-family: 'Poppins', sans-serif;
 }
 
-.Email,
-.Phone,
-.Location {
-  font-size: 1.2rem;
-  color: rgb(0, 0, 0);
-  margin: 0;
+.BottomGroup {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 5vw;
+  margin-top: 12.5vh;
+  gap: 22vw;
+  flex-wrap: nowrap;
+  transform: translateY(7vh);
+}
+
+.LogoWithMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   flex: 1;
-  font-family: "Century Gothic", sans-serif;
+  margin-right: 0;
+  max-width: none;
 }
 
-/* Align Email to the left */
-.Email {
-  text-align: left;
-  padding-left: 5%; /* slight horizontal padding for balance */
+.bottom-logo {
+  width: 20vw;
+  height: auto;
+  display: block;
+  margin-bottom: 0.1vh;
 }
 
-/* Align Phone to the center */
-.Phone {
-  text-align: center;
-}
-
-/* Align Location to the right */
-.Location {
-  text-align: right;
-  padding-right: 5%; /* slight horizontal padding for balance */
-}
-.Contacts {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 15%;  /* narrower padding moves the group more toward center */
-  margin-top: 10px;
-  font-family: "Century Gothic", sans-serif;
-}
 .message {
   text-align: left;
-  padding-left: 5%;  /* match your .Contacts or adjust as needed */
-  font-size: 1.1rem;  /* optional: adjust size */
-  margin-top: 250px;   /* optional: spacing from above */
-  color: #000000;     /* optional: ensure it's visible */
-  font-family: "Century Gothic", sans-serif;
+  font-size: 1.1rem;
+  color: #000;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.2;
+  margin-top: 2vh;
 }
 
-.BottomText{
-  margin-left: 47%;
-  text-align: left;
-  padding-left: 0%;  /* match your .Contacts or adjust as needed */
-  font-size: 1.1rem;  /* optional: adjust size */
-  margin-top: -165px;   /* optional: spacing from above */
-  color: #000000;     /* optional: ensure it's visible */
-  font-family: "Century Gothic", sans-serif;
-}
-.Resources{
-  margin-left: 65%;
-  text-align: left;
-  padding-right: 5%;  /* match your .Contacts or adjust as needed */
-  font-size: 1.1rem;  /* optional: adjust size */
-  margin-top: -165px;   /* optional: spacing from above */
-  color: #000000;     /* optional: ensure it's visible */
-  font-family: "Century Gothic", sans-serif;
-}
-.searchBar {
+.BottomText,
+.Resources {
   display: flex;
-  align-items: center;
-  background-color: #eee6f0;
-  width: 400px; /* Increase if needed */
-  border-radius: 30px;
-  height: 40px;
-  font-family: "Century Gothic";
-  padding: 4px;
-  margin-left: 100px;
-  gap: 8px; /* Nice spacing between input and dropdown */
+  flex-direction: column;
+  text-align: left;
+  font-size: 1.1rem;
+  color: #000000;
+  font-family: 'Poppins', sans-serif;
+  flex: 1;
+  min-width: 15vw;
+  gap: 0.5vh;
 }
 
- 
-.borderless-input {
-  border: none;
-  outline: none;
-  background: transparent;
-  font-size: 16px;
-  color: #333;
-  font-family: "Century Gothic";
-  text-indent: 20px;
-  width: 100%;
+.quickLinks strong,
+.Resources strong {
+  margin-bottom: 0.5vh;
 }
- 
-.dropdown {
-  padding: 8px 20px;
-  border-radius: 30px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-  background-color: white;
-  color: #333;
-  font-family: "Century Gothic";
-  height: 40px; /* Match the .searchBar height */
-  margin-left: 10px; /* Keep it inside the container */
-}
+
 .pageTitle {
   position: relative;
-  top: -50px; /* adjust as needed */
+  top: 1vh;
   color: #FFBD00;
-  font-family: "Century Gothic", sans-serif;
+  font-family: 'Poppins', sans-serif;
   text-align: center;
   margin: 0;
-  padding: 0 0 20px;
-  font-size: 45px;
+  padding: 0 0 2vh;
+  font-size: 2.5vw;
+  transform: translateY(1vh);
 }
+
+.card1, .card2, .card3 {
+  width: 18vw;
+  height: 25vh;
+  border: 1px solid #ddd;
+  border-radius: 0.8vw;
+  padding: 1vh;
+  box-shadow: 0 0.2vw 0.6vw rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transform: translateY(-1vh);
+}
+
 .card1 {
-  width: 270px;
-  height: 230px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-}
-.card2 {
-  width: 270px;
-  height: 230px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  margin-right: -8vw;
 }
 
 .card3 {
-  width: 270px;
-  height: 230px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  margin-left: -8vw;
 }
-
 
 .title {
   font-size: 1.2rem;
   font-weight: bold;
   color: #333;
   font-family: 'Poppins', sans-serif;
-  margin-top: 5rem;
+  margin-top: 3vh;
 }
 
 .description {
-  margin-top: 1rem;
+  margin-top: 1vh;
   color: #555;
   text-align: center;
   font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
 }
+
 .trade-items {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(375px, 1fr));
-  gap: 1.5rem; /* ✅ controls the spacing between cards */
+  grid-template-columns: repeat(auto-fit, minmax(25vw, 1fr));
+  gap: 1.5vh;
   justify-items: center;
-  margin-top: 2rem;
-  padding: 0 2rem;
+  margin-top: 1vh;
+  padding: 0 2vw;
 }
 
+.ContactGroup {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  text-align: center;
+  margin-top: 25vh;
+  padding: 0 5vw;
+  flex-wrap: wrap;
+  gap: 20vw;
+  transform: translateY(8vh);
+}
 
+.ContactItem1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5vh;
+}
+.ContactItem2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5vh;
+  transform: translateX(-5vh);
+}
+.ContactItem3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.5vh;
+  transform: translateX(-5vh);
+}
 
+.ContactLabel {
+  font-weight: bold;
+  margin-top: 0.5vh;
+  font-size: 1.1rem;
+  color: #000;
+  font-family: 'Poppins', sans-serif;
+}
 
+.ContactInfo {
+  margin-top: 0.3vh;
+  font-size: 1rem;
+  color: #000;
+  font-family: 'Poppins', sans-serif;
+}
+
+.icon {
+  width: 4vw;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+}
+
+/* Desktop-specific responsive adjustments */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  :root {
+    font-size: calc(10px + 0.3vw);
+  }
+  
+  .MainTitle {
+    font-size: 2.2rem;
+  }
+  
+  .BottomGroup {
+    gap: 15vw;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  :root {
+    font-size: calc(9px + 0.3vw);
+  }
+  
+  .MainTitle {
+    font-size: 1.8rem;
+  }
+  
+  .BottomGroup {
+    gap: 10vw;
+  }
+  
+  .bottom-logo {
+    width: 25vw;
+  }
+}
+
+/* ============================
+   📱 MOBILE RESPONSIVE STYLES
+============================ */
+
+@media (max-width: 768px) {
+  /* General section fixes */
+  .Section {
+    height: auto;
+    min-height: 100vh;
+    padding: 2rem 0;
+  }
+
+  /* Section 2 (How It Works) fixes */
+  .section3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3rem 0;
+  }
+
+  /* Title sizes */
+  .pageTitle {
+    font-size: 2.2rem;
+    top: 0;
+    margin-bottom: 2rem;
+  }
+
+  .TeknecT-Works {
+    font-size: 2rem;
+    margin: 2rem 0 1rem;
+  }
+
+  .trade-items {
+    margin: 2rem 0;
+  }
+
+  .IconsS2 {
+    margin: 2rem 0;
+  }
+
+  /* Icon text sizes */
+  .PostText {
+    font-size: 1.4rem;
+    margin: 1rem 0;
+  }
+
+  .desc, .desc1 {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Section 4 fixes */
+  .section4 {
+    min-height: 100vh;
+    padding: 3rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .Section4Heading {
+    transform: none;
+    margin: 2rem 0;
+    padding: 0 1rem;
+    font-size: 2rem;
+  }
+
+  /* Contact items alignment */
+  .ContactGroup {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ContactItem1, 
+  .ContactItem2, 
+  .ContactItem3 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .ContactLabel,
+  .ContactLabel2,
+  .ContactLabel3 {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+  }
+
+  .BottomGroup {
+    margin: 2rem 0;
+  }
+}
+
+@media (max-width: 600px) {
+  .MainTitle {
+    font-size: 1.8rem;
+    padding-left: 5%;
+    margin-top: 30px;
+  }
+
+  .SubTitle {
+    font-size: 1rem;
+    padding-left: 5%;
+  }
+
+  .ActionButtons {
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding-left: 0;
+    margin-left: 0;
+    gap: 10px;
+  }
+
+  .GetStartedButton,
+  .HowItWorksButton {
+    font-size: 0.9rem;
+    padding: 10px 16px;
+  }
+
+  /* Icons layout */
+  .IconsS2 {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    padding: 1rem 0;
+  }
+
+  .icon-group {
+    width: 90%;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Icon sizing */
+  .icon, .icon2, .icon3 {
+    width: 50px;
+    height: auto;
+  }
+
+  /* Cards adjustments */
+  .card1, 
+  .card2, 
+  .card3 {
+    width: 85%;
+    height: auto;
+    min-height: 140px;
+    margin: 0 auto 1.5rem;
+    padding: 1rem;
+  }
+
+  /* Bottom content */
+  .BottomGroup {
+    gap: 2rem;
+  }
+
+  .message {
+    margin: 1rem auto;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Title sizes */
+  .MainTitle {
+    font-size: 1.6rem;
+  }
+  
+  .pageTitle {
+    font-size: 1.8rem;
+  }
+  
+  .TeknecT-Works {
+    font-size: 1.6rem;
+  }
+  
+  .Section4Heading {
+    font-size: 1.6rem;
+  }
+
+  /* Text elements */
+  .PostText {
+    font-size: 1.2rem;
+  }
+
+  .desc, .desc1 {
+    font-size: 0.9rem;
+  }
+  
+  .ActionButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .GetStartedButton,
+  .HowItWorksButton {
+    width: 80%;
+    margin: 0.5rem 0;
+  }
+
+  /* Even tighter spacing for very small screens */
+  .section3,
+  .section4 {
+    padding: 1.5rem 0;
+  }
+
+  .trade-items {
+    gap: 0.5rem;
+  }
+
+  .IconsS2 {
+    gap: 1.5rem;
+  }
+
+  .ContactGroup {
+    gap: 1rem;
+  }
+
+  /* Contact items */
+  .ContactItem1, 
+  .ContactItem2, 
+  .ContactItem3 {
+    margin-bottom: 1.5rem;
+  }
+
+  .ContactLabel,
+  .ContactLabel2,
+  .ContactLabel3 {
+    font-size: 1rem;
+  }
+}
