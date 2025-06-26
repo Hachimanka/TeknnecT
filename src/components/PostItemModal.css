@@ -61,6 +61,7 @@
   font-weight: bold;
   font-size: 0.8rem;
   color: #8B0000;
+  font-size: 0.75rem;
 }
 
 .form-label input,
@@ -97,7 +98,7 @@ textarea {
   transition: 0.3s ease;
 }
 
-.type-button:hover {
+.type-button:hover:not(.active) {
   background-color: #9B000A;
   color: #ffc107;
 }
@@ -110,6 +111,7 @@ textarea {
   text-align: center;
   color: #888;
   cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .browse-files {
@@ -140,7 +142,7 @@ textarea {
 }
 
 .cancel-button:hover {
-  background: #ddd;
+  background: #9B000A;
 }
 
 .post-button {
@@ -150,7 +152,7 @@ textarea {
 }
 
 .post-button:hover {
-  background-color: #a30000;
+  background-color: #ffc107;
 }
 
 @media (max-width: 600px) {
@@ -159,7 +161,7 @@ textarea {
     height: 65vh;
     margin-right: 15px;
   }
-
+  
   .type-button {
     font-size: 0.7rem;
     padding: 4px 6px;
@@ -172,9 +174,12 @@ body.dark-mode .modal-content {
   color: #f0f0f0;
 }
 
-body.dark-mode input,
-body.dark-mode textarea,
-body.dark-mode select {
+/* Changed label colors to magenta/pink in dark mode */
+body.dark-mode .form-label {
+  color: #FF69B4; /* Hot pink for better visibility */
+}
+
+body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
   background-color: #333;
   color: #f0f0f0;
   border: 1px solid #555;
@@ -185,24 +190,40 @@ body.dark-mode .upload-box {
   border-color: #555;
   color: #f0f0f0;
 }
-
 body.dark-mode .type-button {
   background-color: #444;
   color: #f0f0f0;
   border-color: #555;
 }
 
-body.dark-mode .type-button:hover {
-  background-color: #555;
+/* Yellow highlight for active item type buttons in dark mode */
+body.dark-mode .type-button.active {
+  background-color: #FFBD00 !important;
+  color: #222 !important;
+  border-color: #FFD700;
+  box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
 }
 
-body.dark-mode .cancel-button,
-body.dark-mode .post-button {
+body.dark-mode .type-button:hover:not(.active) {
+  background-color: rgba(255, 189, 0, 0.15);
+  text-decoration: none;
+}
+
+/* Yellow styling for buttons in dark mode */
+body.dark-mode .cancel-button, body.dark-mode .post-button {
   background-color: #444;
   color: #f0f0f0;
+  transition: all 0.2s ease;
 }
 
-body.dark-mode .cancel-button:hover,
+body.dark-mode .cancel-button:hover {
+  background-color: #9B000A;
+  color: #f0f0f0;
+  box-shadow: 0 2px 8px rgba(255, 0, 128, 0.342);
+}
+
 body.dark-mode .post-button:hover {
-  background-color: #555;
+  background-color: #FFBD00;
+  color: #222;
+  box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
 }

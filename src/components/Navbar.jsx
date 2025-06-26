@@ -122,11 +122,36 @@ function Navbar() {
         </div>
 
         <div className="navbar-center">
-          <Link to="/">Home</Link>
-          <Link to="/trade">Trade</Link>
-          <Link to="/rent">Rent</Link>
-          <Link to="/lost-found">Lost & Found</Link>
-          <Link to="/donations">Donations</Link>
+          <Link 
+            to="/" 
+            className={isActiveLink('/') ? 'active' : ''}
+          >
+            Home
+          </Link>
+          <Link 
+            to="/trade" 
+            className={isActiveLink('/trade') ? 'active' : ''}
+          >
+            Trade
+          </Link>
+          <Link 
+            to="/rent" 
+            className={isActiveLink('/rent') ? 'active' : ''}
+          >
+            Rent
+          </Link>
+          <Link 
+            to="/lost-found" 
+            className={isActiveLink('/lost-found') ? 'active' : ''}
+          >
+            Lost & Found
+          </Link>
+          <Link 
+            to="/donations" 
+            className={isActiveLink('/donations') ? 'active' : ''}
+          >
+            Donations
+          </Link>
         </div>
 
         <div className="navbar-right">

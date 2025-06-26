@@ -3,16 +3,21 @@ import './LostFoundPage.css';
 import LogoPlaceholder from '../assets/wakwak.png';
 import PostItemModal from '../components/PostItemModal'; // 👈 import the modal
 
+function formatDate(dateString) {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return new Date(dateString).toLocaleDateString(undefined, options);
+}
+
 function LostFoundPage() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [showPostModal, setShowPostModal] = useState(false); // 👈 state for modal
 
   const items = [
-    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Lost', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') },
-    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Lost', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') },
-    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Lost', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') },
-    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Lost', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') },
-    { title: 'Black Wallet', description: 'Found near the library entrance on June 20.', status: 'Found', user: 'Mica H.', image: LogoPlaceholder, profile: require('../assets/dj.jpg') }
+    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Lost', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg'), dateLost: '2023-06-10' },
+    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Lost', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg'), dateLost: '2023-06-10' },
+    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Lost', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg'), dateLost: '2023-06-10' },
+    { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Lost', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg'), dateLost: '2023-06-10' },
+    { title: 'Black Wallet', description: 'Found near the library entrance on June 20.', status: 'Found', user: 'Mica H.', image: LogoPlaceholder, profile: require('../assets/dj.jpg'), dateFound: '2023-06-10' }
   ];
 
   const handleCardClick = (item) => {
@@ -58,6 +63,11 @@ function LostFoundPage() {
                 <div>
                   <h3 className="item-title">{item.title}</h3>
                   <p className="item-description">{item.description}</p>
+                      <p className="item-date">
+                        {item.status === 'Lost' 
+                          ? `Lost on: ${formatDate(item.dateLost)}` 
+                          : `Found on: ${formatDate(item.dateFound)}`}
+                      </p>
                 </div>
                 <div className="item-footer">
                   <div className="item-user">
@@ -83,7 +93,13 @@ function LostFoundPage() {
             <img src={selectedItem.image} alt="Enlarged item" className="modal-image" />
             <p>{selectedItem.description}</p>
             <p><strong>Status:</strong> {selectedItem.status}</p>
+            <p>
+              <strong>
+                {selectedItem.status === 'Lost' ? 'Lost on:' : 'Found on:'}
+              </strong> {formatDate(selectedItem.status === 'Lost' ? selectedItem.dateLost : selectedItem.dateFound)}
+            </p>
             <p><strong>Reported by:</strong> {selectedItem.user}</p>
+            <button className="chat-button">Chat With Uploader</button>
           </div>
         </div>
       )}
