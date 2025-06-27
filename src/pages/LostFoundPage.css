@@ -11,6 +11,7 @@
   font-weight: bold;
   color: #9B000A;
   margin-bottom: 0.5rem;
+  margin-top: 100px;
 }
 
 .page-subtitle {
@@ -368,7 +369,7 @@
 .cancel-button,
 .send-button {
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 0.75rem;
   border: none;
   border-radius: 8px;
   font-weight: bold;
