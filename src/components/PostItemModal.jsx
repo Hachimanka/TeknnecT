@@ -1,24 +1,30 @@
+import { useEffect } from 'react';
 import './PostItemModal.css';
 import { useState } from 'react';
 
 function PostItemModal({ onClose }) {
-  const [selectedType, setSelectedType] = useState(''); // Initialize as empty string
+  // Prevent body from scrolling when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto'; // Restore scroll on unmount
+    };
+  }, []);
+
+  const [selectedType, setSelectedType] = useState('trade');
 
   const handleTypeClick = (type) => {
-    // Toggle the type - if it's already selected, deselect it, otherwise select it
-    setSelectedType(selectedType === type ? '' : type);
+    setSelectedType(type);
   };
 
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-
         <h2 className="modal-title">
           <span className="plus-icon">➕</span> Post an Item
         </h2>
 
-        <div className="post-form">
-
+        <form className="post-form">
           <label className="form-label">
             <span className="form-icon">🏷️</span> Item Title
             <input type="text" placeholder="What are you posting?" />
@@ -26,7 +32,7 @@ function PostItemModal({ onClose }) {
 
           <label className="form-label">
             <span className="form-icon">💬</span> Description
-            <textarea placeholder="Describe your item..." rows="2"></textarea>
+            <textarea placeholder="Describe your item in detail..." rows="4" />
           </label>
 
           <div className="form-row">
@@ -92,9 +98,7 @@ function PostItemModal({ onClose }) {
             <button type="button" className="cancel-button" onClick={onClose}>✖ Cancel</button>
             <button type="submit" className="post-button">➤ Post Item</button>
           </div>
-
-        </div>
-
+        </form>
       </div>
     </div>
   );

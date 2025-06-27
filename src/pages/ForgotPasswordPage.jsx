@@ -1,11 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../firebase';
 import './ForgotPasswordPage.css';
 
 function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
+  const navigate = useNavigate();
 
   const handleResetPassword = (e) => {
     e.preventDefault();
@@ -25,9 +26,19 @@ function ForgotPasswordPage() {
       });
   };
 
+  // When clicking outside modal
+  const handleOverlayClick = () => {
+    navigate('/'); // Return to homepage
+  };
+
+  // Prevent modal click from triggering overlay
+  const handleBoxClick = (e) => {
+    e.stopPropagation();
+  };
+
   return (
-    <main className="Main">
-      <div className="LoginBox">
+    <div className="ModalOverlay" onClick={handleOverlayClick}>
+      <div className="LoginBox" onClick={handleBoxClick}>
         <h3>Forgot your password?</h3>
         <h4>Reset Password</h4>
         <form className="LoginForm" onSubmit={handleResetPassword}>
@@ -46,7 +57,7 @@ function ForgotPasswordPage() {
           </div>
         </form>
       </div>
-    </main>
+    </div>
   );
 }
 
