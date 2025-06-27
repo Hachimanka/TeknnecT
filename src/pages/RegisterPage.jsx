@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase';
 import { createUserWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { doc, setDoc } from 'firebase/firestore';
 import './RegisterPage.css';
 
 function RegisterPage() {
@@ -14,6 +15,14 @@ function RegisterPage() {
 
   const navigate = useNavigate();
 
+  // Disable scroll on RegisterPage
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, []);
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -22,44 +31,55 @@ function RegisterPage() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleRegister = (e) => {
-    e.preventDefault();
+  const handleRegister = async (e) => {
+  e.preventDefault();
 
-    if (!email.endsWith('@cit.edu')) {
-      alert('Only @cit.edu email addresses are allowed to register.');
-      return;
-    }
+  if (!email.endsWith('@cit.edu')) {
+    alert('Only @cit.edu email addresses are allowed to register.');
+    return;
+  }
 
-    if (password !== confirmPassword) {
-      alert('Passwords do not match!');
-      return;
-    }
+  if (password !== confirmPassword) {
+    alert('Passwords do not match!');
+    return;
+  }
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log('User registered:', user);
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+    console.log('User registered:', user);
 
-        // Send verification email
-        sendEmailVerification(user)
-          .then(() => {
-            alert('Registration successful! A verification email has been sent. Please verify your email before logging in.');
-            navigate('/login'); // redirect to login
-          })
-          .catch((error) => {
-            console.error('Error sending verification email:', error);
-            alert('Failed to send verification email: ' + error.message);
-          });
-      })
-      .catch((error) => {
-        console.error('Error registering:', error);
-        alert('Failed to register: ' + error.message);
-      });
+    // Create Firestore user doc
+    const userDocRef = doc(db, 'users', user.uid);
+    await setDoc(userDocRef, {
+      email: user.email,
+      name: user.email.replace('@cit.edu', ''),
+      photoURL: '' // empty for now
+    });
+
+    // Send verification email
+    await sendEmailVerification(user);
+
+    alert('Registration successful! A verification email has been sent. Please verify your email before logging in.');
+    navigate('/login');
+  } catch (error) {
+    console.error('Error registering:', error);
+    alert('Failed to register: ' + error.message);
+  }
+};
+
+
+  const handleOverlayClick = () => {
+    navigate('/'); // ✅ return home if click outside
+  };
+
+  const handleBoxClick = (e) => {
+    e.stopPropagation(); // ✅ prevent close if click inside modal
   };
 
   return (
-    <main className="Main">
-      <div className="LoginBox">
+    <div className="ModalOverlay" onClick={handleOverlayClick}>
+      <div className="LoginBox" onClick={handleBoxClick}>
         <h3>Welcome!</h3>
         <h4>Register</h4>
         <form className="LoginForm" onSubmit={handleRegister}>
@@ -104,7 +124,7 @@ function RegisterPage() {
           </div>
         </form>
       </div>
-    </main>
+    </div>
   );
 }
 
