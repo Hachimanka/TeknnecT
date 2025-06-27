@@ -39,6 +39,7 @@ function LostFoundPage() {
   };
 
   return (
+    <div className="PageWrapper">
     <main className="lost-found-page">
       <h1 className="page-title">Lost & Found</h1>
       <p className="page-subtitle">Have you lost or found an item? Post it here and help the community!</p>
@@ -134,6 +135,7 @@ function LostFoundPage() {
         </div>
       )}
     </main>
+    </div>
   );
 }
 

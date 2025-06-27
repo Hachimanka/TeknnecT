@@ -21,49 +21,51 @@ function RentPage() {
   };
 
   return (
-    <main className="rent-page">
-      <h1 className="page-title">For Rent</h1>
-      <p className="page-subtitle">Looking for items to rent? Browse the latest offers below.</p>
+    <div className="PageWrapper">
+      <main className="rent-page">
+        <h1 className="page-title">For Rent</h1>
+        <p className="page-subtitle">Looking for items to rent? Browse the latest offers below.</p>
 
-      <section className="rent-items-section">
-        <h2 className="section-title">Available Items</h2>
-        <div className="rent-grid">
-          {rentItems.map((item, index) => (
-            <div key={index} className="rent-card" onClick={() => handleCardClick(item)}>
-              <div className="rent-badge">For Rent</div>
+        <section className="rent-items-section">
+          <h2 className="section-title">Available Items</h2>
+          <div className="rent-grid">
+            {rentItems.map((item, index) => (
+              <div key={index} className="rent-card" onClick={() => handleCardClick(item)}>
+                <div className="rent-badge">For Rent</div>
 
-              <div className="rent-image">
-                <img src={item.image} alt="item" />
-              </div>
+                <div className="rent-image">
+                  <img src={item.image} alt="item" />
+                </div>
 
-              <div className="rent-info">
-                <h3 className="item-title">{item.title}</h3>
-                <p className="item-description">{item.description}</p>
-                <div className="item-footer">
-                  <div className="item-user">
-                    <img src={item.profile} alt="profile" className="profile-pic" />
-                    <span>{item.user}</span>
+                <div className="rent-info">
+                  <h3 className="item-title">{item.title}</h3>
+                  <p className="item-description">{item.description}</p>
+                  <div className="item-footer">
+                    <div className="item-user">
+                      <img src={item.profile} alt="profile" className="profile-pic" />
+                      <span>{item.user}</span>
+                    </div>
+                    <button className="rent-action-button">Rent Item</button>
                   </div>
-                  <button className="rent-action-button">Rent Item</button>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {selectedItem && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeModal}>×</button>
-            <h2>{selectedItem.title}</h2>
-            <img src={selectedItem.image} alt="Enlarged item" className="modal-image" />
-            <p>{selectedItem.description}</p>
-            <p><strong>Rent posted by:</strong> {selectedItem.user}</p>
+            ))}
           </div>
-        </div>
-      )}
-    </main>
+        </section>
+
+        {selectedItem && (
+          <div className="modal-overlay" onClick={closeModal}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <button className="modal-close" onClick={closeModal}>×</button>
+              <h2>{selectedItem.title}</h2>
+              <img src={selectedItem.image} alt="Enlarged item" className="modal-image" />
+              <p>{selectedItem.description}</p>
+              <p><strong>Rent posted by:</strong> {selectedItem.user}</p>
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
   );
 }
 

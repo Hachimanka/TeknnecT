@@ -1,3 +1,13 @@
+.PageWrapper{
+    background-image: url('../assets/MainPage.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+}
+
 .donations-page {
     max-width: 1200px;
     margin: 0 auto;
