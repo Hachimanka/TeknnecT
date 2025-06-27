@@ -11,6 +11,8 @@ function formatDate(dateString) {
 function LostFoundPage() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [showPostModal, setShowPostModal] = useState(false); // 👈 state for modal
+  const [showChatModal, setShowChatModal] = useState(false);
+  const [message, setMessage] = useState('');
 
   const items = [
     { title: 'Calculator', description: '2nd Edition, Used Once', status: 'Lost', user: 'Divan J.', image: LogoPlaceholder, profile: require('../assets/dj.jpg'), dateLost: '2023-06-10' },
@@ -99,13 +101,38 @@ function LostFoundPage() {
               </strong> {formatDate(selectedItem.status === 'Lost' ? selectedItem.dateLost : selectedItem.dateFound)}
             </p>
             <p><strong>Reported by:</strong> {selectedItem.user}</p>
-            <button className="chat-button">Chat With Uploader</button>
+            <button className="chat-button" onClick={() => setShowChatModal(true)}>
+              Chat With Uploader
+            </button>
           </div>
         </div>
       )}
 
       {/* Post Item Modal */}
       {showPostModal && <PostItemModal onClose={closePostModal} />}
+
+      {/* Chat Modal */}
+      {showChatModal && (
+        <div className="modal-overlay" onClick={() => setShowChatModal(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <h2>Chat With Uploader</h2>
+            <textarea
+              className="chat-textarea"
+              placeholder="Write a message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            ></textarea>
+            <div className="chat-actions">
+              <button className="cancel-button" onClick={() => setShowChatModal(false)}>Cancel</button>
+              <button className="send-button" onClick={() => {
+                console.log("Sent message:", message); // Replace with real send logic if needed
+                setShowChatModal(false);
+                setMessage('');
+              }}>Send</button>
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
