@@ -11,6 +11,7 @@ function formatDate(dateString) {
 function LostFoundPage() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [showPostModal, setShowPostModal] = useState(false); // 👈 state for modal
+  const [defaultItemType, setDefaultItemType] = useState(''); // 👈 new state for default type
   const [showChatModal, setShowChatModal] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -30,12 +31,15 @@ function LostFoundPage() {
     setSelectedItem(null);
   };
 
-  const openPostModal = () => {
+  // 👈 Updated to accept item type parameter
+  const openPostModal = (itemType) => {
+    setDefaultItemType(itemType);
     setShowPostModal(true);
   };
 
   const closePostModal = () => {
     setShowPostModal(false);
+    setDefaultItemType(''); // Reset default type when closing
   };
 
   return (
@@ -45,8 +49,8 @@ function LostFoundPage() {
       <p className="page-subtitle">Have you lost or found an item? Post it here and help the community!</p>
 
       <div className="action-buttons">
-        <button className="report-lost-btn" onClick={openPostModal}>Report Lost Item</button>
-        <button className="report-found-btn" onClick={openPostModal}>Report Found Item</button>
+        <button className="report-lost-btn" onClick={() => openPostModal('Lost')}>Report Lost Item</button>
+        <button className="report-found-btn" onClick={() => openPostModal('Found')}>Report Found Item</button>
       </div>
 
       <section className="items-section">
@@ -110,7 +114,7 @@ function LostFoundPage() {
       )}
 
       {/* Post Item Modal */}
-      {showPostModal && <PostItemModal onClose={closePostModal} />}
+      {showPostModal && <PostItemModal onClose={closePostModal} defaultType={defaultItemType} />}
 
       {/* Chat Modal */}
       {showChatModal && (
