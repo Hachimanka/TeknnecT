@@ -157,7 +157,7 @@ function HomePage() {
               </div>
 
               <div className="resourceLinks">
-                <h3>Resources</h3>
+                <h3 className="resources">Resources</h3>
                 <Link to="/">Home</Link><br />
                 <Link to="/trade">Trade</Link><br />
                 <Link to="/rent">Rent</Link><br />

@@ -414,7 +414,7 @@ body {
   }
 }
 
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 768px) and (max-width: 1024px) {
   :root {
     font-size: calc(9px + 0.3vw);
   }
@@ -444,6 +444,7 @@ link{
     height: auto;
     min-height: 100vh;
     padding: 2rem 0;
+    overflow-x: hidden;
   }
 
   /* Section 2 (How It Works) fixes */
@@ -507,6 +508,7 @@ link{
     display: flex;
     flex-direction: column;
     align-items: center;
+    transform: translateY(16vh);
   }
 
   .ContactItem1, 
@@ -533,22 +535,36 @@ link{
 }
 
 @media (max-width: 600px) {
+  .section1 {
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+  } 
+  .MainContent {
+  max-width: 50vw;
+  font-family: 'Poppins', sans-serif;
+  transform: translateY(1vh);
+  padding-left: 1%;
+}
   .MainTitle {
-    font-size: 1.8rem;
-    padding-left: 5%;
-    margin-top: 30px;
-  }
-
+  font-size: 3rem !important;
+  font-weight: bold;
+  color: #8B0000;
+  margin-bottom: 2vh;
+  padding-left: 15%;
+  margin-top: 5vh;
+  font-family: 'Poppins', sans-serif;
+}
   .SubTitle {
-    font-size: 1rem;
-    padding-left: 5%;
+    font-size: 1.2rem;
+    padding-left: 15%;
   }
 
   .ActionButtons {
     flex-wrap: nowrap;
     justify-content: center;
     padding-left: 0;
-    margin-left: 0;
+    margin-left: 10px;
     gap: 10px;
   }
 
@@ -568,7 +584,7 @@ link{
 
   .icon-group {
     width: 90%;
-    margin-bottom: 1.5rem;
+    margin-bottom: -1rem;
   }
 
   /* Icon sizing */
@@ -586,6 +602,7 @@ link{
     min-height: 140px;
     margin: 0 auto 1.5rem;
     padding: 1rem;
+    transform: translateY(-8vh);
   }
 
   /* Bottom content */
@@ -596,6 +613,7 @@ link{
   .message {
     margin: 1rem auto;
     max-width: 90%;
+    line-height: 1.3;
   }
 }
 
@@ -606,29 +624,43 @@ link{
   }
   
   .pageTitle {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    transform: translateY(-3vh);
   }
   
   .TeknecT-Works {
-    font-size: 1.6rem;
+    font-size: 2rem;
+    transform: translateY(-12vh);
   }
-  
+  .Work-as{
+    font-size: 1.2rem;
+    transform: translateY(-12vh);
+  }
   .Section4Heading {
-    font-size: 1.6rem;
+    font-size: 2.2rem;
+    transform: translateY(15vh);
   }
 
   /* Text elements */
   .PostText {
     font-size: 1.2rem;
   }
-
-  .desc, .desc1 {
-    font-size: 0.9rem;
-  }
   
+  .desc{
+    font-size: 0.9rem;
+    transform: translateY(-3vh);
+  }
+  .desc1{
+    font-size: 0.9rem;
+    transform: translateY(-5vh);
+  }
+  .icon-group{
+    gap: 20px
+  }
   .ActionButtons {
     flex-direction: column;
     align-items: center;
+    gap: 0.5rem;
   }
   
   .GetStartedButton,
@@ -638,17 +670,23 @@ link{
   }
 
   /* Even tighter spacing for very small screens */
-  .section3,
+  
   .section4 {
     padding: 1.5rem 0;
+    overflow-y: hidden;
+    height: 1000px;
   }
-
+.section3{
+  height: 1310px;
+  overflow-y: hidden;
+}
   .trade-items {
     gap: 0.5rem;
   }
 
   .IconsS2 {
     gap: 1.5rem;
+    transform: translateY(-18vh);
   }
 
   .ContactGroup {
@@ -656,15 +694,34 @@ link{
   }
 
   /* Contact items */
-  .ContactItem1, 
-  .ContactItem2, 
-  .ContactItem3 {
+  .ContactItem1{
     margin-bottom: 1.5rem;
   }
-
+  .ContactItem2,
+  .ContactItem3 {
+    margin-bottom: 1.5rem;
+    transform: translateX(-.2vh);
+  }
   .ContactLabel,
   .ContactLabel2,
   .ContactLabel3 {
     font-size: 1rem;
+  }
+  .bottom-logo{
+    width: 130px;
+  }
+  .LogoWithMessage{
+    transform: translateY(8vh);
+  }
+  .quickLinks{
+    margin-left:70px;
+    transform: translateY(7vh);
+  }
+  .resourceLinks{
+    margin-left: -35px;
+    transform: translateY(7vh);
+  }
+  .resources{
+    margin-bottom: 30px;
   }
 }
