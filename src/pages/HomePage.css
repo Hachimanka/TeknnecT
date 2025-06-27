@@ -124,6 +124,8 @@ body {
 
 .section3 {
   background-image: url('../assets/RedBg.png');
+  height: 100vh;
+
 }
 
 .icon2 {
@@ -599,72 +601,105 @@ link{
   }
 }
 
-@media (max-width: 480px) {
-  /* Title sizes */
+@media (max-width: 768px) {
+  body {
+    overflow-y: auto;
+  }
+
+  .MainContent {
+    max-width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+    transform: none;
+  }
+
   .MainTitle {
-    font-size: 1.6rem;
-  }
-  
-  .pageTitle {
-    font-size: 1.8rem;
-  }
-  
-  .TeknecT-Works {
-    font-size: 1.6rem;
-  }
-  
-  .Section4Heading {
-    font-size: 1.6rem;
+    font-size: 2rem;
+    text-align: center;
+    padding-left: 0;
+    margin-top: 2rem;
   }
 
-  /* Text elements */
-  .PostText {
-    font-size: 1.2rem;
+  .SubTitle {
+    font-size: 1.1rem;
+    text-align: center;
+    padding-left: 0;
   }
 
-  .desc, .desc1 {
-    font-size: 0.9rem;
-  }
-  
   .ActionButtons {
     flex-direction: column;
     align-items: center;
-  }
-  
-  .GetStartedButton,
-  .HowItWorksButton {
-    width: 80%;
-    margin: 0.5rem 0;
-  }
-
-  /* Even tighter spacing for very small screens */
-  .section3,
-  .section4 {
-    padding: 1.5rem 0;
-  }
-
-  .trade-items {
-    gap: 0.5rem;
-  }
-
-  .IconsS2 {
-    gap: 1.5rem;
-  }
-
-  .ContactGroup {
+    padding-left: 0;
     gap: 1rem;
   }
 
-  /* Contact items */
-  .ContactItem1, 
-  .ContactItem2, 
-  .ContactItem3 {
-    margin-bottom: 1.5rem;
+  .GetStartedButton,
+  .HowItWorksButton {
+    width: 90%;
+    font-size: 1rem;
   }
 
-  .ContactLabel,
-  .ContactLabel2,
-  .ContactLabel3 {
+  .card1, .card2, .card3 {
+    width: 90%;
+    height: auto;
+    min-height: 160px;
+    margin: 1rem auto;
+    padding: 1rem;
+  }
+
+  .icon2, .icon3 {
+    width: 50px;
+    margin-bottom: -20rem;
+  }
+
+  .IconsS2 {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .BottomGroup {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .bottom-logo {
+    width: 60%;
+    margin-top: 19rem;
+  }
+
+  .message {
     font-size: 1rem;
+    text-align: center;
+    max-width: 90%;
+  }
+
+  .FooterLinksRow {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+    transform: none;
+  }
+
+  .quickLinks,
+  .resourceLinks {
+    font-size: 1rem;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .ContactGroup {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .ContactItem1,
+  .ContactItem2,
+  .ContactItem3 {
+    transform: none;
   }
 }
