@@ -11,6 +11,7 @@
   font-weight: bold;
   color: #9B000A;
   margin-bottom: 0.5rem;
+  margin-top: 100px;
 }
 
 .page-subtitle {
@@ -222,6 +223,7 @@
   z-index: 999;
   padding: 1rem;
   overflow: hidden; /* 🚫 Remove scrollbars on the overlay */
+  margin-top: 15px;
 }
 
 .modal-content {
