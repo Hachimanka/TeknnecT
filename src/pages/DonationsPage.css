@@ -1,9 +1,8 @@
-/* === Layout === */
-.donation-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-family: Arial, sans-serif;
+.donations-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: Arial, sans-serif;
 }
 
 .donation-page-title {
