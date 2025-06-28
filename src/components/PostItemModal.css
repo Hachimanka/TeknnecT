@@ -79,12 +79,23 @@ textarea {
   height: 40px;
 }
 
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.type-category-container {
+  flex: 1;
+  min-width: 0; /* Prevents overflow */
+}
+
 .item-type-buttons {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
   margin-top: 0.3rem;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .type-button {
@@ -98,26 +109,193 @@ textarea {
   transition: 0.3s ease;
 }
 
-.type-button:hover:not(.active) {
-  background-color: #9B000A;
-  color: #ffc107;
+.type-button.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+  color: #999;
+  border-color: #ddd;
+}
+
+.type-button:hover:not(.active):not(.disabled) {
+  background-color: white;
+  color: #8B0000;
+  border-color: #8B0000;
+  box-shadow: none;
+}
+
+
+.type-button.disabled:hover {
+  background-color: #f5f5f5;
+  color: #999;
+}
+
+/* Active state for type buttons */
+.type-button.active {
+  background-color: #9B000A !important;
+  color: #FFBD00 !important;
+  border-color: #9B000A;
+  box-shadow: 0 2px 8px rgba(155, 0, 10, 0.3);
 }
 
 .upload-box {
   border: 2px dashed #ccc;
   border-radius: 6px;
-  padding: 0.6rem;
+  padding: 1rem; /* Increased padding for bigger upload box */
   font-size: 0.8rem;
   text-align: center;
   color: #888;
   cursor: pointer;
-  font-size: 0.8rem;
+  margin-top: 0.2rem;
+  min-height: 60px; /* Added minimum height for bigger upload box */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.upload-box.has-files {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.upload-box.drag-over {
+  border-color: #9B000A;
+  background-color: rgba(155, 0, 10, 0.05);
+  color: #9B000A;
+}
+
+.image-previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.image-preview-item {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid #ddd;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-image {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.remove-image:hover {
+  background: #cc0000;
+  transform: scale(1.1);
+}
+
+.add-more-button {
+  width: 50px;
+  height: 50px;
+  border: 2px dashed #9B000A;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9B000A;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-more-button:hover {
+  background-color: rgba(155, 0, 10, 0.1);
+  border-color: #7a0000;
 }
 
 .browse-files {
   color: #9B000A;
   font-weight: bold;
   cursor: pointer;
+}
+
+.selected-files {
+  margin-top: 0.5rem;
+  max-height: 80px;
+  overflow-y: auto;
+  display: none; /* Hidden since we now show previews in upload box */
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f5f5f5;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.2rem;
+  font-size: 0.7rem;
+}
+
+.file-name {
+  flex-grow: 1;
+  translate: true;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+}
+
+.remove-file {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.remove-file:hover {
+  background-color: #ff4444;
+  color: white;
 }
 
 .form-buttons {
@@ -130,7 +308,7 @@ textarea {
 .cancel-button,
 .post-button {
   padding: 0.35rem 0.7rem;
-  font-size: 0.75rem;
+  font-size: 0.75rem; /* Same font size for both buttons */
   border-radius: 6px;
   border: none;
   cursor: pointer;
@@ -143,6 +321,7 @@ textarea {
 
 .cancel-button:hover {
   background: #9B000A;
+  color: #ffc107;
 }
 
 .post-button {
@@ -153,6 +332,7 @@ textarea {
 
 .post-button:hover {
   background-color: #ffc107;
+  color: #9B000A;
 }
 
 @media (max-width: 600px) {
@@ -165,6 +345,19 @@ textarea {
   .type-button {
     font-size: 0.7rem;
     padding: 4px 6px;
+  }
+  
+  .form-row {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .type-category-container {
+    flex: none;
+  }
+  
+  .item-type-buttons {
+    justify-content: center;
   }
 }
 
@@ -190,6 +383,27 @@ body.dark-mode .upload-box {
   border-color: #555;
   color: #f0f0f0;
 }
+
+body.dark-mode .upload-box.drag-over {
+  border-color: #FF69B4;
+  background-color: rgba(255, 105, 180, 0.1);
+  color: #FF69B4;
+}
+
+body.dark-mode .image-preview-item {
+  border-color: #555;
+}
+
+body.dark-mode .add-more-button {
+  border-color: #FF69B4;
+  color: #FF69B4;
+}
+
+body.dark-mode .add-more-button:hover {
+  background-color: rgba(255, 105, 180, 0.1);
+  border-color: #ff1493;
+}
+
 body.dark-mode .type-button {
   background-color: #444;
   color: #f0f0f0;
@@ -207,6 +421,24 @@ body.dark-mode .type-button.active {
 body.dark-mode .type-button:hover:not(.active) {
   background-color: rgba(255, 189, 0, 0.15);
   text-decoration: none;
+}
+
+body.dark-mode .selected-files {
+  background-color: transparent;
+}
+
+body.dark-mode .file-item {
+  background-color: #444;
+  color: #f0f0f0;
+}
+
+body.dark-mode .remove-file {
+  color: #ccc;
+}
+
+body.dark-mode .remove-file:hover {
+  background-color: #ff4444;
+  color: white;
 }
 
 /* Yellow styling for buttons in dark mode */

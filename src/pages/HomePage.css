@@ -124,6 +124,8 @@ body {
 
 .section3 {
   background-image: url('../assets/RedBg.png');
+  height: 100vh;
+
 }
 
 .icon2 {
@@ -624,84 +626,100 @@ link{
   }
   
   .pageTitle {
-    font-size: 2rem;
-    transform: translateY(-3vh);
+    font-size: 1.8rem;
   }
   
   .TeknecT-Works {
-    font-size: 2rem;
-    transform: translateY(-12vh);
+    font-size: 1.6rem;
   }
-  .Work-as{
-    font-size: 1.2rem;
-    transform: translateY(-12vh);
-  }
+  
   .Section4Heading {
-    font-size: 2.2rem;
-    transform: translateY(15vh);
+    font-size: 1.6rem;
   }
 
   /* Text elements */
   .PostText {
     font-size: 1.2rem;
   }
+
+  .desc, .desc1 {
+    font-size: 0.9rem;
+  }
   
-  .desc{
-    font-size: 0.9rem;
-    transform: translateY(-3vh);
-  }
-  .desc1{
-    font-size: 0.9rem;
-    transform: translateY(-5vh);
-  }
-  .icon-group{
-    gap: 20px
-  }
   .ActionButtons {
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
   }
-  
+
   .GetStartedButton,
   .HowItWorksButton {
-    width: 80%;
-    margin: 0.5rem 0;
+    width: 90%;
+    font-size: 1rem;
   }
 
   /* Even tighter spacing for very small screens */
-  
+  .section3,
   .section4 {
     padding: 1.5rem 0;
-    overflow-y: hidden;
-    height: 1000px;
   }
-.section3{
-  height: 1310px;
-  overflow-y: hidden;
-}
+
   .trade-items {
     gap: 0.5rem;
   }
 
   .IconsS2 {
+    flex-direction: column;
+    align-items: center;
     gap: 1.5rem;
     transform: translateY(-18vh);
   }
 
+  .BottomGroup {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .bottom-logo {
+    width: 60%;
+    margin-top: 19rem;
+  }
+
+  .message {
+    font-size: 1rem;
+    text-align: center;
+    max-width: 90%;
+  }
+
+  .FooterLinksRow {
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+    transform: none;
+  }
+
+  .quickLinks,
+  .resourceLinks {
+    font-size: 1rem;
+    align-items: center;
+    margin: 0 auto;
+  }
+
   .ContactGroup {
-    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 2rem;
   }
 
   /* Contact items */
-  .ContactItem1{
-    margin-bottom: 1.5rem;
-  }
-  .ContactItem2,
+  .ContactItem1, 
+  .ContactItem2, 
   .ContactItem3 {
     margin-bottom: 1.5rem;
-    transform: translateX(-.2vh);
   }
+
   .ContactLabel,
   .ContactLabel2,
   .ContactLabel3 {

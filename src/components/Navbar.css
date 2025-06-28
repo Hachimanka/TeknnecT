@@ -1,29 +1,32 @@
-.navbar {
-  background-color: #9B000A; /* dark red */
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 1rem;
-  color: #FFBD00;
-  font-family: 'Arial', sans-serif;
-  /*background-image: url("../assets/logo1.png");*/
-  background-repeat: no-repeat;
-  background-position: -220px;
-  background-size: auto;
-  flex-wrap: nowrap; /* FORCE one line */
-  background-attachment: scroll;
-  overflow-x: auto;         /* allow horizontal scroll */
-  overflow-y: visible;      /* allow dropdown to appear */
+  .navbar {
+    background-color: #9B000A; /* dark red */
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    color: #FFBD00;
+    font-family: 'Arial', sans-serif;
+    /*background-image: url("../assets/logo1.png");*/
+    background-repeat: no-repeat;
+    background-position: -220px;
+    background-size: auto;
+    flex-wrap: nowrap; /* FORCE one line */
+    background-attachment: scroll;
+    overflow-x: auto;         /* allow horizontal scroll */
+    overflow-y: visible;      /* allow dropdown to appear */
+    scrollbar-width: thin; /* Options: auto | thin | none */
+    scrollbar-color: #FFBD00 transparent; /* thumb color | track color */
+    
+    /* Make navbar sticky */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
   
-  /* Make navbar sticky */
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 .navbar-left,
 .navbar-center,

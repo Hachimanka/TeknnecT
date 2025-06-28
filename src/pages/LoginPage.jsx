@@ -23,19 +23,29 @@ function LoginPage() {
     setShowPassword(!showPassword);
   };
 
- const handleLogin = async (e) => {
+ 
+
+const handleLogin = async (e) => {
   e.preventDefault();
   setError('');
 
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+
+    if (!userCredential.user.emailVerified) {
+      setError('❗ Please verify your email before logging in.');
+      return; // ⛔ Stop here, don't navigate
+    }
+
     console.log('✅ Login successful:', userCredential.user); // DEBUG LOG
-    navigate('/lost-found');
+    navigate('/lost-found'); // ✅ Allow login only if email is verified
+
   } catch (err) {
     console.error('❌ Login failed:', err); // DEBUG LOG
     setError('Invalid email or password');
   }
 };
+
 
 
   const handleOverlayClick = () => {
