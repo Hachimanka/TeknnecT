@@ -4,69 +4,68 @@ import LogoPlaceholder from '../assets/wakwak.png';
 import PostItemModal from '../components/PostItemModal';
 
 function TradePage() {
-  const [selectedItem, setSelectedItem] = useState(null);
-  const [showPostModal, setShowPostModal] = useState(false);
-  const [defaultItemType, setDefaultItemType] = useState('');
-  const [showChatModal, setShowChatModal] = useState(false);
-  const [message, setMessage] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-
-  const trades = [
-    { title: 'Textbooks for Trade', description: 'College textbooks in good condition.', image: LogoPlaceholder, user: 'Divan J.', profile: require('../assets/dj.jpg'), date: '2023-06-01' },
-    { title: 'Textbooks for Trade', description: 'College textbooks in good condition.', image: LogoPlaceholder, user: 'Divan J.', profile: require('../assets/dj.jpg'), date: '2023-06-01' },
-    { title: 'Textbooks for Trade', description: 'College textbooks in good condition.', image: LogoPlaceholder, user: 'Divan J.', profile: require('../assets/dj.jpg'), date: '2023-06-01' },
-    { title: 'Textbooks for Trade', description: 'College textbooks in good condition.', image: LogoPlaceholder, user: 'Divan J.', profile: require('../assets/dj.jpg'), date: '2023-06-01' },
-    { title: 'Textbooks for Trade', description: 'College textbooks in good condition.', image: LogoPlaceholder, user: 'Divan J.', profile: require('../assets/dj.jpg'), date: '2023-06-01' },
-    { title: 'Textbooks for Trade', description: 'College textbooks in good condition.', image: LogoPlaceholder, user: 'Divan J.', profile: require('../assets/dj.jpg'), date: '2023-06-01' },
-    { title: 'Calculator', description: 'Scientific calculator in working condition.', image: LogoPlaceholder, user: 'Mica H.', profile: require('../assets/dj.jpg'), date: '2023-06-05' }
-  ];
-
-  const openPostModal = (type) => {
-    setDefaultItemType(type);
-    setShowPostModal(true);
-  };
-
-  const closePostModal = () => {
-    setShowPostModal(false);
-    setDefaultItemType('');
-  };
-
-  const handleCardClick = (item) => {
-    setSelectedItem(item);
-  };
-
-  const closeModal = () => {
-    setSelectedItem(null);
-  };
-
   return (
     <main className="trade-page">
       <h1 className="page-title">Trade Items</h1>
-      <p className="page-subtitle">Have something to trade? Check out the latest trade offers!</p>
+      <p className="page-subtitle">Looking to trade items with fellow Technologians? Browse listings below!</p>
 
-      <section className="trade-items">
-        <div className="trade-card">
-          <h3 className="item-title">Guitar for Headphones</h3>
-          <p className="item-description">Looking to trade an acoustic guitar for good-quality headphones.</p>
+      <button className="item-action-button" onClick={openPostModal} style={{ padding: '12px 24px', marginBottom: '2rem' }}>
+        Post Trade Item
+      </button>
+
+      <section className="items-section">
+        <h2 className="section-title">Available Items</h2>
+        <div className="items-grid">
+          {items.map((item, index) => (
+            <div
+              key={index}
+              className="item-card"
+              onClick={() => handleCardClick(item)}
+            >
+              <div className="item-badge">{item.status}</div>
+              <div className="item-image">
+                <img src={item.image} alt="placeholder" />
+              </div>
+              <div className="item-info">
+                <div>
+                  <h3 className="item-title">{item.title}</h3>
+                  <p className="item-description">{item.description}</p>
+                  <p className="item-date">Uploaded: {item.uploadDate}</p>
+                </div>
+                <div className="item-footer">
+                  <div className="item-user">
+                    <img src={item.profile} alt="profile" className="profile-pic" />
+                    <span>{item.user}</span>
+                  </div>
+                  <button className="item-action-button">
+                    Trade Offer
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-
-        <div className="trade-card">
-          <h3 className="item-title">Books for Sketch Pads</h3>
-          <p className="item-description">Set of 5 novels to trade for unused sketch pads or art supplies.</p>
-        </div>
-
-        <div className="trade-card">
-          <h3 className="item-title">Old Phone for Backpack</h3>
-          <p className="item-description">Working Samsung phone — trade for a sturdy backpack.</p>
-        </div>
-
-        <div className="trade-card">
-          <h3 className="item-title">Shoes for Basketball</h3>
-          <p className="item-description">Almost new size 9 shoes — want to trade for basketball.</p>
-        </div>
-
-        {/* Add more trade-card here */}
       </section>
+
+      {/* View Item Modal */}
+      {selectedItem && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="modal-close" onClick={closeModal}>×</button>
+            <h2>{selectedItem.title}</h2>
+            <img src={selectedItem.image} alt="Enlarged item" className="modal-image" />
+            <p>{selectedItem.description}</p>
+            <p><strong>Date uploaded:</strong> {selectedItem.uploadDate}</p>
+            <p><strong>Posted by:</strong> {selectedItem.user}</p>
+            <button className="item-action-button" style={{ marginTop: '1rem' }}>
+              Make Trade Offer
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Post Item Modal */}
+      {showPostModal && <PostItemModal onClose={closePostModal} />}
     </main>
   );
 }

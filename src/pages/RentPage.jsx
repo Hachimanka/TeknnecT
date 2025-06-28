@@ -37,21 +37,21 @@ function RentPage() {
                   <img src={item.image} alt="item" />
                 </div>
 
-                <div className="rent-info">
-                  <h3 className="item-title">{item.title}</h3>
-                  <p className="item-description">{item.description}</p>
-                  <div className="item-footer">
-                    <div className="item-user">
-                      <img src={item.profile} alt="profile" className="profile-pic" />
-                      <span>{item.user}</span>
-                    </div>
-                    <button className="rent-action-button">Rent Item</button>
+              <div className="rent-info">
+                <h3 className="item-title">{item.title}</h3>
+                <p className="item-description">{item.description}</p>
+                <div className="item-footer">
+                  <div className="item-user">
+                    <img src={item.profile} alt="profile" className="profile-pic" />
+                    <span>{item.user}</span>
                   </div>
+                  <button className="rent-action-button">Rent Item</button>
                 </div>
               </div>
-            ))}
-          </div>
-        </section>
+            </div>
+          ))}
+        </div>
+      </section>
 
         {selectedItem && (
           <div className="modal-overlay" onClick={closeModal}>
