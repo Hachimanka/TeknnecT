@@ -194,7 +194,8 @@
   margin-top: 5px;
   margin-bottom: 0.5rem;
   display: -webkit-box;
-  -webkit-line-clamp: 1;         /* Show only 2 lines */
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
