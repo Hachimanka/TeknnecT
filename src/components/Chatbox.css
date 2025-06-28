@@ -14,7 +14,6 @@
   flex-direction: column;
   font-family: 'Poppins', sans-serif;
   z-index: 1000;
-
 }
 
 .messages-pane,
@@ -134,29 +133,66 @@ h2 {
   padding-right: 5px;
 }
 
+/* ✅ CHAT BUBBLE STYLES FOR MESSAGE IDENTIFICATION */
 .message {
   max-width: 70%;
-  padding: 8px 12px;
-  background: #feca1f;
-  border-radius: 10px;
+  padding: 12px 16px;
+  border-radius: 18px;
   margin-bottom: 10px;
   font-size: 14px;
   position: relative;
+  word-wrap: break-word;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Left messages (received) - Gray bubble with tail */
 .message.left {
+  background: #f0f0f0;
+  color: #333;
   align-self: flex-start;
+  border-bottom-left-radius: 4px;
 }
 
+.message.left::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-right-color: #f0f0f0;
+  border-left: 0;
+  border-bottom: 0;
+}
+
+/* Right messages (user's) - Yellow bubble with tail */
 .message.right {
+  background: #feca1f;
+  color: #333;
   align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.message.right::before {
+  content: '';
+  position: absolute;
+  right: -8px;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-left-color: #feca1f;
+  border-right: 0;
+  border-bottom: 0;
 }
 
 .message span {
   display: block;
   font-size: 10px;
   color: gray;
-  margin-top: 2px;
+  margin-top: 6px;
+  opacity: 0.7;
 }
 
 .chat-input {
@@ -190,16 +226,20 @@ h2 {
 .chat-message-row {
   display: flex;
   align-items: flex-end;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
+  width: 100%;
 }
 
 .chat-message-row.left {
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
 
 .chat-message-row.right {
   flex-direction: row;
   justify-content: flex-end;
+  align-items: flex-end;
 }
 
 .chat-avatar {
@@ -208,6 +248,9 @@ h2 {
   border-radius: 50%;
   margin: 0 8px;
   object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  align-self: flex-end;
 }
 
 /* ✅ Mobile screen support */
@@ -220,19 +263,168 @@ h2 {
     border-radius: 20px;
   }
 
+  .chat-messages {
+    padding-right: 2px;
+  }
+
+  .chat-message-row {
+    margin-bottom: 10px;
+  }
+
+  .chat-message-row.left {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
+  }
+
+  .chat-message-row.right {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+
+  .chat-avatar {
+    width: 25px;
+    height: 25px;
+    margin: 0 4px;
+    align-self: flex-end;
+  }
+
+  .message {
+    max-width: calc(100% - 40px);
+    font-size: 13px;
+    padding: 8px 45px;
+  }
+
+ 
+
+  /* Make bubble tails connect directly to avatars */
+  .message.left::before {
+    left: -2px;
+    border-width: 4px;
+    border-right-color: #f0f0f0;
+
+  }
+
+  .message.right::before {
+    right: -2px;
+    border-width: 4px;
+    border-left-color: #feca1f;
+  }
+
   .chat-header strong {
     font-size: 14px;
   }
 
   .chat-input input {
     font-size: 13px;
+    padding: 8px;
   }
 
   .chat-input button {
     font-size: 16px;
+    padding: 0 15px;
   }
+}
 
-  .message {
-    font-size: 13px;
-  }
+/* Post reference within message */
+.message-post-reference {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+/* For received messages (different background) */
+.message.left .message-post-reference {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.post-ref-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.post-status-badge {
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.post-status-badge.lost {
+  background: #fee;
+  color: #c53030;
+  border: 1px solid #feb2b2;
+}
+
+.post-status-badge.found {
+  background: #f0fff4;
+  color: #38a169;
+  border: 1px solid #9ae6b4;
+}
+
+.post-ref-title {
+  font-weight: 600;
+  color: inherit;
+  font-size: 11px;
+}
+
+.post-ref-thumbnail {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin: 4px 0;
+  float: right;
+}
+
+.post-ref-details {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.post-ref-details small {
+  color: inherit;
+  opacity: 0.8;
+  font-size: 10px;
+}
+
+/* Message content styling */
+.message-content {
+  word-wrap: break-word;
+  line-height: 1.4;
+}
+
+.message-timestamp {
+  font-size: 11px;
+  opacity: 0.7;
+  margin-top: 4px;
+  display: block;
+}
+
+/* Ensure the message structure works well */
+.message {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Alternative simpler style if the above is too complex */
+.simple-post-indicator {
+  font-size: 10px;
+  opacity: 0.8;
+  font-style: italic;
+  margin-bottom: 4px;
+  padding: 2px 4px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  display: inline-block;
 }

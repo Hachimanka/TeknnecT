@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { db, storage, auth } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './PostItemModal.css';
 
 function PostItemModal({ onClose, defaultType }) {
@@ -9,9 +12,14 @@ function PostItemModal({ onClose, defaultType }) {
     };
   }, []);
 
-  const [selectedType, setSelectedType] = useState(
-    defaultType ? defaultType.toLowerCase() : ''
-  );
+  const [selectedType, setSelectedType] = useState(defaultType ? defaultType.toLowerCase() : '');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [location, setLocation] = useState('');
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (defaultType) {
@@ -23,26 +31,86 @@ function PostItemModal({ onClose, defaultType }) {
     setSelectedType(type);
   };
 
-  const [images, setImages] = useState([]);
-  const fileInputRef = useRef(null);
-
   const handleImageUpload = (e) => {
-  const files = Array.from(e.target.files);
-  const newImages = files.map((file) => ({
-    file,
-    preview: URL.createObjectURL(file),
-  }));
-  setImages((prev) => [...prev, ...newImages]);
-  fileInputRef.current.value = null; // Reset input
-};
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
 
-  const handleRemoveImage = (indexToRemove) => {
-    setImages((prev) => {
-      const updated = [...prev];
-      URL.revokeObjectURL(updated[indexToRemove].preview); // free memory
-      updated.splice(indexToRemove, 1);
-      return updated;
+    const newImages = files.map((file) => ({
+      id: Date.now() + Math.random(), // Unique ID for each image
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    setImages((prev) => [...prev, ...newImages]);
+    
+    // Reset the file input immediately
+    e.target.value = '';
+  };
+
+  const handleRemoveImage = (idToRemove) => {
+    setImages((prevImages) => {
+      return prevImages.filter((img) => {
+        if (img.id === idToRemove) {
+          // Revoke the URL for the removed image
+          URL.revokeObjectURL(img.preview);
+          return false;
+        }
+        return true;
+      });
     });
+  };
+
+  const handleBrowseClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleAddMoreClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handlePost = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const imageUrls = await Promise.all(
+        images.map(async (img) => {
+          const imageRef = ref(storage, `items/${Date.now()}-${img.file.name}`);
+          await uploadBytes(imageRef, img.file);
+          return await getDownloadURL(imageRef);
+        })
+      );
+
+      const user = auth.currentUser;
+
+      await addDoc(collection(db, 'items'), {
+        title,
+        description,
+        category,
+        location,
+        type: selectedType,
+        imageUrls,
+        uid: user?.uid || '',
+        email: user?.email || '',
+        createdAt: serverTimestamp(),
+      });
+
+      alert('✅ Item posted successfully!');
+      onClose();
+    } catch (err) {
+      console.error('❌ Error posting item:', err);
+      alert('Error posting item. Try again.');
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -52,15 +120,27 @@ function PostItemModal({ onClose, defaultType }) {
           <span className="plus-icon">➕</span> Post an Item
         </h2>
 
-        <form className="post-form">
+        <form className="post-form" onSubmit={handlePost}>
           <label className="form-label">
             <span className="form-icon">🏷️</span> Item Title
-            <input type="text" placeholder="What are you posting?" />
+            <input
+              type="text"
+              placeholder="What are you posting?"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              required
+            />
           </label>
 
           <label className="form-label">
             <span className="form-icon">💬</span> Description
-            <textarea placeholder="Describe your item in detail..." rows="4" />
+            <textarea
+              placeholder="Describe your item in detail..."
+              rows="4"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
           </label>
 
           <div className="form-row">
@@ -73,8 +153,7 @@ function PostItemModal({ onClose, defaultType }) {
                     type="button"
                     className={`type-button ${selectedType === type ? 'active' : ''} ${
                       defaultType &&
-                      (defaultType.toLowerCase() === 'lost' ||
-                        defaultType.toLowerCase() === 'found') &&
+                      (defaultType.toLowerCase() === 'lost' || defaultType.toLowerCase() === 'found') &&
                       selectedType !== type
                         ? 'disabled'
                         : ''
@@ -82,8 +161,7 @@ function PostItemModal({ onClose, defaultType }) {
                     onClick={() => handleTypeClick(type)}
                     disabled={
                       defaultType &&
-                      (defaultType.toLowerCase() === 'lost' ||
-                        defaultType.toLowerCase() === 'found') &&
+                      (defaultType.toLowerCase() === 'lost' || defaultType.toLowerCase() === 'found') &&
                       selectedType !== type
                     }
                   >
@@ -95,8 +173,8 @@ function PostItemModal({ onClose, defaultType }) {
 
             <label className="form-label type-category-container">
               <span className="form-icon">📁</span> Category
-              <select>
-                <option>Select category</option>
+              <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+                <option value="">Select category</option>
                 <option>Electronics</option>
                 <option>Books</option>
                 <option>Clothing</option>
@@ -107,69 +185,79 @@ function PostItemModal({ onClose, defaultType }) {
 
           <label className="form-label">
             <span className="form-icon">📍</span> Location
-            <input type="text" placeholder="Enter location" />
+            <input
+              type="text"
+              placeholder="Enter location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+            />
           </label>
 
           <label className="form-label">
-  <span className="form-icon">🖼️</span> Upload Images
-  <div
-    className={`upload-box ${images.length > 0 ? 'has-files' : ''}`}
-    onClick={(e) => {
-      if (e.target.classList.contains('browse-files')) {
-        fileInputRef.current.click();
-      }
-    }}
-  >
-    {images.length === 0 ? (
-      <>
-        Drag & drop or <span className="browse-files"> Browse Files</span>
-      </>
-    ) : (
-      <div className="image-previews">
-        {images.map((img, index) => (
-          <div key={index} className="image-preview-item">
-            <img
-              src={img.preview}
-              alt={`upload-${index}`}
-              className="preview-image"
-            />
-            <button
-              type="button"
-              className="remove-image"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleRemoveImage(index);
-              }}
-            >
-              ×
-            </button>
-          </div>
-        ))}
-        <div className="add-more-button" onClick={(e) => {
-          e.stopPropagation();
-          fileInputRef.current.click();
-        }}>
-          +
-        </div>
-      </div>
-    )}
-    <input
-      type="file"
-      accept="image/*"
-      multiple
-      style={{ display: 'none' }}
-      ref={fileInputRef}
-      onChange={handleImageUpload}
-    />
-  </div>
-</label>
+            <span className="form-icon">🖼️</span> Upload Images
+            <div className={`upload-box ${images.length > 0 ? 'has-files' : ''}`}>
+              {images.length === 0 ? (
+                <>
+                  Drag & drop or{' '}
+                  <span
+                    className="browse-files"
+                    onClick={handleBrowseClick}
+                  >
+                    Browse Files
+                  </span>
+                </>
+              ) : (
+                <div className="image-previews">
+                  {images.map((img) => (
+                    <div 
+                      key={img.id}
+                      className="image-preview-item"
+                    >
+                      <img
+                        src={img.preview}
+                        alt={`upload-${img.id}`}
+                        className="preview-image"
+                      />
+                      <button
+                        type="button"
+                        className="remove-image"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleRemoveImage(img.id);
+                        }}
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className="add-more-button"
+                    onClick={handleAddMoreClick}
+                  >
+                    +
+                  </button>
+                </div>
+              )}
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+              />
+            </div>
+          </label>
 
           <div className="form-buttons">
             <button type="button" className="cancel-button" onClick={onClose}>
               ✖ Cancel
             </button>
-            <button type="submit" className="post-button">
-              ➤ Post Item
+            <button type="submit" className="post-button" disabled={loading}>
+              {loading ? 'Posting...' : '➤ Post Item'}
             </button>
           </div>
         </form>
@@ -178,4 +266,4 @@ function PostItemModal({ onClose, defaultType }) {
   );
 }
 
-export default PostItemModal; 
+export default PostItemModal;
