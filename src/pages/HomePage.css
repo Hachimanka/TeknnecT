@@ -455,6 +455,7 @@ link{
     flex-direction: column;
     justify-content: space-between;
     padding: 3rem 0;
+    height: 1450px;
   }
 
   /* Title sizes */
@@ -587,6 +588,7 @@ link{
   .icon-group {
     width: 90%;
     margin-bottom: -1rem;
+    transform: translateY(15vh);
   }
 
   /* Icon sizing */
@@ -604,7 +606,7 @@ link{
     min-height: 140px;
     margin: 0 auto 1.5rem;
     padding: 1rem;
-    transform: translateY(-8vh);
+    transform: translateY(1vh);
   }
 
   /* Bottom content */
@@ -634,7 +636,8 @@ link{
   }
   
   .Section4Heading {
-    font-size: 1.6rem;
+    font-size: 1.9rem;
+    transform: translateY(25vh);
   }
 
   /* Text elements */
@@ -661,6 +664,7 @@ link{
   .section3,
   .section4 {
     padding: 1.5rem 0;
+    overflow-y: hidden;
   }
 
   .trade-items {
@@ -711,6 +715,7 @@ link{
     align-items: center;
     gap: 2rem;
     margin-top: 2rem;
+    transform: translateY(30vh);
   }
 
   /* Contact items */
@@ -719,7 +724,10 @@ link{
   .ContactItem3 {
     margin-bottom: 1.5rem;
   }
-
+  .ContactItem2, 
+  .ContactItem3{
+    transform: translateX(.1vh);
+  }
   .ContactLabel,
   .ContactLabel2,
   .ContactLabel3 {
@@ -727,19 +735,22 @@ link{
   }
   .bottom-logo{
     width: 130px;
+    transform: translateX(5vh);
+    width: 170px;
   }
   .LogoWithMessage{
-    transform: translateY(8vh);
+    transform: translateY(2vh);
   }
   .quickLinks{
     margin-left:70px;
-    transform: translateY(7vh);
+    transform: translateX(-10vh);
   }
   .resourceLinks{
     margin-left: -35px;
-    transform: translateY(7vh);
+    transform: translateY(-27.5vh);
+    margin-left: 150px;
   }
   .resources{
-    margin-bottom: 30px;
+    margin-left: 0;
   }
 }
