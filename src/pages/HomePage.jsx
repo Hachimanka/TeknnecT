@@ -30,10 +30,6 @@ function HomePage() {
       {/* Section 1 with HomePage background */}
       <section className="Section section1">
         <div className="HomePage">
-          <header className="Header">
-            <button className="BrowseButton">Browse Marketplace</button>
-            <button className="PostButton">Post an Item</button>
-          </header>
 
           <main className="MainContent">
             <h1 className="MainTitle">
