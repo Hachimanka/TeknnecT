@@ -3,6 +3,7 @@ import '../components/Chatbox.css';
 import { FaArrowLeft } from 'react-icons/fa';
 import Profile1 from '../assets/dj.jpg';
 import { auth, db } from '../firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import {
   collection,
   query,
@@ -20,21 +21,42 @@ import {
 } from 'firebase/firestore';
 
 const ChatBox = () => {
-  const currentUser = auth.currentUser;
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
   const [activeChat, setActiveChat] = useState(null);
   const [filterMode, setFilterMode] = useState('all');
   const [chatMessages, setChatMessages] = useState([]);
   const [messageText, setMessageText] = useState('');
   const [userProfiles, setUserProfiles] = useState([]);
-  const [currentUserProfile, setCurrentUserProfile] = useState(null); // Added this state
+  const [currentUserProfile, setCurrentUserProfile] = useState(null);
   const [searchText, setSearchText] = useState('');
   const [lastMessages, setLastMessages] = useState({});
   const [unreadCounts, setUnreadCounts] = useState({});
   const messagesEndRef = useRef(null);
 
+  // 🔐 Authentication state listener
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
+      setIsAuthLoading(false);
+      
+      if (!user) {
+        // Clear all state when user logs out
+        setActiveChat(null);
+        setChatMessages([]);
+        setUserProfiles([]);
+        setCurrentUserProfile(null);
+        setLastMessages({});
+        setUnreadCounts({});
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   // 👤 Load current user's profile
   useEffect(() => {
-    if (!currentUser) return;
+    if (!currentUser || isAuthLoading) return;
 
     const fetchCurrentUserProfile = async () => {
       try {
@@ -63,11 +85,57 @@ const ChatBox = () => {
     };
 
     fetchCurrentUserProfile();
-  }, [currentUser]);
+  }, [currentUser, isAuthLoading]);
+
+  // 📋 Fetch users from existing chats instead of all users
+  useEffect(() => {
+    if (!currentUser || isAuthLoading) return;
+
+    const fetchChatPartners = async () => {
+      try {
+        // Get all chats where current user is a participant
+        const chatsQuery = query(
+          collection(db, 'chats'),
+          where('users', 'array-contains', currentUser.uid)
+        );
+        
+        const chatsSnapshot = await getDocs(chatsQuery);
+        const partnerIds = new Set();
+        
+        chatsSnapshot.docs.forEach(doc => {
+          const users = doc.data().users || [];
+          users.forEach(uid => {
+            if (uid !== currentUser.uid) {
+              partnerIds.add(uid);
+            }
+          });
+        });
+
+        // Fetch profiles for chat partners
+        const partners = [];
+        for (const uid of partnerIds) {
+          try {
+            const userDoc = await getDoc(doc(db, 'users', uid));
+            if (userDoc.exists()) {
+              partners.push({ uid, ...userDoc.data() });
+            }
+          } catch (error) {
+            console.error(`Error fetching user ${uid}:`, error);
+          }
+        }
+
+        setUserProfiles(partners);
+      } catch (error) {
+        console.error('Error fetching chat partners:', error);
+      }
+    };
+
+    fetchChatPartners();
+  }, [currentUser, isAuthLoading]);
 
   // 🔁 Load messages from Firestore
   useEffect(() => {
-    if (!activeChat || !currentUser) return;
+    if (!activeChat || !currentUser || isAuthLoading) return;
 
     const uid1 = currentUser.uid;
     const uid2 = activeChat.uid;
@@ -77,7 +145,7 @@ const ChatBox = () => {
 
     const unsub = onSnapshot(q, (snapshot) => {
       const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      console.log('Loaded messages:', msgs); // Debug log
+      console.log('Loaded messages:', msgs);
       setChatMessages(msgs);
       
       // Mark messages as read when viewing chat
@@ -86,107 +154,115 @@ const ChatBox = () => {
       setTimeout(() => {
         if (messagesEndRef.current) messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
       }, 100);
+    }, (error) => {
+      console.error('Error listening to messages:', error);
     });
 
     return () => unsub();
-  }, [activeChat]);
+  }, [activeChat, currentUser, isAuthLoading]);
 
-  // 🔃 Fetch user profiles and their last messages
+  // 🔃 Listen for last messages and unread counts
   useEffect(() => {
-    if (!currentUser) return;
+    if (!currentUser || isAuthLoading || userProfiles.length === 0) return;
 
-    const fetchUsers = async () => {
-      const snapshot = await getDocs(collection(db, 'users'));
-      const users = snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
-      setUserProfiles(users);
-    };
-    fetchUsers();
+    const unsubscribers = [];
 
-    // Listen for last messages and unread counts for all users
-    const fetchLastMessages = () => {
-      const otherUsers = userProfiles.filter(user => user.uid !== currentUser.uid);
-      
-      otherUsers.forEach(user => {
-        const uid1 = currentUser.uid;
-        const uid2 = user.uid;
-        const chatId = uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
+    userProfiles.forEach(user => {
+      const uid1 = currentUser.uid;
+      const uid2 = user.uid;
+      const chatId = uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
 
-        // Get last message
-        const lastMessageQuery = query(
-          collection(db, 'chats', chatId, 'messages'),
-          orderBy('timestamp', 'desc'),
-          limit(1)
-        );
+      // Get last message
+      const lastMessageQuery = query(
+        collection(db, 'chats', chatId, 'messages'),
+        orderBy('timestamp', 'desc'),
+        limit(1)
+      );
 
-        onSnapshot(lastMessageQuery, (snapshot) => {
-          if (!snapshot.empty) {
-            const lastMsg = snapshot.docs[0].data();
-            setLastMessages(prev => ({
-              ...prev,
-              [user.uid]: lastMsg
-            }));
-          }
-        });
-
-        // Get unread count
-        const unreadQuery = query(
-          collection(db, 'chats', chatId, 'messages'),
-          where('sender', '!=', currentUser.uid),
-          where('read', '==', false)
-        );
-
-        onSnapshot(unreadQuery, (snapshot) => {
-          setUnreadCounts(prev => ({
+      const lastMsgUnsub = onSnapshot(lastMessageQuery, (snapshot) => {
+        if (!snapshot.empty) {
+          const lastMsg = snapshot.docs[0].data();
+          setLastMessages(prev => ({
             ...prev,
-            [user.uid]: snapshot.size
+            [user.uid]: lastMsg
           }));
-        });
+        }
+      }, (error) => {
+        console.error(`Error listening to last message for ${user.uid}:`, error);
       });
-    };
 
-    if (userProfiles.length > 0) {
-      fetchLastMessages();
-    }
-  }, [userProfiles, currentUser]);
+      // Get unread count
+      const unreadQuery = query(
+        collection(db, 'chats', chatId, 'messages'),
+        where('sender', '!=', currentUser.uid),
+        where('read', '==', false)
+      );
+
+      const unreadUnsub = onSnapshot(unreadQuery, (snapshot) => {
+        setUnreadCounts(prev => ({
+          ...prev,
+          [user.uid]: snapshot.size
+        }));
+      }, (error) => {
+        console.error(`Error listening to unread count for ${user.uid}:`, error);
+      });
+
+      unsubscribers.push(lastMsgUnsub, unreadUnsub);
+    });
+
+    return () => {
+      unsubscribers.forEach(unsub => unsub());
+    };
+  }, [userProfiles, currentUser, isAuthLoading]);
 
   // Mark messages as read
   const markMessagesAsRead = async (chatId) => {
-    const unreadQuery = query(
-      collection(db, 'chats', chatId, 'messages'),
-      where('sender', '!=', currentUser.uid),
-      where('read', '==', false)
-    );
+    if (!currentUser) return;
 
-    const snapshot = await getDocs(unreadQuery);
-    const batch = [];
-    
-    snapshot.docs.forEach(docRef => {
-      batch.push(updateDoc(docRef.ref, { read: true }));
-    });
+    try {
+      const unreadQuery = query(
+        collection(db, 'chats', chatId, 'messages'),
+        where('sender', '!=', currentUser.uid),
+        where('read', '==', false)
+      );
 
-    await Promise.all(batch);
+      const snapshot = await getDocs(unreadQuery);
+      const batch = [];
+      
+      snapshot.docs.forEach(docRef => {
+        batch.push(updateDoc(docRef.ref, { read: true }));
+      });
+
+      await Promise.all(batch);
+    } catch (error) {
+      console.error('Error marking messages as read:', error);
+    }
   };
 
   // 📨 Send a message
   const sendMessage = async () => {
-    if (!messageText.trim() || !activeChat) return;
+    if (!messageText.trim() || !activeChat || !currentUser) return;
 
-    const uid1 = currentUser.uid;
-    const uid2 = activeChat.uid;
-    const chatId = uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
+    try {
+      const uid1 = currentUser.uid;
+      const uid2 = activeChat.uid;
+      const chatId = uid1 < uid2 ? `${uid1}_${uid2}` : `${uid2}_${uid1}`;
 
-    await setDoc(doc(db, 'chats', chatId), {
-      users: [uid1, uid2]
-    }, { merge: true });
+      await setDoc(doc(db, 'chats', chatId), {
+        users: [uid1, uid2]
+      }, { merge: true });
 
-    await addDoc(collection(db, 'chats', chatId, 'messages'), {
-      sender: uid1,
-      text: messageText,
-      timestamp: serverTimestamp(),
-      read: false
-    });
+      await addDoc(collection(db, 'chats', chatId, 'messages'), {
+        sender: uid1,
+        text: messageText,
+        timestamp: serverTimestamp(),
+        read: false
+      });
 
-    setMessageText('');
+      setMessageText('');
+    } catch (error) {
+      console.error('Error sending message:', error);
+    }
   };
 
   // Format timestamp for message preview
@@ -267,7 +343,6 @@ const ChatBox = () => {
   // Get filtered users and sort so unread appear at top
   const getFilteredUsers = () => {
     let filteredUsers = userProfiles
-      .filter(user => user.uid !== currentUser?.uid)
       .filter(user =>
         user.name?.toLowerCase().includes(searchText.toLowerCase()) ||
         user.email?.toLowerCase().includes(searchText.toLowerCase())
@@ -316,6 +391,16 @@ const ChatBox = () => {
 
     return preview;
   };
+
+  // Show loading while authentication is being determined
+  if (isAuthLoading) {
+    return <div className="chatbox-container">Loading...</div>;
+  }
+
+  // Show login prompt if not authenticated
+  if (!currentUser) {
+    return <div className="chatbox-container">Please log in to access messages.</div>;
+  }
 
   return (
     <div className="chatbox-container">

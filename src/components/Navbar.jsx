@@ -2,7 +2,7 @@ import { useRef, useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaComments, FaUserCircle, FaChevronDown } from 'react-icons/fa';
 import { auth, db, storage } from '../firebase';
-import { doc, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, updateDoc, collection, query, where, onSnapshot, getDocs } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './Navbar.css';
 import PostItemModal from './PostItemModal';
@@ -16,6 +16,7 @@ function Navbar() {
   const [user, setUser] = useState(null);
   const [photoURL, setPhotoURL] = useState(null);
   const [showChatBox, setShowChatBox] = useState(false);
+  const [totalUnreadCount, setTotalUnreadCount] = useState(0);
   const chatBoxRef = useRef(null);
   const profileMenuRef = useRef(null);
   const chatButtonRef = useRef(null);
@@ -61,11 +62,126 @@ function Navbar() {
         } catch (error) {
           console.error('Error fetching user data:', error);
         }
+      } else {
+        // Clear unread count when user logs out
+        setTotalUnreadCount(0);
       }
     });
 
     return () => unsubscribe();
   }, []);
+
+  // 🔔 Listen for unread messages count
+  useEffect(() => {
+    if (!user) {
+      setTotalUnreadCount(0);
+      return;
+    }
+
+    const setupUnreadListener = async () => {
+      try {
+        // Get all chats where current user is a participant
+        const chatsQuery = query(
+          collection(db, 'chats'),
+          where('users', 'array-contains', user.uid)
+        );
+        
+        const chatsSnapshot = await getDocs(chatsQuery);
+        const unsubscribers = [];
+
+        chatsSnapshot.docs.forEach(chatDoc => {
+          const chatId = chatDoc.id;
+          
+          // Listen for unread messages in each chat
+          const unreadQuery = query(
+            collection(db, 'chats', chatId, 'messages'),
+            where('sender', '!=', user.uid),
+            where('read', '==', false)
+          );
+
+          const unsubscribe = onSnapshot(unreadQuery, (snapshot) => {
+            // Update the total unread count
+            let totalUnread = 0;
+            
+            // We need to recalculate total from all chats
+            chatsSnapshot.docs.forEach(async (chatDocForCount) => {
+              const chatIdForCount = chatDocForCount.id;
+              const unreadQueryForCount = query(
+                collection(db, 'chats', chatIdForCount, 'messages'),
+                where('sender', '!=', user.uid),
+                where('read', '==', false)
+              );
+              
+              const unreadSnapshot = await getDocs(unreadQueryForCount);
+              totalUnread += unreadSnapshot.size;
+              
+              // Set the total after processing all chats
+              setTotalUnreadCount(totalUnread);
+            });
+          }, (error) => {
+            console.error('Error listening to unread messages:', error);
+          });
+
+          unsubscribers.push(unsubscribe);
+        });
+
+        // Return cleanup function
+        return () => {
+          unsubscribers.forEach(unsub => unsub());
+        };
+      } catch (error) {
+        console.error('Error setting up unread listener:', error);
+      }
+    };
+
+    setupUnreadListener();
+  }, [user]);
+
+  // Alternative simpler approach for unread count
+  useEffect(() => {
+    if (!user) {
+      setTotalUnreadCount(0);
+      return;
+    }
+
+    const updateUnreadCount = async () => {
+      try {
+        // Get all chats where current user is a participant
+        const chatsQuery = query(
+          collection(db, 'chats'),
+          where('users', 'array-contains', user.uid)
+        );
+        
+        const chatsSnapshot = await getDocs(chatsQuery);
+        let totalUnread = 0;
+
+        // Count unread messages in each chat
+        for (const chatDoc of chatsSnapshot.docs) {
+          const chatId = chatDoc.id;
+          const unreadQuery = query(
+            collection(db, 'chats', chatId, 'messages'),
+            where('sender', '!=', user.uid),
+            where('read', '==', false)
+          );
+          
+          const unreadSnapshot = await getDocs(unreadQuery);
+          totalUnread += unreadSnapshot.size;
+        }
+
+        setTotalUnreadCount(totalUnread);
+      } catch (error) {
+        console.error('Error updating unread count:', error);
+      }
+    };
+
+    // Update count immediately
+    updateUnreadCount();
+
+    // Set up interval to update count periodically (every 30 seconds)
+    const interval = setInterval(updateUnreadCount, 30000);
+
+    return () => clearInterval(interval);
+  }, [user]);
 
   // ✅ Helper Functions
   const isActiveLink = (path) => {
@@ -151,8 +267,14 @@ function Navbar() {
             title="Messages"
             onClick={() => setShowChatBox((prev) => !prev)}
             ref={chatButtonRef}
+            style={{ position: 'relative' }}
           >
             <FaComments size={24} />
+            {totalUnreadCount > 0 && (
+              <span className="message-badge">
+                {totalUnreadCount > 99 ? '99+' : totalUnreadCount}
+              </span>
+            )}
           </div>
           <button className="post-item-button" onClick={() => setShowModal(true)}>
             Post Item
