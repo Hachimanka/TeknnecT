@@ -20,6 +20,7 @@ function PostItemModal({ onClose, defaultType }) {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
 
   useEffect(() => {
     if (defaultType) {
@@ -28,7 +29,10 @@ function PostItemModal({ onClose, defaultType }) {
   }, [defaultType]);
 
   const handleTypeClick = (type) => {
-    setSelectedType(type);
+    // Only allow changing if no defaultType is set, or if clicking on the same type
+    if (!defaultType || defaultType.toLowerCase() === type) {
+      setSelectedType(type);
+    }
   };
 
   const handleImageUpload = (e) => {
@@ -44,6 +48,22 @@ function PostItemModal({ onClose, defaultType }) {
     setImages((prev) => [...prev, ...newImages]);
     
     // Reset the file input immediately
+    e.target.value = '';
+  };
+
+  const handleCameraCapture = (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    const newImages = files.map((file) => ({
+      id: Date.now() + Math.random(), // Unique ID for each image
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    setImages((prev) => [...prev, ...newImages]);
+    
+    // Reset the camera input immediately
     e.target.value = '';
   };
 
@@ -65,6 +85,130 @@ function PostItemModal({ onClose, defaultType }) {
     e.stopPropagation();
     if (fileInputRef.current) {
       fileInputRef.current.click();
+    }
+  };
+
+  const handleCameraClick = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Check if browser supports camera access
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        // Request camera access directly
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: 'environment' } // Use back camera on mobile
+        });
+        
+        // Create a video element to capture the frame
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.autoplay = true;
+        video.playsInline = true;
+        
+        // Create modal overlay for camera
+        const cameraModal = document.createElement('div');
+        cameraModal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.9);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          z-index: 2000;
+        `;
+        
+        // Style video
+        video.style.cssText = `
+          max-width: 90%;
+          max-height: 70%;
+          border-radius: 10px;
+        `;
+        
+        // Create capture button
+        const captureBtn = document.createElement('button');
+        captureBtn.innerHTML = '📷 Capture Photo';
+        captureBtn.style.cssText = `
+          margin-top: 20px;
+          padding: 15px 30px;
+          font-size: 18px;
+          background: #9B000A;
+          color: white;
+          border: none;
+          border-radius: 25px;
+          cursor: pointer;
+        `;
+        
+        // Create close button
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '✖ Close';
+        closeBtn.style.cssText = `
+          margin-top: 10px;
+          padding: 10px 20px;
+          font-size: 16px;
+          background: #666;
+          color: white;
+          border: none;
+          border-radius: 20px;
+          cursor: pointer;
+        `;
+        
+        // Add elements to modal
+        cameraModal.appendChild(video);
+        cameraModal.appendChild(captureBtn);
+        cameraModal.appendChild(closeBtn);
+        document.body.appendChild(cameraModal);
+        
+        // Capture photo function
+        captureBtn.onclick = () => {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          context.drawImage(video, 0, 0);
+          
+          // Convert to blob
+          canvas.toBlob((blob) => {
+            const file = new File([blob], `camera-${Date.now()}.jpg`, { type: 'image/jpeg' });
+            
+            const newImage = {
+              id: Date.now() + Math.random(),
+              file,
+              preview: URL.createObjectURL(file),
+            };
+            
+            setImages((prev) => [...prev, newImage]);
+            
+            // Clean up
+            stream.getTracks().forEach(track => track.stop());
+            document.body.removeChild(cameraModal);
+          }, 'image/jpeg', 0.8);
+        };
+        
+        // Close camera function
+        closeBtn.onclick = () => {
+          stream.getTracks().forEach(track => track.stop());
+          document.body.removeChild(cameraModal);
+        };
+        
+      } catch (error) {
+        console.log('Camera access denied or not available:', error);
+        alert('Camera access denied or not available. Please use file upload instead.');
+        // Fallback to file input
+        if (cameraInputRef.current) {
+          cameraInputRef.current.click();
+        }
+      }
+    } else {
+      alert('Camera not supported on this device. Please use file upload instead.');
+      // Fallback to file input
+      if (cameraInputRef.current) {
+        cameraInputRef.current.click();
+      }
     }
   };
 
@@ -147,27 +291,24 @@ function PostItemModal({ onClose, defaultType }) {
             <label className="form-label type-category-container">
               <span className="form-icon">🔁</span> Item Type
               <div className="item-type-buttons">
-                {['trade', 'rent', 'lost', 'found'].map((type) => (
-                  <button
-                    key={type}
-                    type="button"
-                    className={`type-button ${selectedType === type ? 'active' : ''} ${
-                      defaultType &&
-                      (defaultType.toLowerCase() === 'lost' || defaultType.toLowerCase() === 'found') &&
-                      selectedType !== type
-                        ? 'disabled'
-                        : ''
-                    }`}
-                    onClick={() => handleTypeClick(type)}
-                    disabled={
-                      defaultType &&
-                      (defaultType.toLowerCase() === 'lost' || defaultType.toLowerCase() === 'found') &&
-                      selectedType !== type
-                    }
-                  >
-                    {type.charAt(0).toUpperCase() + type.slice(1)}
-                  </button>
-                ))}
+                {['trade', 'rent', 'lost', 'found', 'donate'].map((type) => {
+                  // Check if this button should be disabled
+                  const isDisabled = defaultType && defaultType.toLowerCase() !== type;
+                  
+                  return (
+                    <button
+                      key={type}
+                      type="button"
+                      className={`type-button ${selectedType === type ? 'active' : ''} ${
+                        isDisabled ? 'disabled' : ''
+                      }`}
+                      onClick={() => handleTypeClick(type)}
+                      disabled={isDisabled}
+                    >
+                      {type.charAt(0).toUpperCase() + type.slice(1)}
+                    </button>
+                  );
+                })}
               </div>
             </label>
 
@@ -241,6 +382,7 @@ function PostItemModal({ onClose, defaultType }) {
                   </button>
                 </div>
               )}
+              {/* File input for browsing files */}
               <input
                 type="file"
                 accept="image/*"
@@ -249,6 +391,25 @@ function PostItemModal({ onClose, defaultType }) {
                 ref={fileInputRef}
                 onChange={handleImageUpload}
               />
+              {/* Camera input for taking photos directly */}
+              <input
+                type="file"
+                accept="image/*"
+                capture
+                style={{ display: 'none' }}
+                ref={cameraInputRef}
+                onChange={handleCameraCapture}
+              />
+            </div>
+            <div className="upload-buttons">
+              <button
+                type="button"
+                className="camera-button"
+                onClick={handleCameraClick}
+                title="Take Photo"
+              >
+                📷
+              </button>
             </div>
           </label>
 

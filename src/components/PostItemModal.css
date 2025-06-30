@@ -10,17 +10,15 @@
   padding: 0.5rem;
   overflow: hidden;
 }
-
 .modal-content {
   background: #fff;
-  padding: 0.8rem;
+  padding: 1rem;
   border-radius: 10px;
   width: 95%;
   max-width: 360px;
-  height: 500px; /* Fixed height for full visibility */
+  height: 500px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   animation: slideIn 0.3s ease;
   font-size: 0.85rem;
@@ -37,7 +35,7 @@
   align-items: center;
   font-size: 1rem;
   color: #8B0000;
-  margin-bottom: 0.3rem;
+  margin-bottom: 1rem; /* Increased margin to push content down */
 }
 
 .plus-icon {
@@ -51,7 +49,7 @@
 .post-form {
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.8rem; /* Increased gap between form elements */
   flex-grow: 1;
 }
 
@@ -62,8 +60,8 @@
   font-size: 0.8rem;
   color: #8B0000;
   font-size: 0.75rem;
+  text-align: center;
 }
-
 .form-label input,
 .form-label textarea,
 .form-label select {
@@ -93,20 +91,22 @@ textarea {
 .item-type-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 3px; /* Reduced gap slightly for better fit */
   margin-top: 0.3rem;
   justify-content: flex-start;
 }
 
 .type-button {
-  padding: 4px 7px;
-  font-size: 0.75rem;
+  padding: 4px 7px; /* Slightly reduced padding for better fit */
+  font-size: 0.75rem; /* Reduced font size for 5 buttons */
   border: 1px solid #8B0000;
   border-radius: 6px;
   background: white;
   color: #8B0000;
   cursor: pointer;
   transition: 0.3s ease;
+  flex: 0 0 auto; /* Prevents buttons from growing/shrinking */
+  min-width: 0; /* Allows text to determine width */
 }
 
 .type-button.disabled {
@@ -171,6 +171,35 @@ textarea {
   border-color: #9B000A;
   background-color: rgba(155, 0, 10, 0.05);
   color: #9B000A;
+}
+
+.upload-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.3rem;
+}
+
+.camera-button {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  border: 2px solid #9B000A;
+  border-radius: 50%;
+  background: white;
+  color: #9B000A;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.camera-button:hover {
+  background-color: #9B000A;
+  color: white;
+  box-shadow: 0 4px 12px rgba(155, 0, 10, 0.3);
+  transform: scale(1.05);
 }
 
 .image-previews {
@@ -302,7 +331,7 @@ textarea {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
-  margin-top: 0.4rem;
+  margin-top: 1rem; /* Added more space above buttons */
 }
 
 .cancel-button,
@@ -334,7 +363,6 @@ textarea {
   background-color: #ffc107;
   color: #9B000A;
 }
-
 @media (max-width: 600px) {
   .modal-content {
     width: 75%;
@@ -343,24 +371,60 @@ textarea {
   }
   
   .type-button {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
+    padding: 3px 5px;
+  }
+  .form-row {
+    flex-direction: row; /* Changed from column to row */
+    gap: 0.5rem; /* Increased gap for better spacing */
+    align-items: flex-start;
+  }
+  
+  /* Ensure both containers take equal space */
+  .type-category-container {
+    flex: 1;
+    min-width: 0; /* Prevents overflow */
+  }
+  
+  /* Adjust item type buttons for mobile */
+  .item-type-buttons {
+    justify-content: flex-start; /* Changed from center */
+    gap: 2px;
+    flex-wrap: wrap; /* Allow wrapping if needed */
+  }
+  
+  /* Make buttons smaller on mobile */
+  .type-button {
+    font-size: 0.6rem; /* Even smaller for mobile */
+    padding: 2px 4px;
+    min-width: auto; /* Allow buttons to shrink */
+  }/* Adjust select dropdown for mobile */
+  .form-label select {
+    font-size: 0.75rem;
     padding: 4px 6px;
   }
   
-  .form-row {
-    flex-direction: column;
-    gap: 0.3rem;
+  .camera-button {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
   }
   
-  .type-category-container {
-    flex: none;
+  /* Additional mobile optimizations */
+  .modal-content {
+    padding: 0.6rem; /* Slightly reduce padding */
   }
   
-  .item-type-buttons {
-    justify-content: center;
+  .form-label {
+    font-size: 0.7rem; /* Smaller labels on mobile */
+  }
+  
+  .form-label input,
+  .form-label textarea {
+    font-size: 0.75rem;
+    padding: 4px 6px;
   }
 }
-
 /* Dark Mode */
 body.dark-mode .modal-content {
   background-color: #222;
@@ -388,6 +452,18 @@ body.dark-mode .upload-box.drag-over {
   border-color: #FF69B4;
   background-color: rgba(255, 105, 180, 0.1);
   color: #FF69B4;
+}
+
+body.dark-mode .camera-button {
+  background-color: #444;
+  color: #FF69B4;
+  border-color: #FF69B4;
+}
+
+body.dark-mode .camera-button:hover {
+  background-color: #FF69B4;
+  color: #222;
+  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.4);
 }
 
 body.dark-mode .image-preview-item {
