@@ -14,7 +14,32 @@ body {
   padding: 2vw;
 }
 
+.Header {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1vw;
+  margin-bottom: 10vh;
+  font-family: 'Poppins', sans-serif;
+}
 
+.BrowseButton, .PostButton {
+  border: none;
+  padding: 1vh 2vw;
+  font-size: 1rem;
+  border-radius: 0.5vw;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.BrowseButton {
+  background-color: #9B000A;
+  color: white;
+}
+
+.PostButton {
+  background-color: #f5f0c4;
+  color: #8B0000;
+}
 
 .MainContent {
   max-width: 50vw;
@@ -392,7 +417,6 @@ body {
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
-@media (min-width: 768px) and (max-width: 1024px) {
   :root {
     font-size: calc(9px + 0.3vw);
   }
@@ -423,7 +447,6 @@ link{
     min-height: 100vh;
     padding: 2rem 0;
     overflow-x: hidden;
-    overflow-x: hidden;
   }
 
   /* Section 2 (How It Works) fixes */
@@ -432,7 +455,6 @@ link{
     flex-direction: column;
     justify-content: space-between;
     padding: 3rem 0;
-    height: 1450px;
     height: 1450px;
   }
 
@@ -490,7 +512,6 @@ link{
     flex-direction: column;
     align-items: center;
     transform: translateY(16vh);
-    transform: translateY(16vh);
   }
 
   .ContactItem1, 
@@ -528,17 +549,6 @@ link{
   transform: translateY(1vh);
   padding-left: 1%;
 }
-  .section1 {
-    background-size: cover;
-    background-position: center;
-    height: 500px;
-  } 
-  .MainContent {
-  max-width: 50vw;
-  font-family: 'Poppins', sans-serif;
-  transform: translateY(1vh);
-  padding-left: 1%;
-}
   .MainTitle {
   font-size: 3rem !important;
   font-weight: bold;
@@ -548,17 +558,7 @@ link{
   margin-top: 5vh;
   font-family: 'Poppins', sans-serif;
 }
-  font-size: 3rem !important;
-  font-weight: bold;
-  color: #8B0000;
-  margin-bottom: 2vh;
-  padding-left: 15%;
-  margin-top: 5vh;
-  font-family: 'Poppins', sans-serif;
-}
   .SubTitle {
-    font-size: 1.2rem;
-    padding-left: 15%;
     font-size: 1.2rem;
     padding-left: 15%;
   }
@@ -589,8 +589,6 @@ link{
     width: 90%;
     margin-bottom: -1rem;
     transform: translateY(15vh);
-    margin-bottom: -1rem;
-    transform: translateY(15vh);
   }
 
   /* Icon sizing */
@@ -609,7 +607,6 @@ link{
     margin: 0 auto 1.5rem;
     padding: 1rem;
     transform: translateY(1vh);
-    transform: translateY(1vh);
   }
 
   /* Bottom content */
@@ -620,7 +617,6 @@ link{
   .message {
     margin: 1rem auto;
     max-width: 90%;
-    line-height: 1.3;
     line-height: 1.3;
   }
 }
@@ -633,23 +629,7 @@ link{
   
   .pageTitle {
     font-size: 1.8rem;
-@media (max-width: 480px) {
-  /* Title sizes */
-  .MainTitle {
-    font-size: 1.6rem;
   }
-  
-  .pageTitle {
-    font-size: 1.8rem;
-  }
-  
-  .TeknecT-Works {
-    font-size: 1.6rem;
-  }
-  
-  .Section4Heading {
-    font-size: 1.9rem;
-    transform: translateY(25vh);
   
   .TeknecT-Works {
     font-size: 1.6rem;
@@ -667,15 +647,7 @@ link{
 
   .desc, .desc1 {
     font-size: 0.9rem;
-  /* Text elements */
-  .PostText {
-    font-size: 1.2rem;
   }
-
-  .desc, .desc1 {
-    font-size: 0.9rem;
-  }
-  
   
   .ActionButtons {
     flex-direction: column;
@@ -693,15 +665,8 @@ link{
   .section4 {
     padding: 1.5rem 0;
     overflow-y: hidden;
-  /* Even tighter spacing for very small screens */
-  .section3,
-  .section4 {
-    padding: 1.5rem 0;
-    overflow-y: hidden;
   }
 
-  .trade-items {
-    gap: 0.5rem;
   .trade-items {
     gap: 0.5rem;
   }
@@ -710,7 +675,6 @@ link{
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    transform: translateY(-18vh);
     transform: translateY(-18vh);
   }
 
@@ -752,17 +716,22 @@ link{
     gap: 2rem;
     margin-top: 2rem;
     transform: translateY(30vh);
-    transform: translateY(30vh);
   }
 
   /* Contact items */
   .ContactItem1, 
   .ContactItem2, 
-  /* Contact items */
-  .ContactItem1, 
-  .ContactItem2, 
   .ContactItem3 {
-    transform: none;
+    margin-bottom: 1.5rem;
+  }
+  .ContactItem2, 
+  .ContactItem3{
+    transform: translateX(.1vh);
+  }
+  .ContactLabel,
+  .ContactLabel2,
+  .ContactLabel3 {
+    font-size: 1rem;
   }
   .bottom-logo{
     width: 130px;
