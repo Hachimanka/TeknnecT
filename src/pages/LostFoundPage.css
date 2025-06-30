@@ -499,7 +499,8 @@
   .modal-content {
     max-width: 95%;
     height: 90vh;
-    max-height: 90vh;
+    max-height: 70vh;
+    
   }
 
   .modal-header,

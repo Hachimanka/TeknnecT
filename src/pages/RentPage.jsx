@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './RentPage.css';
-import LogoPlaceholder from '../assets/wakwak.png';
+import LogoPlaceholder from '../assets/logo.png';
 
 function RentPage() {
   const [selectedItem, setSelectedItem] = useState(null);
