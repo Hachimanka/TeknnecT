@@ -6,7 +6,7 @@
   font-size: calc(12px + 0.3vw); /* Base font size that scales with viewport width */
 }
 
-body {
+body {  
   overflow-y: hidden;
 }
 
@@ -436,270 +436,280 @@ body {
 link{
     text-decoration: none;
 }
-/* ============================
+/* ===========================
    📱 MOBILE RESPONSIVE STYLES
-============================ */
-
+=========================== */
+ 
 @media (max-width: 768px) {
-  /* General section fixes */
   .Section {
     height: auto;
     min-height: 100vh;
     padding: 2rem 0;
+    overflow-x: hidden;
   }
+ 
+  .section1 {
+    background-size: cover;
+    background-position: center;
+    height: 500px;
+  }
+ 
 
-  /* Section 2 (How It Works) fixes */
-  .section3 {
+ 
+  .MainContent {
+    max-width: 50vw;
+    font-family: 'Poppins', sans-serif;
+    transform: translateY(1vh);
+    padding-left: 1%;
+  }
+ 
+  .MainTitle {
+    font-size: 3rem !important;
+    font-weight: bold;
+    color: #8B0000;
+    margin-bottom: 2vh;
+    padding-left: 15%;
+    margin-top: 5vh;
+    font-family: 'Poppins', sans-serif;
+  }
+ 
+  .SubTitle {
+    font-size: 1.2rem;
+    padding-left: 15%;
+  }
+ 
+  .ActionButtons {
+    flex-wrap: nowrap;
+    justify-content: center;
+    padding-left: 0;
+    margin-left: 10px;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+ 
+  .GetStartedButton,
+  .HowItWorksButton {
+    font-size: 0.9rem;
+    padding: 10px 16px;
+    width: 90%;
+  }
+ 
+  .Section.section3 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 3rem 0;
+    height: 1450px;
   }
-
-  /* Title sizes */
+ 
   .pageTitle {
     font-size: 2.2rem;
     top: 0;
     margin-bottom: 2rem;
   }
-
+ 
+  .trade-items {
+    margin: 2rem 0;
+    gap: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 0 2vw;
+  }
+ 
+  .card1, .card2, .card3 {
+    width: 85%;
+    height: auto;
+    min-height: 140px;
+    margin: 0 auto 1.5rem;
+    padding: 1rem;
+    transform: translateY(1vh);
+  }
+ 
+  .title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    margin-top: 3vh;
+  }
+ 
+  .description {
+    margin-top: 1vh;
+    color: #555;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+  }
+ 
+ 
   .TeknecT-Works {
     font-size: 2rem;
     margin: 2rem 0 1rem;
+    text-align: center;
   }
-
-  .trade-items {
-    margin: 2rem 0;
+ 
+  .Work-as {
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    text-align: center;
+    color: #FFBD00;
+    font-size: 1.1rem;
+    margin-bottom: 5vh;
   }
-
+ 
   .IconsS2 {
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    padding: 1rem 0;
     margin: 2rem 0;
+    transform: translateY(-18vh);
   }
-
-  /* Icon text sizes */
+ 
+  .icon-group {
+    width: 90%;
+    margin-bottom: -1rem;
+    transform: translateY(15vh);
+  }
+ 
+  .icon2, .icon3, .icon {
+    width: 50px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+ 
   .PostText {
     font-size: 1.4rem;
     margin: 1rem 0;
+    text-align: center;
   }
-
+ 
   .desc, .desc1 {
     font-size: 1rem;
     line-height: 1.5;
+    color: #FFBD00;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
   }
-
-  /* Section 4 fixes */
-  .section4 {
+ 
+  .Section.section4 {
     min-height: 100vh;
     padding: 3rem 0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
-
+ 
+ 
   .Section4Heading {
     transform: none;
     margin: 2rem 0;
     padding: 0 1rem;
     font-size: 2rem;
+    text-align: center;
   }
-
-  /* Contact items alignment */
+ 
   .ContactGroup {
     margin: 2rem 0;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 2rem;
+    transform: translateY(30vh);
   }
-
-  .ContactItem1, 
-  .ContactItem2, 
-  .ContactItem3 {
+ 
+  .ContactItem1, .ContactItem2, .ContactItem3 {
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 2rem;
-    text-align: center;
-  }
-
-  .ContactLabel,
-  .ContactLabel2,
-  .ContactLabel3 {
-    font-size: 1.1rem;
-    margin-top: 0.5rem;
-  }
-
-  .BottomGroup {
-    margin: 2rem 0;
-  }
-}
-
-@media (max-width: 600px) {
-  .MainTitle {
-    font-size: 1.8rem;
-    padding-left: 5%;
-    margin-top: 30px;
-  }
-
-  .SubTitle {
-    font-size: 1rem;
-    padding-left: 5%;
-  }
-
-  .ActionButtons {
-    flex-wrap: nowrap;
-    justify-content: center;
-    padding-left: 0;
-    margin-left: 0;
-    gap: 10px;
-  }
-
-  .GetStartedButton,
-  .HowItWorksButton {
-    font-size: 0.9rem;
-    padding: 10px 16px;
-  }
-
-  /* Icons layout */
-  .IconsS2 {
-    flex-direction: column;
-    gap: 2rem;
-    align-items: center;
-    padding: 1rem 0;
-  }
-
-  .icon-group {
-    width: 90%;
     margin-bottom: 1.5rem;
-  }
-
-  /* Icon sizing */
-  .icon, .icon2, .icon3 {
-    width: 50px;
-    height: auto;
-  }
-
-  /* Cards adjustments */
-  .card1, 
-  .card2, 
-  .card3 {
-    width: 85%;
-    height: auto;
-    min-height: 140px;
-    margin: 0 auto 1.5rem;
-    padding: 1rem;
-  }
-
-  /* Bottom content */
-  .BottomGroup {
-    gap: 2rem;
-  }
-
-  .message {
-    margin: 1rem auto;
-    max-width: 90%;
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    overflow-y: auto;
-  }
-
-  .MainContent {
-    max-width: 100%;
-    padding-left: 5%;
-    padding-right: 5%;
-    transform: none;
-  }
-
-  .MainTitle {
-    font-size: 2rem;
     text-align: center;
-    padding-left: 0;
-    margin-top: 2rem;
   }
-
-  .SubTitle {
-    font-size: 1.1rem;
-    text-align: center;
-    padding-left: 0;
+ 
+  .ContactItem2, .ContactItem3 {
+    transform: translateX(.1vh);
   }
-
-  .ActionButtons {
-    flex-direction: column;
-    align-items: center;
-    padding-left: 0;
-    gap: 1rem;
-  }
-
-  .GetStartedButton,
-  .HowItWorksButton {
-    width: 90%;
+ 
+  .ContactLabel, .ContactLabel2, .ContactLabel3 {
     font-size: 1rem;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    color: #000;
+    font-family: 'Poppins', sans-serif;
   }
-
-  .card1, .card2, .card3 {
-    width: 90%;
-    height: auto;
-    min-height: 160px;
-    margin: 1rem auto;
-    padding: 1rem;
+ 
+  .ContactInfo {
+    margin-top: 0.3vh;
+    font-size: 1rem;
+    color: #000;
+    font-family: 'Poppins', sans-serif;
   }
-
-  .icon2, .icon3 {
-    width: 50px;
-    margin-bottom: -20rem;
-  }
-
-  .IconsS2 {
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-  }
-
+ 
   .BottomGroup {
     flex-direction: column;
     gap: 2rem;
     align-items: center;
     padding: 2rem;
+    margin: 2rem 0;
   }
-
+ 
+  .LogoWithMessage {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+    margin-right: 0;
+    max-width: none;
+    transform: translateY(2vh);
+  }
+ 
   .bottom-logo {
     width: 60%;
     margin-top: 19rem;
+    margin-bottom: 0.1vh;
+    transform: translateX(5vh);
+    width: 170px;
   }
-
+ 
   .message {
     font-size: 1rem;
     text-align: center;
     max-width: 90%;
+    margin: 1rem auto;
+    line-height: 1.3;
+    color: #000;
+    font-family: 'Poppins', sans-serif;
+    background-color: transparent;
   }
-
+ 
   .FooterLinksRow {
     flex-direction: column;
     gap: 2rem;
     text-align: center;
     transform: none;
   }
-
-  .quickLinks,
-  .resourceLinks {
+ 
+  .quickLinks, .resourceLinks {
     font-size: 1rem;
     align-items: center;
     margin: 0 auto;
   }
-
-  .ContactGroup {
-    flex-direction: column;
-    align-items: center;
-    gap: 2rem;
-    margin-top: 2rem;
+ 
+  .quickLinks {
+    margin-left: 70px;
+    transform: translateX(-10vh);
   }
-
-  .ContactItem1,
-  .ContactItem2,
-  .ContactItem3 {
-    transform: none;
+ 
+  .resourceLinks {
+    margin-left: 150px;
+    transform: translateY(-27.5vh);
+  }
+ 
+  .resources {
+    margin-left: 0;
   }
 }
