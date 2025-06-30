@@ -81,6 +81,11 @@ function Navbar() {
     document.body.classList.toggle('dark-mode', !darkMode);
   };
 
+  const handleMyItemsClick = () => {
+    setShowProfileMenu(false);
+    navigate('/my-items');
+  };
+
   const handleLogout = () => {
     auth.signOut()
       .then(() => {
@@ -199,6 +204,10 @@ function Navbar() {
           <hr />
           <button className="mode-toggle" onClick={handleToggleMode}>
             {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          </button>
+          <hr />
+          <button className="my-items-button" onClick={handleMyItemsClick}>
+            My Items
           </button>
           <hr />
           <button className="logout-button" onClick={handleLogout}>

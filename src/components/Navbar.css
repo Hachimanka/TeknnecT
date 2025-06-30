@@ -1,4 +1,4 @@
-  .navbar {
+.navbar {
     background-color: #9B000A; /* dark red */
     height: 60px;
     display: flex;
@@ -297,6 +297,7 @@ body {
 }
 
 .mode-toggle {
+  width: 100%;
   margin-top: 8px;
   padding: 8px;
   background-color: #f0f0f0;
@@ -310,6 +311,23 @@ body {
 
 .mode-toggle:hover {
   background-color: #e0e0e0;
+}
+
+.my-items-button {
+  width: 100%;
+  padding: 8px;
+  background-color: #FFBD00;
+  color: #9B000A;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.my-items-button:hover {
+  background-color: #ffcc33;
 }
 
 /* Dark overlay for body */
@@ -362,8 +380,22 @@ body.dark-mode .profile-menu {
 
 /* Toggle button dark */
 body.dark-mode .mode-toggle {
-  background-color: #b00020;
+  background-color: #555;
   color: #f0f0f0;
+}
+
+body.dark-mode .mode-toggle:hover {
+  background-color: #666;
+}
+
+/* My Items button dark */
+body.dark-mode .my-items-button {
+  background-color: #FFBD00;
+  color: #222;
+}
+
+body.dark-mode .my-items-button:hover {
+  background-color: #ffcc33;
 }
 
 /* Logout button dark */
