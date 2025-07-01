@@ -88,6 +88,37 @@
   margin-bottom: 2rem;
 }
 
+.action-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 15px;
+}
+
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 180px;
+}
+
+.filter-select {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
 .report-lost-btn,
 .report-found-btn {
   padding: 12px 24px;
@@ -550,6 +581,21 @@
   .lost-found-page {
     padding: 1rem;
   }
+  
+    .action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filters {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .search-box,
+  .filter-select {
+    width: 100%;
+  }
 }
 
 /* Scrollbar Styling */
@@ -664,4 +710,33 @@
 .post-ref-info p {
   margin: 5px 0;
   font-size: 14px;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.search-sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.searchbox {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 160px;
+}
+
+.category-select,
+.date-sort-select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
 }
