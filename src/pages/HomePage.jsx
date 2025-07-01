@@ -30,10 +30,6 @@ function HomePage() {
       {/* Section 1 with HomePage background */}
       <section className="Section section1">
         <div className="HomePage">
-          <header className="Header">
-            <button className="BrowseButton">Browse Marketplace</button>
-            <button className="PostButton">Post an Item</button>
-          </header>
 
           <main className="MainContent">
             <h1 className="MainTitle">
@@ -157,7 +153,7 @@ function HomePage() {
               </div>
 
               <div className="resourceLinks">
-                <h3>Resources</h3>
+                <h3 className="resources">Resources</h3>
                 <Link to="/">Home</Link><br />
                 <Link to="/trade">Trade</Link><br />
                 <Link to="/rent">Rent</Link><br />

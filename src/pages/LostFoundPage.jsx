@@ -33,6 +33,9 @@ function LostFoundPage() {
   const [showChatModal, setShowChatModal] = useState(false);
   const [message, setMessage] = useState('');
   const [items, setItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [category, setCategory] = useState('All');
+  const [dateSort, setDateSort] = useState('Newest');
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -163,6 +166,23 @@ function LostFoundPage() {
     setMessage('');
   };
 
+  const filteredItems = items
+  .filter(item => {
+    // Search filter
+    const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchTerm.toLowerCase());
+    // Category filter
+    const matchesCategory = category === 'All' || (item.category && item.category === category);
+    return matchesSearch && matchesCategory;
+  })
+  .sort((a, b) => {
+    if (dateSort === 'Newest') {
+      return b.createdAt?.toDate() - a.createdAt?.toDate();
+    } else {
+      return a.createdAt?.toDate() - b.createdAt?.toDate();
+    }
+  });
+
   return (
     <div className="PageWrapper">
       <main className="lost-found-page">
@@ -172,15 +192,43 @@ function LostFoundPage() {
         <div className="action-buttons">
           <button className="report-lost-btn" onClick={() => openPostModal('Lost')}>Report Lost Item</button>
           <button className="report-found-btn" onClick={() => openPostModal('Found')}>Report Found Item</button>
+          <div className="search-sort-controls">
+            <input
+              type="text"
+              className="searchbox"
+              placeholder="Search items..."
+              value={searchTerm}
+              onChange={e => setSearchTerm(e.target.value)}
+            />
+            <select
+              className="category-select"
+              value={category}
+              onChange={e => setCategory(e.target.value)}
+            >
+              <option value="All">All Categories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Books">Books</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Other">Others</option>
+            </select>
+            <select
+              className="date-sort-select"
+              value={dateSort}
+              onChange={e => setDateSort(e.target.value)}
+            >
+              <option value="Newest">Newest to Oldest</option>
+              <option value="Oldest">Oldest to Newest</option>
+            </select>
+          </div>
         </div>
 
         <section className="items-section">
           <h2 className="section-title">Recent Posts</h2>
-          {items.length === 0 ? (
-            <p className="empty-message">No posts found.</p>
-          ) : (
-            <div className="items-grid">
-              {items.map((item) => (
+          {filteredItems.length === 0 ? (
+              <p className="empty-message">No posts found.</p>
+            ) : (
+              <div className="items-grid">
+                {filteredItems.map((item) => (
                 <div
                   key={item.id}
                   className={`item-card ${item.status.toLowerCase()}`}
