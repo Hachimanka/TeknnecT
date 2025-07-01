@@ -175,7 +175,7 @@ function DonationsPage() {
   };
 
   return (
-    <div className="PageWrapper">
+    <div className="PageWrapper page-fade-in">
       <main className="donations-page">
         <h1 className="page-title">Donations</h1>
         <p className="page-subtitle">Share resources with the community or find what you need!</p>

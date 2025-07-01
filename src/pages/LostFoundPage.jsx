@@ -184,7 +184,7 @@ function LostFoundPage() {
   });
 
   return (
-    <div className="PageWrapper">
+    <div className="PageWrapper page-fade-in">
       <main className="lost-found-page">
         <h1 className="page-title">Lost & Found</h1>
         <p className="page-subtitle">Have you lost or found an item? Post it here and help the community!</p>

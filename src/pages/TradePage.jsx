@@ -168,7 +168,7 @@ function TradePage() {
   };
 
   return (
-    <div className="PageWrapper">
+    <div className="PageWrapper page-fade-in">
       <main className="trade-page">
         <h1 className="page-title">Trade Marketplace</h1>
         <p className="page-subtitle">Trade items with the community!</p>

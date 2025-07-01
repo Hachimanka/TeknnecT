@@ -501,6 +501,7 @@ link{
     justify-content: space-between;
     padding: 3rem 0;
     height: 1450px;
+    overflow-y: hidden;
   }
  
   .pageTitle {

@@ -1,5 +1,18 @@
 /* === Layout === */
+.page-fade-in {
+  animation: slideToBottom .5s ease forwards;
+  animation-fill-mode: both;
+  will-change: transform;
+}
 
+@keyframes slideToBottom {
+  from {
+    transform: translateY(-10px); /* Start from above */
+  }
+  to {
+    transform: translateY(0);     /* Settle to original position */
+  }
+}
 .PageWrapper{
     background-image: url('../assets/MainPage.png');
     background-size: cover;

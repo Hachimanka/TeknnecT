@@ -173,7 +173,7 @@ function RentPage() {
   };
 
   return (
-    <div className="PageWrapper">
+    <div className="PageWrapper page-fade-in">
       <main className="rent-page">
         <h1 className="page-title">Rent & Rental</h1>
         <p className="page-subtitle">Find items to rent or offer your items for rental!</p>

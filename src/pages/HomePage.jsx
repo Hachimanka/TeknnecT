@@ -28,7 +28,7 @@ function HomePage() {
   return (
     <div className="PageWrapper">
       {/* Section 1 with HomePage background */}
-      <section className="Section section1">
+      <section className="Section section1 page-fade-in">
         <div className="HomePage">
 
           <main className="MainContent">
@@ -109,7 +109,7 @@ function HomePage() {
               <img src={email} alt="Email Icon" className="icon" />
               <div>
                 <p className="ContactLabel">Email</p>
-                <p className="ContactInfo">johnmichael.inoc@cit.edu</p>
+                <p className="ContactInfo">myteknnect@gmail.com</p>
               </div>
             </div>
 
