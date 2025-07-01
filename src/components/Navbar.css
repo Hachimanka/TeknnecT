@@ -1,4 +1,4 @@
-  .navbar {
+.navbar {
     background-color: #9B000A; /* dark red */
     height: 60px;
     display: flex;
@@ -96,7 +96,8 @@
  color: #FFBD00;
 }
 
-.navbar-center a {
+.navbar-center a,
+.navbar-center .navbar-link {
   color: #FFBD00;
   text-decoration: none;
   margin: 0 1rem;
@@ -106,28 +107,35 @@
   border-radius: 8px;
   transition: all 0.3s ease;
   position: relative;
+  display: inline-block;
+  min-width: fit-content;
 }
 
-.navbar-center a:hover {
+.navbar-center a:hover,
+.navbar-center .navbar-link:hover {
   background-color: rgba(255, 189, 0, 0.15);
   text-decoration: none;
 }
 
 /* Active link styles */
-.navbar-center a.active {
+.navbar-center a.active,
+.navbar-center .navbar-link.active {
   background-color: #FFBD00;
   color: #9B000A;
   font-weight: bold;
   text-decoration: none;
   box-shadow: 0 2px 8px rgba(255, 189, 0, 0.3);
+  padding: 8px 16px;
 }
 
 /* Alternative active style with underline only */
-.navbar-center a.active-underline {
+.navbar-center a.active-underline,
+.navbar-center .navbar-link.active-underline {
   position: relative;
 }
 
-.navbar-center a.active-underline::after {
+.navbar-center a.active-underline::after,
+.navbar-center .navbar-link.active-underline::after {
   content: '';
   position: absolute;
   bottom: -5px;
@@ -197,7 +205,8 @@
     background-size: 25px;
   }
 
-  .navbar-center a {
+  .navbar-center a,
+  .navbar-center .navbar-link {
     font-size: 0.9rem;
     margin: 0 0.3rem;
     padding: 0.3rem 0.6rem;
@@ -336,19 +345,22 @@ body.dark-mode .navbar {
   color: #FFBD00;
 }
 
-body.dark-mode .navbar-center a {
+body.dark-mode .navbar-center a,
+body.dark-mode .navbar-center .navbar-link {
   color: #FFBD00;
 }
 
 /* Dark mode active link styles */
-body.dark-mode .navbar-center a.active {
+body.dark-mode .navbar-center a.active,
+body.dark-mode .navbar-center .navbar-link.active {
   background-color: #FFBD00;
   color: #222;
   border-bottom-color: #FFD700;
   box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
 }
 
-body.dark-mode .navbar-center a:hover {
+body.dark-mode .navbar-center a:hover,
+body.dark-mode .navbar-center .navbar-link:hover {
   background-color: rgba(255, 189, 0, 0.15);
   text-decoration: none;
 }
@@ -488,4 +500,21 @@ body.dark-mode .navbar-logo {
 
 .message-badge.new-message {
   animation: badge-pulse 0.6s ease-in-out;
+}
+
+.my-items-button {
+  width: 100%;
+  padding: 8px;
+  background-color: #FFBD00;
+  color: #9B000A;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.my-items-button:hover {
+  background-color: #ffcc33;
 }

@@ -24,6 +24,25 @@ function Navbar() {
 
   const navigate = useNavigate();
   
+  // Helper function to check authentication and redirect if needed
+  const requireAuth = (callback) => {
+    if (!user) {
+      navigate('/login');
+      return false;
+    }
+    callback();
+    return true;
+  };
+
+  // Handle protected navigation
+  const handleProtectedNavigation = (path) => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    navigate(path);
+  };
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -189,7 +208,9 @@ function Navbar() {
   };
 
   const handleProfileClick = () => {
-    setShowProfileMenu(!showProfileMenu);
+    requireAuth(() => {
+      setShowProfileMenu(!showProfileMenu);
+    });
   };
 
   const handleToggleMode = () => {
@@ -205,6 +226,25 @@ function Navbar() {
       .catch((error) => {
         console.error('Logout failed:', error);
       });
+  };
+
+  const handleMyItemsClick = () => {
+    setShowProfileMenu(false);
+    navigate('/my-items');
+  };
+
+  // Handle chat box toggle with auth check
+  const handleChatToggle = () => {
+    requireAuth(() => {
+      setShowChatBox((prev) => !prev);
+    });
+  };
+
+  // Handle post item with auth check
+  const handlePostItem = () => {
+    requireAuth(() => {
+      setShowModal(true);
+    });
   };
 
   const handlePhotoUpload = async (e) => {
@@ -255,19 +295,43 @@ function Navbar() {
 
         <div className="navbar-center">
           <Link to="/" className={isActiveLink('/') ? 'active' : ''}>Home</Link>
-          <Link to="/trade" className={isActiveLink('/trade') ? 'active' : ''}>Trade</Link>
-          <Link to="/rent" className={isActiveLink('/rent') ? 'active' : ''}>Rent</Link>
-          <Link to="/lost-found" className={isActiveLink('/lost-found') ? 'active' : ''}>Lost & Found</Link>
-          <Link to="/donations" className={isActiveLink('/donations') ? 'active' : ''}>Donations</Link>
+          <div 
+            onClick={() => handleProtectedNavigation('/trade')} 
+            className={`navbar-link ${isActiveLink('/trade') ? 'active' : ''}`}
+            style={{ cursor: 'pointer' }}
+          >
+            Trade
+          </div>
+          <div 
+            onClick={() => handleProtectedNavigation('/rent')} 
+            className={`navbar-link ${isActiveLink('/rent') ? 'active' : ''}`}
+            style={{ cursor: 'pointer' }}
+          >
+            Rent
+          </div>
+          <div 
+            onClick={() => handleProtectedNavigation('/lost-found')} 
+            className={`navbar-link ${isActiveLink('/lost-found') ? 'active' : ''}`}
+            style={{ cursor: 'pointer' }}
+          >
+            Lost & Found
+          </div>
+          <div 
+            onClick={() => handleProtectedNavigation('/donations')} 
+            className={`navbar-link ${isActiveLink('/donations') ? 'active' : ''}`}
+            style={{ cursor: 'pointer' }}
+          >
+            Donations
+          </div>
         </div>
 
         <div className="navbar-right">
           <div
             className="navbar-icon chat-icon"
             title="Messages"
-            onClick={() => setShowChatBox((prev) => !prev)}
+            onClick={handleChatToggle}
             ref={chatButtonRef}
-            style={{ position: 'relative' }}
+            style={{ position: 'relative', cursor: 'pointer' }}
           >
             <FaComments size={24} />
             {totalUnreadCount > 0 && (
@@ -276,15 +340,16 @@ function Navbar() {
               </span>
             )}
           </div>
-          <button className="post-item-button" onClick={() => setShowModal(true)}>
+          <button className="post-item-button" onClick={handlePostItem}>
             Post Item
           </button>
 
           <div
             className="profile-section"
             title="Profile"
-            onClick={() => setShowProfileMenu((prev) => !prev)}
+            onClick={handleProfileClick}
             ref={profileButtonRef}
+            style={{ cursor: 'pointer' }}
           >
             <FaUserCircle size={28} />
             <FaChevronDown
@@ -295,8 +360,8 @@ function Navbar() {
         </div>
       </nav>
 
-      {showProfileMenu && (
-          <div className="profile-menu" ref={profileMenuRef}>
+      {showProfileMenu && user && (
+        <div className="profile-menu" ref={profileMenuRef}>
           <div className="profile-header">
             <div className="profile-picture-container">
               <img
@@ -314,13 +379,17 @@ function Navbar() {
                 style={{ display: 'none' }}
               />
             </div>
-
             <p className="profile-name">{displayName}</p>
             <p className="profile-email">{user?.email || 'Not logged in'}</p>
           </div>
+
           <hr />
           <button className="mode-toggle" onClick={handleToggleMode}>
             {darkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+          </button>
+          <hr />
+          <button className="my-items-button" onClick={handleMyItemsClick}>
+            My Items
           </button>
           <hr />
           <button className="logout-button" onClick={handleLogout}>
@@ -333,7 +402,7 @@ function Navbar() {
         <PostItemModal onClose={() => setShowModal(false)} />
       )}
       
-      {showChatBox && (
+      {showChatBox && user && (
         <div className="chatbox-wrapper" ref={chatBoxRef}>
           <ChatBox />
         </div>

@@ -12,6 +12,7 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import RentPage from './pages/RentPage';
 import TradePage from './pages/TradePage';
 import RegisterPage from './pages/RegisterPage'
+import MyItemsPage from './pages/MyItemsPage';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
         <Route path="/rent" element={<RentPage/>}/>
         <Route path="/trade" element={<TradePage/>}/>
         <Route path="/register" element={<RegisterPage/>}/>
+         <Route path="/my-items" element={<MyItemsPage/>} />
 
       </Routes>
     </BrowserRouter>

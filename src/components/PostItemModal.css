@@ -437,6 +437,7 @@ body.dark-mode .remove-file {
 }
 
 body.dark-mode .remove-file:hover {
+
   background-color: #ff4444;
   color: white;
 }

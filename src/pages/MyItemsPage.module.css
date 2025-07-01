@@ -1,0 +1,387 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+}
+
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+  color: #9B000A;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.header p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.statCard {
+  background: linear-gradient(135deg, #FFBD00, #ffcc33);
+  color: #9B000A;
+  padding: 1.5rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-2px);
+}
+
+.statNumber {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.statLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.filterSection {
+  margin-bottom: 2rem;
+}
+
+.filterSection h3 {
+  color: #9B000A;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.filterButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filterButtons button {
+  padding: 0.7rem 1.2rem;
+  border: 2px solid #ddd;
+  background: white;
+  color: #666;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.filterButtons button:hover {
+  border-color: #FFBD00;
+  background-color: #fff8e1;
+}
+
+.filterButtons button.active {
+  background-color: #FFBD00;
+  border-color: #FFBD00;
+  color: #9B000A;
+  font-weight: bold;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.badge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageCount {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.content {
+  padding: 1.5rem;
+}
+
+.title {
+  color: #9B000A;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+}
+
+.description {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.details {
+  border-top: 1px solid #e9ecef;
+  padding-top: 1rem;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.label {
+  color: #666;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.value {
+  color: #333;
+  font-weight: 600;
+  text-align: right;
+  flex: 1;
+  margin-left: 1rem;
+}
+
+.noItems {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.noItems h3 {
+  color: #9B000A;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.notLoggedIn {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+}
+
+.notLoggedIn h2 {
+  color: #9B000A;
+  margin-bottom: 1rem;
+}
+
+.loadingSpinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #FFBD00;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+:global(.dark-mode) .container {
+  color: #f0f0f0;
+}
+
+:global(.dark-mode) .header h1 {
+  color: #FFBD00;
+}
+
+:global(.dark-mode) .header p {
+  color: #ccc;
+}
+
+:global(.dark-mode) .card {
+  background: #333;
+  border-color: #555;
+}
+
+:global(.dark-mode) .cardHeader {
+  background-color: #444;
+  border-color: #555;
+}
+
+:global(.dark-mode) .title {
+  color: #FFBD00;
+}
+
+:global(.dark-mode) .description {
+  color: #ccc;
+}
+
+:global(.dark-mode) .label {
+  color: #aaa;
+}
+
+:global(.dark-mode) .value {
+  color: #f0f0f0;
+}
+
+:global(.dark-mode) .details {
+  border-color: #555;
+}
+
+:global(.dark-mode) .filterButtons button {
+  background: #444;
+  border-color: #555;
+  color: #f0f0f0;
+}
+
+:global(.dark-mode) .filterButtons button:hover {
+  border-color: #FFBD00;
+  background-color: rgba(255, 189, 0, 0.1);
+}
+
+:global(.dark-mode) .filterButtons button.active {
+  background-color: #FFBD00;
+  border-color: #FFBD00;
+  color: #222;
+}
+
+:global(.dark-mode) .noItems h3,
+:global(.dark-mode) .notLoggedIn h2 {
+  color: #FFBD00;
+}
+
+:global(.dark-mode) .filterSection h3 {
+  color: #FFBD00;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filterButtons {
+    justify-content: center;
+  }
+
+  .filterButtons button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+
+  .statNumber {
+    font-size: 2rem;
+  }
+
+  .row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .value {
+    text-align: left;
+    margin-left: 0;
+  }
+}
