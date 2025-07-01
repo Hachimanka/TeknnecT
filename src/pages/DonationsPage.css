@@ -22,7 +22,7 @@
   font-weight: bold;
   color: #2E8B57;
   margin-bottom: 0.5rem;
-  margin-top: 100px;
+  margin-top: 40px;
 }
 
 .page-subtitle {
@@ -571,11 +571,6 @@
   .request-btn,
   .filter-btn {
     width: 100%;
-  }
-
-  .page-title {
-    font-size: 2rem;
-    margin-top: 50px;
   }
 
   .page-subtitle {
