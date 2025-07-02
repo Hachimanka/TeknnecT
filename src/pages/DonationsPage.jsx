@@ -256,7 +256,7 @@ function DonationsPage() {
       closeFunction();
     }
   };
-
+  
   return (
     <div className="donations-PageWrapper">
       <main className="donations-page-container">
