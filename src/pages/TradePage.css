@@ -186,7 +186,7 @@
 @media (max-width: 480px) {
   .trade-page-title { font-size: 2rem; }
   .trade-item-card { height: 400px; }
-  .trade-modal-content { max-height: 95vh; }
+  .trade-modal-content { margin-right: 25px; max-height: 95vh; }
   .trade-modal-body, .trade-modal-header, .trade-modal-footer { padding: 1rem; }
   .trade-modal-title { font-size: 1.2rem; }
   .trade-post-ref-details { flex-direction: column; text-align: center; }

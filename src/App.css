@@ -1,40 +1,84 @@
-.App {
-  text-align: center;
-}
+/* App.css - Updated for your marketplace application */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* Base styles */
+.app-container {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Global dark mode styles */
+body.dark-mode {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+body.dark-mode .app-container {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+/* Ensure proper spacing for fixed navbar */
+body {
+  padding-top: 60px; /* Matches navbar height */
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+/* Remove default link styling */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Global button styles */
+button {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Dark mode text contrast */
+body.dark-mode {
+  color: rgba(255, 255, 255, 0.87);
+}
+
+/* Scrollbar styling (works in Firefox and Chrome) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9B000A;
+  border-radius: 4px;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+  background: #FFBD00;
+}
+
+/* Animation for page transitions */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.page-fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Responsive base font size */
+:root {
+  font-size: calc(12px + 0.3vw);
+}
+
+/* Remove the default React styles we don't need */
+.App-logo,
 .App-link {
-  color: #61dafb;
+  display: none;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-

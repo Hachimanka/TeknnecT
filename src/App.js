@@ -1,6 +1,5 @@
-/*import logo from './logo.svg';*/
+import { useState } from 'react';
 import './App.css';
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import HomePage from './pages/HomePage';
@@ -11,27 +10,38 @@ import LostFoundPage from './pages/LostFoundPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import RentPage from './pages/RentPage';
 import TradePage from './pages/TradePage';
-import RegisterPage from './pages/RegisterPage'
+import RegisterPage from './pages/RegisterPage';
 import MyItemsPage from './pages/MyItemsPage';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/marketplace" element={<MarketplacePage />} />
-        <Route path="/donations" element={<DonationsPage />}/>
-        <Route path="/lost-found" element={<LostFoundPage/>}/>
-        <Route path="/forgotpassword" element={<ForgotPasswordPage/>}/>
-        <Route path="/rent" element={<RentPage/>}/>
-        <Route path="/trade" element={<TradePage/>}/>
-        <Route path="/register" element={<RegisterPage/>}/>
-         <Route path="/my-items" element={<MyItemsPage/>} />
+  const [darkMode, setDarkMode] = useState(false);
+  
+  // Apply dark mode class to body element
+  useState(() => {
+    document.body.classList.toggle('dark-mode', darkMode);
+  }, [darkMode]);
 
-      </Routes>
-    </BrowserRouter>
+  return (
+    <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
+      <BrowserRouter>
+        <Navbar 
+          darkMode={darkMode} 
+          setDarkMode={setDarkMode} 
+        />
+        <Routes>
+          <Route path="/" element={<HomePage darkMode={darkMode} />} />
+          <Route path="/login" element={<LoginPage darkMode={darkMode} />} />
+          <Route path="/marketplace" element={<MarketplacePage darkMode={darkMode} />} />
+          <Route path="/donations" element={<DonationsPage darkMode={darkMode} />} />
+          <Route path="/lost-found" element={<LostFoundPage darkMode={darkMode} />} />
+          <Route path="/forgotpassword" element={<ForgotPasswordPage darkMode={darkMode} />} />
+          <Route path="/rent" element={<RentPage darkMode={darkMode} />} />
+          <Route path="/trade" element={<TradePage darkMode={darkMode} />} />
+          <Route path="/register" element={<RegisterPage darkMode={darkMode} />} />
+          <Route path="/my-items" element={<MyItemsPage darkMode={darkMode} />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 

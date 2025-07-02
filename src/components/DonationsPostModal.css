@@ -74,7 +74,6 @@
   font-size: 0.8rem;
 }
 
-
 textarea {
   resize: none;
   height: 40px;
@@ -384,4 +383,11 @@ body.dark-mode .post-buttond:hover {
   background-color: #FFD700;
   color: #2E8B57;
   box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+}
+.type-buttond:disabled {
+  background: #eee !important;
+  color: #bbb !important;
+  border-color: #ccc !important;
+  opacity: 1;
+  cursor: not-allowed;
 }

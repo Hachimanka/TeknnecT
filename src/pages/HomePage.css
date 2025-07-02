@@ -29,6 +29,7 @@ body {
   padding-left: 20%;
   margin-top: 5vh;
   font-family: 'Poppins', sans-serif;
+  margin-top: 110px;
 }
 
 .SubTitle {
@@ -470,6 +471,13 @@ link{
     font-size: 0.9rem;
     padding: 10px 16px;
     width: 90%;
+    border-radius: 7px;
+    
+  }
+
+  .GetStartedButton{
+    margin-left: 0px;
+
   }
  
   .Section.section3 {
@@ -691,4 +699,86 @@ link{
   .resources {
     margin-left: 0;
   }
+}
+
+/* Dark mode styles */
+body.dark-mode .MainTitle,
+body.dark-mode .SubTitle {
+  color: #FFBD00;
+}
+
+body.dark-mode .GetStartedButton {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+
+body.dark-mode .GetStartedButton:hover {
+  background-color: #9B000A;
+  color: #FFBD00;
+}
+
+body.dark-mode .HowItWorksButton {
+  background-color: #9B000A;
+  color: #FFBD00;
+}
+
+body.dark-mode .HowItWorksButton:hover {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+
+body.dark-mode .section1 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/MainPage.png');
+}
+
+body.dark-mode .card1,
+body.dark-mode .card2,
+body.dark-mode .card3 {
+  background-color: #333;
+  border-color: #555;
+}
+
+body.dark-mode .title,
+body.dark-mode .description {
+  color: #f0f0f0;
+}
+
+body.dark-mode .message,
+body.dark-mode .ContactLabel,
+body.dark-mode .ContactInfo,
+body.dark-mode .quickLinks a,
+body.dark-mode .resourceLinks a {
+  color: #f0f0f0;
+}
+
+body.dark-mode .section4 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/BottomPage.png');
+}
+
+/* Dark mode for "Why Use Teknect" section */
+body.dark-mode .pageTitle,
+body.dark-mode .TeknecT-Works {
+  color: #FFBD00;
+}
+
+body.dark-mode .card1,
+body.dark-mode .card2,
+body.dark-mode .card3 {
+  background-color: #333;
+  border-color: #555;
+}
+
+body.dark-mode .title,
+body.dark-mode .description {
+  color: #f0f0f0;
+}
+
+/* Dark mode for "How Teknect Works" section */
+body.dark-mode .PostText {
+  color: #FFBD00;
+}
+
+/* Dark mode for section backgrounds */
+body.dark-mode .section3 {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/RedBg.png');
 }
