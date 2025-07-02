@@ -226,6 +226,7 @@ body {
   line-height: 1.2;
   margin-top: 2vh;
   background-color: transparent;
+  margin-left: 20px;
 }
 .FooterLinksRow {
   display: flex;
@@ -662,7 +663,7 @@ link{
     color: #000;
     font-family: 'Poppins', sans-serif;
     background-color: transparent;
-  }
+  }   
  
   .FooterLinksRow {
     flex-direction: column;
