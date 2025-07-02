@@ -1,55 +1,53 @@
 /* === Layout === */
-
-
-.PageWrapper{
-    background-image: url('../assets/MainPage.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    margin: 0;
-    padding: 0;
+.PageWrapper {
+  background-image: url('../assets/MainPage.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
 }
 
 .rent-page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 4rem;
   font-family: Arial, sans-serif;
 }
 
-.page-title {
+.rent-page-title {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #9B000A;
+  color: #2E7D32; /* Green color for rent */
   margin-bottom: 0.5rem;
   margin-top: 100px;
 }
 
-.page-subtitle {
+.rent-page-subtitle {
   font-size: 1.2rem;
   color: #555;
   margin-bottom: 1.5rem;
 }
 
-.items-section {
+.rent-items-section {
   margin-top: 2rem;
 }
 
-.section-title {
+.rent-section-title {
   font-size: 1.8rem;
-  color: #9B000A;
+  color: #2E7D32; /* Green color for rent */
   margin-bottom: 1rem;
 }
 
-.items-grid {
+.rent-items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   justify-content: center;
 }
 
-.empty-message {
+.rent-empty-message {
   text-align: center;
   font-size: 1.1rem;
   color: #666;
@@ -60,73 +58,82 @@
 }
 
 @media (min-width: 1200px) {
-  .items-grid {
+  .rent-items-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
 @media (min-width: 900px) and (max-width: 1199px) {
-  .items-grid {
+  .rent-items-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (min-width: 600px) and (max-width: 899px) {
-  .items-grid {
+  .rent-items-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 599px) {
-  .items-grid {
+  .rent-items-grid {
     grid-template-columns: 1fr;
   }
 }
 
 /* === Buttons === */
-.action-buttons {
+.rent-action-row {
   display: flex;
-  gap: 15px;
+  justify-content: space-between;
+  flex-wrap: wrap;
   margin-bottom: 2rem;
+  gap: 15px;
 }
 
-.offer-rent-btn,
-.looking-rent-btn {
+.rent-action-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.rent-post-btn {
   padding: 12px 24px;
   border: none;
   border-radius: 6px;
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  background-color: #2E7D32; /* Green */
+  color: white;
 }
 
-.offer-rent-btn {
-  background-color: #2E7D32;
-  color: #81C784;
+.rent-post-btn:hover {
+  background-color: #1B5E20; /* Darker green */
 }
 
-.looking-rent-btn {
-  background-color: #1976D2;
-  color: #90CAF9;
+.rent-search-sort-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-.offer-rent-btn:hover{
-  background-color: #81C784;
-  color: #2E7D32;
-}
-
-.looking-rent-btn:hover {
-  background-color: #90CAF9;
-  color: #1976D2;
+.rent-searchbox,
+.rent-category-select,
+.rent-date-sort-select {
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  width: 180px;
 }
 
 /* === Card Styles === */
-.item-card {
+.rent-item-card {
   display: flex;
   width: 100%;
   max-width: 300px;
   min-width: 300px;
-  height: 380px;
+  height: 350px;
   margin: auto;
   border-radius: 20px;
   overflow: hidden;
@@ -139,12 +146,12 @@
   justify-content: space-between;
 }
 
-.item-card:hover {
+.rent-item-card:hover {
   transform: translateY(-5px);
 }
 
 /* Badge */
-.item-badge {
+.rent-item-badge {
   position: absolute;
   top: 12px;
   left: 12px;
@@ -152,149 +159,87 @@
   font-weight: bold;
   padding: 5px 10px;
   border-radius: 6px;
+  background-color: #2E7D32; /* Green */
+  color: white;
 }
 
 /* Image section */
-.item-image {
+.rent-item-image {
   height: 225px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.item-image img {
+.rent-item-image img {
   width: 175px;
   height: 175px;
   opacity: 100;
+  object-fit: cover;
 }
 
 /* Info section */
-.item-info {
+.rent-item-info {
   padding: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 155px;
+  height: 125px;
+  background-color: #81C784; /* Light green */
 }
 
-.item-title {
+.rent-item-title {
   margin-top: -6px;
   font-size: 1.3rem;
   font-weight: bold;
   margin-bottom: 0.25rem;
   text-align: left;
+  color: #1B5E20; /* Dark green */
 }
 
-.item-description {
+.rent-item-description {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
+  color: #333;
 }
 
-.item-price {
-  font-size: 1rem;
+.rent-item-price {
+  font-size: 1.1rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
+  color: #2E7D32; /* Green */
 }
 
-.item-footer {
+.rent-item-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.item-user {
+.rent-item-user {
   display: flex;
   align-items: center;
   font-size: 0.85rem;
   gap: 6px;
+  color: #333;
 }
 
-.profile-pic {
+.rent-profile-pic {
   width: 24px;
   height: 24px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.item-action-button {
-  border: none;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
-.item-date {
+.rent-item-date {
   font-size: 0.8rem;
   color: #666;
   margin-top: 0.25rem;
   margin-bottom: 0.5rem;
 }
 
-/* For dark mode in looking items */
-.item-card.looking .item-date {
-  color: #ccc;
-}
-
-/* === RENT (For Rent) Variant Styles === */
-.item-card.rent .item-badge {
-  background-color: #2E7D32;
-  color: #81C784;
-}
-
-.item-card.rent .item-info {
-  background-color: #81C784;
-}
-
-.item-card.rent .item-title {
-  color: #1B5E20;
-}
-
-.item-card.rent .item-description,
-.item-card.rent .item-user {
-  color: #333;
-}
-
-.item-card.rent .item-price {
-  color: #2E7D32;
-}
-
-.item-card.rent .item-action-button {
-  background-color: #2E7D32;
-  color: #81C784;
-}
-
-/* === LOOKING (Looking to Rent) Variant Styles === */
-.item-card.looking .item-badge {
-  background-color: #1976D2;
-  color: #90CAF9;
-}
-
-.item-card.looking .item-info {
-  background-color: #1976D2;
-}
-
-.item-card.looking .item-title {
-  color: #90CAF9;
-}
-
-.item-card.looking .item-description,
-.item-card.looking .item-user {
-  color: #f0f0f0;
-}
-
-.item-card.looking .item-price {
-  color: #BBDEFB;
-}
-
-.item-card.looking .item-action-button {
-  background-color: #90CAF9;
-  color: #1976D2;
-}
-
 /* === Modal === */
-.modal-overlay {
+.rent-modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -310,7 +255,7 @@
   margin-top: 15px;
 }
 
-.modal-content {
+.rent-modal-content {
   max-width: 500px;
   width: 100%;
   height: 85vh;
@@ -326,7 +271,7 @@
 }
 
 /* Header section with close button */
-.modal-header {
+.rent-modal-header {
   flex-shrink: 0;
   padding: 1rem 1rem 0.5rem 1rem;
   position: relative;
@@ -334,7 +279,7 @@
   background-color: #fafafa;
 }
 
-.modal-close {
+.rent-modal-close {
   position: absolute;
   top: 12px;
   right: 16px;
@@ -347,11 +292,11 @@
   transition: color 0.2s ease;
 }
 
-.modal-close:hover {
-  color: #9B000A;
+.rent-modal-close:hover {
+  color: #2E7D32; /* Green */
 }
 
-.modal-title {
+.rent-modal-title {
   margin: 0 2rem 0.5rem 0;
   font-size: 1.4rem;
   font-weight: bold;
@@ -360,14 +305,14 @@
 }
 
 /* Scrollable content area */
-.modal-body {
+.rent-modal-body {
   flex: 1;
   overflow-y: auto;
   padding: 1rem;
   text-align: center;
 }
 
-.modal-image {
+.rent-modal-image {
   width: 100%;
   max-width: 350px;
   height: 200px;
@@ -378,34 +323,38 @@
   background-color: #f5f5f5;
 }
 
-.modal-details {
+.rent-modal-details {
   text-align: left;
   margin-top: 1rem;
 }
 
-.modal-details p {
+.rent-modal-details p {
   margin-bottom: 0.75rem;
   line-height: 1.5;
   word-wrap: break-word;
 }
 
-.modal-details strong {
-  color: #9B000A;
+.rent-modal-details strong {
+  color: #2E7D32; /* Green */
+}
+
+.rent-spacing {
+  margin-bottom: 0.75rem;
 }
 
 /* Footer section for buttons */
-.modal-footer {
+.rent-modal-footer {
   flex-shrink: 0;
   padding: 1rem;
   border-top: 1px solid #eee;
   background-color: #fafafa;
 }
 
-.chat-button {
+.rent-chat-button {
   width: 100%;
   padding: 12px 20px;
-  background-color: #9B000A;
-  color: #FFBD00;
+  background-color: #2E7D32; /* Green */
+  color: white;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -415,13 +364,12 @@
   margin-bottom: 1rem;
 }
 
-.chat-button:hover {
-  background-color: #FFBD00;
-  color: #9B000A;
+.rent-chat-button:hover {
+  background-color: #1B5E20; /* Darker green */
 }
 
 /* Chat Modal Specific Styles */
-.chat-info {
+.rent-chat-info {
   background-color: #f8f9fa;
   padding: 1rem;
   border-radius: 8px;
@@ -429,14 +377,14 @@
   text-align: left;
 }
 
-.chat-info p {
+.rent-chat-info p {
   margin: 0;
   font-size: 0.95rem;
   color: #555;
   line-height: 1.4;
 }
 
-.chat-textarea {
+.rent-chat-textarea {
   width: 100%;
   height: 80px;
   padding: 0.75rem;
@@ -450,27 +398,27 @@
   transition: border-color 0.2s ease;
 }
 
-.chat-textarea:focus {
+.rent-chat-textarea:focus {
   outline: none;
-  border-color: #9B000A;
-  box-shadow: 0 0 0 2px rgba(155, 0, 10, 0.1);
+  border-color: #2E7D32; /* Green */
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.1);
 }
 
-.char-count {
+.rent-char-count {
   text-align: right;
   font-size: 0.8rem;
   color: #666;
   margin-bottom: 1rem;
 }
 
-.chat-actions {
+.rent-chat-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
 
-.cancel-button,
-.send-button {
+.rent-cancel-button,
+.rent-send-button {
   padding: 8px 16px;
   font-size: 0.9rem;
   border: none;
@@ -480,144 +428,32 @@
   transition: all 0.2s ease;
 }
 
-.cancel-button {
+.rent-cancel-button {
   background-color: #ccc;
   color: #333;
 }
 
-.cancel-button:hover {
+.rent-cancel-button:hover {
   background-color: #bbb;
 }
 
-.send-button {
-  background-color: #9B000A;
-  color: #FFBD00;
+.rent-send-button {
+  background-color: #2E7D32; /* Green */
+  color: white;
 }
 
-.send-button:hover:not(:disabled) {
-  background-color: #FFBD00;
-  color: #9B000A;
+.rent-send-button:hover:not(:disabled) {
+  background-color: #1B5E20; /* Darker green */
 }
 
-.send-button:disabled {
+.rent-send-button:disabled {
   background-color: #ddd;
   color: #999;
   cursor: not-allowed;
 }
 
-.spacing {
-  margin-bottom: 0.75rem;
-}
-
-/* Mobile responsiveness */
-@media (max-width: 480px) {
-  .modal-content {
-    max-width: 95%;
-    height: 90vh;
-    max-height: 90vh;
-  }
-
-  .modal-header,
-  .modal-body,
-  .modal-footer {
-    padding: 0.75rem;
-  }
-
-  .modal-title {
-    font-size: 1.2rem;
-  }
-
-  .modal-image {
-    height: 150px;
-    max-width: 280px;
-  }
-
-  .chat-textarea {
-    height: 60px;
-    font-size: 0.85rem;
-  }
-
-  .cancel-button,
-  .send-button {
-    padding: 8px 12px;
-    font-size: 0.85rem;
-  }
-
-  .action-buttons {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .offer-rent-btn,
-  .looking-rent-btn {
-    width: 100%;
-  }
-
-  .page-title {
-    font-size: 2rem;
-    margin-top: 50px;
-  }
-
-  .page-subtitle {
-    font-size: 1rem;
-  }
-
-  .rent-page {
-    padding: 1rem;
-  }
-}
-
-/* Scrollbar Styling */
-.modal-body::-webkit-scrollbar {
-  width: 6px;
-}
-
-.modal-body::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 3px;
-}
-
-.modal-body::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 3px;
-}
-
-.modal-body::-webkit-scrollbar-thumb:hover {
-  background: #9B000A;
-}
-
-/* Focus and accessibility improvements */
-.modal-close:focus,
-.chat-button:focus,
-.cancel-button:focus,
-.send-button:focus {
-  outline: 2px solid #9B000A;
-  outline-offset: 2px;
-}
-
-.offer-rent-btn:focus,
-.looking-rent-btn:focus {
-  outline: 2px solid #333;
-  outline-offset: 2px;
-}
-
-/* Animation for modal appearance */
-@keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.modal-content {
-  animation: modalFadeIn 0.2s ease-out;
-}
-
-.post-reference-card {
+/* Post Reference Card Styles */
+.rent-post-reference-card {
   background: #f8f9fa;
   border: 1px solid #e9ecef;
   border-radius: 8px;
@@ -625,57 +461,189 @@
   margin-bottom: 15px;
 }
 
-.post-ref-header {
+.rent-post-ref-header {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
 }
 
-.post-ref-badge {
+.rent-post-ref-badge {
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 12px;
   font-weight: bold;
   text-transform: uppercase;
-}
-
-.post-ref-badge.rent {
   background: #e8f5e8;
   color: #2e7d32;
 }
 
-.post-ref-badge.looking {
-  background: #e3f2fd;
-  color: #1976d2;
-}
-
-.post-ref-title {
+.rent-post-ref-title {
   margin: 0;
   font-size: 16px;
 }
 
-.post-ref-details {
+.rent-post-ref-details {
   display: flex;
   gap: 15px;
 }
 
-.post-ref-image {
+.rent-post-ref-image {
   flex-shrink: 0;
 }
 
-.post-ref-image img {
+.rent-post-ref-image img {
   width: 60px;
   height: 60px;
   object-fit: cover;
   border-radius: 4px;
 }
 
-.post-ref-info {
+.rent-post-ref-info {
   flex: 1;
 }
 
-.post-ref-info p {
+.rent-post-ref-info p {
   margin: 5px 0;
   font-size: 14px;
+}
+
+/* PAGINATION: Styles for Pagination Controls */
+.rent-pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.rent-pagination-controls button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #2E7D32; /* Green */
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rent-pagination-controls button:hover:not(:disabled) {
+  background-color: #2E7D32; /* Green */
+  color: white;
+  border-color: #2E7D32;
+}
+
+.rent-pagination-controls button:disabled {
+  background-color: #f0f0f0;
+  color: #aaa;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.rent-pagination-controls span {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .rent-action-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rent-action-buttons {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .rent-search-sort-controls {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .rent-searchbox,
+  .rent-category-select,
+  .rent-date-sort-select {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .rent-page {
+    padding: 1rem;
+  }
+
+  .rent-page-title {
+    font-size: 2rem;
+    margin-top: 50px;
+  }
+
+  .rent-page-subtitle {
+    font-size: 1rem;
+  }
+
+  .rent-modal-content {
+    max-width: 95%;
+    height: 90vh;
+    max-height: 70vh;
+  }
+
+  .rent-modal-header,
+  .rent-modal-body,
+  .rent-modal-footer {
+    padding: 0.75rem;
+  }
+
+  .rent-modal-title {
+    font-size: 1.2rem;
+  }
+
+  .rent-modal-image {
+    height: 150px;
+    max-width: 280px;
+  }
+
+  .rent-chat-textarea {
+    height: 60px;
+    font-size: 0.85rem;
+  }
+
+  .rent-cancel-button,
+  .rent-send-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .rent-item-card {
+    min-width: auto;
+    max-width: 100%;
+  }
+
+  .rent-item-info {
+    height: auto;
+  }
+
+  .rent-item-title {
+    font-size: 1.1rem;
+  }
+
+  .rent-item-price {
+    font-size: 1rem;
+  }
+
+  .rent-item-user {
+    font-size: 0.8rem;
+  }
+
+  .rent-pagination-controls {
+    gap: 0.5rem;
+  }
+  .rent-pagination-controls button {
+    padding: 6px 10px;
+  }
 }

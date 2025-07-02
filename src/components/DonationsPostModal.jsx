@@ -4,7 +4,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './PostItemModal.css';
 
-function DonationsPostModal({ onClose }) {
+function DonationsPostModal({ onClose, defaultType }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -12,7 +12,7 @@ function DonationsPostModal({ onClose }) {
     };
   }, []);
 
-  const [selectedType, setSelectedType] = useState('donation');
+  const [selectedType, setSelectedType] = useState(defaultType ? defaultType.toLowerCase() : '');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -20,6 +20,16 @@ function DonationsPostModal({ onClose }) {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    if (defaultType) {
+      setSelectedType(defaultType.toLowerCase());
+    }
+  }, [defaultType]);
+
+  const handleTypeClick = (type) => {
+    setSelectedType(type);
+  };
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -104,22 +114,37 @@ function DonationsPostModal({ onClose }) {
         </h2>
 
         <form className="post-form" onSubmit={handlePost}>
-          {/* Type Toggle Buttons */}
-          <label className="form-label">
-            <span className="form-icon">🔁</span> Post Type
-            <div className="item-type-buttons">
-              {['donation', 'request'].map((type) => (
-                <button
-                  key={type}
-                  type="button"
-                  className={`type-button ${selectedType === type ? 'active' : ''}`}
-                  onClick={() => setSelectedType(type)}
-                >
-                  {type.charAt(0).toUpperCase() + type.slice(1)}
-                </button>
-              ))}
-            </div>
-          </label>
+          <div className="form-row">
+            <label className="form-label type-category-container">
+              <span className="form-icon">🔁</span> Post Type
+              <div className="item-type-buttons">
+                {['donation', 'request'].map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    className={`type-button ${selectedType === type ? 'active' : ''} ${
+                      defaultType && selectedType !== type ? 'disabled' : ''
+                    }`}
+                    onClick={() => handleTypeClick(type)}
+                    disabled={defaultType && selectedType !== type}
+                  >
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </label>
+
+            <label className="form-label type-category-container">
+              <span className="form-icon">📁</span> Category
+              <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+                <option value="">Select category</option>
+                <option>Electronics</option>
+                <option>Books</option>
+                <option>Clothing</option>
+                <option>Other</option>
+              </select>
+            </label>
+          </div>
 
           <label className="form-label">
             <span className="form-icon">🏷️</span> Item Title
@@ -141,17 +166,6 @@ function DonationsPostModal({ onClose }) {
               onChange={(e) => setDescription(e.target.value)}
               required
             />
-          </label>
-
-          <label className="form-label">
-            <span className="form-icon">📁</span> Category
-            <select value={category} onChange={(e) => setCategory(e.target.value)} required>
-              <option value="">Select category</option>
-              <option>Electronics</option>
-              <option>Books</option>
-              <option>Clothing</option>
-              <option>Other</option>
-            </select>
           </label>
 
           <label className="form-label">

@@ -13,7 +13,7 @@ import {
   getDoc,
   setDoc,
   addDoc,
-  serverTimestamp
+  serverTimestamp,
 } from 'firebase/firestore';
 
 function formatDate(timestamp) {
@@ -36,6 +36,8 @@ function LostFoundPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('All');
   const [dateSort, setDateSort] = useState('Newest');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 8;
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -47,38 +49,44 @@ function LostFoundPage() {
         );
 
         const querySnapshot = await getDocs(q);
-        const results = await Promise.all(querySnapshot.docs.map(async docSnap => {
-          const data = docSnap.data();
-          let userProfile = DefaultProfile;
-          let userName = data.email;
+        const results = await Promise.all(
+          querySnapshot.docs.map(async (docSnap) => {
+            const data = docSnap.data();
+            let userProfile = DefaultProfile;
+            let userName = data.email;
 
-          if (data.uid) {
-            const userDoc = await getDoc(doc(db, 'users', data.uid));
-            if (userDoc.exists()) {
-              const userData = userDoc.data();
-              if (userData.photoURL) userProfile = userData.photoURL;
-              if (userData.name) userName = userData.name;
+            if (data.uid) {
+              const userDoc = await getDoc(doc(db, 'users', data.uid));
+              if (userDoc.exists()) {
+                const userData = userDoc.data();
+                if (userData.photoURL) userProfile = userData.photoURL;
+                if (userData.name) userName = userData.name;
+              }
             }
-          }
 
-          return {
-            id: docSnap.id,
-            ...data,
-            status: data.type.charAt(0).toUpperCase() + data.type.slice(1),
-            user: userName,
-            image: data.imageUrls?.[0] || '',
-            profile: userProfile,
-          };
-        }));
+            return {
+              id: docSnap.id,
+              ...data,
+              status: data.type.charAt(0).toUpperCase() + data.type.slice(1),
+              user: userName,
+              image: data.imageUrls?.[0] || '',
+              profile: userProfile,
+            };
+          })
+        );
 
         setItems(results);
       } catch (err) {
-        console.error("Error fetching items:", err);
+        console.error('Error fetching items:', err);
       }
     };
 
     fetchItems();
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, category, dateSort]);
 
   const handleCardClick = (item) => setSelectedItem(item);
   const closeModal = () => setSelectedItem(null);
@@ -102,30 +110,33 @@ function LostFoundPage() {
       return;
     }
 
-    const chatId = sender.uid < receiverId
-      ? `${sender.uid}_${receiverId}`
-      : `${receiverId}_${sender.uid}`;
+    const chatId =
+      sender.uid < receiverId
+        ? `${sender.uid}_${receiverId}`
+        : `${receiverId}_${sender.uid}`;
 
     try {
-      // Create/update chat document
-      await setDoc(doc(db, 'chats', chatId), {
-        users: [sender.uid, receiverId],
-        lastMessage: message.trim(),
-        lastMessageTime: serverTimestamp(),
-        lastPostId: selectedItem.id,
-        lastPostTitle: selectedItem.title,
-        lastPostStatus: selectedItem.status
-      }, { merge: true });
+      await setDoc(
+        doc(db, 'chats', chatId),
+        {
+          users: [sender.uid, receiverId],
+          lastMessage: message.trim(),
+          lastMessageTime: serverTimestamp(),
+          lastPostId: selectedItem.id,
+          lastPostTitle: selectedItem.title,
+          lastPostStatus: selectedItem.status,
+        },
+        { merge: true }
+      );
 
-      // Add the message with enhanced post identification
       const messageData = {
         sender: sender.uid,
         senderName: sender.displayName || sender.email,
-        text: `[RE: ${selectedItem.status} - ${selectedItem.title}] ${message.trim()}`,
+        text: `[RE: ${selectedItem.status} - ${
+          selectedItem.title
+        }] ${message.trim()}`,
         timestamp: serverTimestamp(),
         read: false,
-        
-        // Enhanced post identification
         postReference: {
           postId: selectedItem.id,
           postTitle: selectedItem.title,
@@ -136,20 +147,15 @@ function LostFoundPage() {
           postDescription: selectedItem.description,
           postOwner: selectedItem.user,
           postOwnerUid: selectedItem.uid,
-          postCreatedAt: selectedItem.createdAt
+          postCreatedAt: selectedItem.createdAt,
         },
-        
-        // Message type to distinguish regular messages from post-related messages
         messageType: 'post_inquiry',
-        
-        // Additional context
-        messageContext: `Inquiry about ${selectedItem.status.toLowerCase()} item: ${selectedItem.title}`,
-        
-        // Original message without prefix (for display flexibility)
-        originalMessage: message.trim()
+        messageContext: `Inquiry about ${selectedItem.status.toLowerCase()} item: ${
+          selectedItem.title
+        }`,
+        originalMessage: message.trim(),
       };
 
-      console.log('Sending message with data:', messageData);
       await addDoc(collection(db, 'chats', chatId, 'messages'), messageData);
 
       setShowChatModal(false);
@@ -167,43 +173,71 @@ function LostFoundPage() {
   };
 
   const filteredItems = items
-  .filter(item => {
-    // Search filter
-    const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchTerm.toLowerCase());
-    // Category filter
-    const matchesCategory = category === 'All' || (item.category && item.category === category);
-    return matchesSearch && matchesCategory;
-  })
-  .sort((a, b) => {
-    if (dateSort === 'Newest') {
-      return b.createdAt?.toDate() - a.createdAt?.toDate();
-    } else {
-      return a.createdAt?.toDate() - b.createdAt?.toDate();
-    }
-  });
+    .filter((item) => {
+      const matchesSearch =
+        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        category === 'All' || (item.category && item.category === category);
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (dateSort === 'Newest') {
+        return b.createdAt?.toDate() - a.createdAt?.toDate();
+      } else {
+        return a.createdAt?.toDate() - b.createdAt?.toDate();
+      }
+    });
+
+  const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
 
   return (
     <div className="PageWrapper page-fade-in">
       <main className="lost-found-page">
-        <h1 className="page-title">Lost & Found</h1>
-        <p className="page-subtitle">Have you lost or found an item? Post it here and help the community!</p>
+        <h1 className="lost-found-page-title">Lost & Found</h1>
+        <p className="lost-found-page-subtitle">
+          Have you lost or found an item? Post it here and help the community!
+        </p>
 
-        <div className="action-buttons">
-          <button className="report-lost-btn" onClick={() => openPostModal('Lost')}>Report Lost Item</button>
-          <button className="report-found-btn" onClick={() => openPostModal('Found')}>Report Found Item</button>
-          <div className="search-sort-controls">
+        <div className="lost-found-action-row">
+          <div className="lost-found-action-buttons">
+            <button
+              className="lost-found-report-lost-btn"
+              onClick={() => openPostModal('Lost')}
+            >
+              Report Lost Item
+            </button>
+            <button
+              className="lost-found-report-found-btn"
+              onClick={() => openPostModal('Found')}
+            >
+              Report Found Item
+            </button>
+          </div>
+          
+          <div className="lost-found-search-sort-controls">
             <input
               type="text"
-              className="searchbox"
+              className="lost-found-searchbox"
               placeholder="Search items..."
               value={searchTerm}
-              onChange={e => setSearchTerm(e.target.value)}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <select
-              className="category-select"
+              className="lost-found-category-select"
               value={category}
-              onChange={e => setCategory(e.target.value)}
+              onChange={(e) => setCategory(e.target.value)}
             >
               <option value="All">All Categories</option>
               <option value="Electronics">Electronics</option>
@@ -212,9 +246,9 @@ function LostFoundPage() {
               <option value="Other">Others</option>
             </select>
             <select
-              className="date-sort-select"
+              className="lost-found-date-sort-select"
               value={dateSort}
-              onChange={e => setDateSort(e.target.value)}
+              onChange={(e) => setDateSort(e.target.value)}
             >
               <option value="Newest">Newest to Oldest</option>
               <option value="Oldest">Oldest to Newest</option>
@@ -222,72 +256,121 @@ function LostFoundPage() {
           </div>
         </div>
 
-        <section className="items-section">
-          <h2 className="section-title">Recent Posts</h2>
-          {filteredItems.length === 0 ? (
-              <p className="empty-message">No posts found.</p>
-            ) : (
-              <div className="items-grid">
-                {filteredItems.map((item) => (
-                <div
-                  key={item.id}
-                  className={`item-card ${item.status.toLowerCase()}`}
-                  onClick={() => handleCardClick(item)}
-                >
-                  <div className={`item-badge ${item.status.toLowerCase()}`}>{item.status}</div>
-                  <div className="item-image">
-                    <img src={item.image} alt="item" />
-                  </div>
-                  <div className={`item-info ${item.status.toLowerCase()}`}>
-                    <div>
-                      <h3 className="item-title">{item.title}</h3>
-                      <p className="item-description">{item.description}</p>
-                      <p className="item-date">
-                        {item.status === 'Lost'
-                          ? `Lost on: ${formatDate(item.createdAt)}`
-                          : `Found on: ${formatDate(item.createdAt)}`}
-                      </p>
+        <section className="lost-found-items-section">
+          <h2 className="lost-found-section-title">Recent Posts</h2>
+          
+          {currentItems.length === 0 ? (
+            <p className="lost-found-empty-message">
+              No posts found. Try adjusting your search or filters.
+            </p>
+          ) : (
+            <>
+              <div className="lost-found-items-grid">
+                {currentItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`lost-found-item-card ${item.status.toLowerCase()}`}
+                    onClick={() => handleCardClick(item)}
+                  >
+                    <div className={`lost-found-item-badge ${item.status.toLowerCase()}`}>
+                      {item.status}
                     </div>
-                    <div className="item-footer">
-                      <div className="item-user">
-                        <img src={item.profile} alt="profile" className="profile-pic" />
-                        <span>{item.user}</span>
+                    <div className="lost-found-item-image">
+                      <img src={item.image} alt="item" />
+                    </div>
+                    <div className={`lost-found-item-info ${item.status.toLowerCase()}`}>
+                      <div>
+                        <h3 className="lost-found-item-title">{item.title}</h3>
+                        <p className="lost-found-item-description">
+                          {item.description}
+                        </p>
+                        <p className="lost-found-item-date">
+                          {item.status === 'Lost'
+                            ? `Lost on: ${formatDate(item.createdAt)}`
+                            : `Found on: ${formatDate(item.createdAt)}`}
+                        </p>
+                      </div>
+                      <div className="lost-found-item-footer">
+                        <div className="lost-found-item-user">
+                          <img
+                            src={item.profile}
+                            alt="profile"
+                            className="lost-found-profile-pic"
+                          />
+                          <span>{item.user}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="lost-found-pagination-controls">
+                  <button onClick={handlePrevPage} disabled={currentPage === 1}>
+                    « Prev
+                  </button>
+                  <span>
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next »
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </section>
 
-        {/* Main Item Modal */}
         {selectedItem && (
-          <div className="modal-overlay" onClick={closeModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              {/* Header Section */}
-              <div className="modal-header">
-                <button className="modal-close" onClick={closeModal}>×</button>
-                <h2 className="modal-title">{selectedItem.title}</h2>
+          <div className="lost-found-modal-overlay" onClick={closeModal}>
+            <div className="lost-found-modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="lost-found-modal-header">
+                <button className="lost-found-modal-close" onClick={closeModal}>
+                  ×
+                </button>
+                <h2 className="lost-found-modal-title">{selectedItem.title}</h2>
               </div>
-
-              {/* Body Section - Scrollable */}
-              <div className="modal-body">
-                <img src={selectedItem.image} alt="item" className="modal-image" />
-                
-                <div className="modal-details">
-                  <p className="spacing"><strong>Description:</strong> {selectedItem.description}</p>
-                  <p className="spacing"><strong>Status:</strong> {selectedItem.status}</p>  
-                  <p className="spacing"><strong>Category:</strong> {selectedItem.category || 'N/A'}</p>
-                  <p className="spacing"><strong>Location:</strong> {selectedItem.location || 'N/A'}</p>
-                  <p className="spacing"><strong>{selectedItem.status === 'Lost' ? 'Lost on:' : 'Found on:'}</strong> {formatDate(selectedItem.createdAt)}</p>
-                  <p className="spacing"><strong>Reported by:</strong> {selectedItem.user}</p>
+              <div className="lost-found-modal-body">
+                <img
+                  src={selectedItem.image}
+                  alt="item"
+                  className="lost-found-modal-image"
+                />
+                <div className="lost-found-modal-details">
+                  <p className="lost-found-spacing">
+                    <strong>Description:</strong> {selectedItem.description}
+                  </p>
+                  <p className="lost-found-spacing">
+                    <strong>Status:</strong> {selectedItem.status}
+                  </p>
+                  <p className="lost-found-spacing">
+                    <strong>Category:</strong> {selectedItem.category || 'N/A'}
+                  </p>
+                  <p className="lost-found-spacing">
+                    <strong>Location:</strong> {selectedItem.location || 'N/A'}
+                  </p>
+                  <p className="lost-found-spacing">
+                    <strong>
+                      {selectedItem.status === 'Lost'
+                        ? 'Lost on:'
+                        : 'Found on:'}
+                    </strong>{' '}
+                    {formatDate(selectedItem.createdAt)}
+                  </p>
+                  <p className="lost-found-spacing">
+                    <strong>Reported by:</strong> {selectedItem.user}
+                  </p>
                 </div>
               </div>
-
-              {/* Footer Section */}
-              <div className="modal-footer">
-                <button className="chat-button" onClick={() => setShowChatModal(true)}>
+              <div className="lost-found-modal-footer">
+                <button
+                  className="lost-found-chat-button"
+                  onClick={() => setShowChatModal(true)}
+                >
                   Chat With Uploader
                 </button>
               </div>
@@ -295,63 +378,69 @@ function LostFoundPage() {
           </div>
         )}
 
-        {/* Post Item Modal */}
-        {showPostModal && <PostItemModal onClose={closePostModal} defaultType={defaultItemType} />}
+        {showPostModal && (
+          <PostItemModal onClose={closePostModal} defaultType={defaultItemType} />
+        )}
 
-        {/* Chat Modal */}
         {showChatModal && (
-          <div className="modal-overlay" onClick={() => setShowChatModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              {/* Header Section */}
-              <div className="modal-header">
-                <button className="modal-close" onClick={closeChatModal}>×</button>
-                <h2 className="modal-title">Chat With Uploader</h2>
+          <div className="lost-found-modal-overlay" onClick={() => setShowChatModal(false)}>
+            <div className="lost-found-modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="lost-found-modal-header">
+                <button className="lost-found-modal-close" onClick={closeChatModal}>
+                  ×
+                </button>
+                <h2 className="lost-found-modal-title">Chat With Uploader</h2>
               </div>
-
-              {/* Body Section */}
-              <div className="modal-body">
-                {/* Enhanced Post Reference Card */}
-                <div className="post-reference-card">
-                  <div className="post-ref-header">
-                    <span className={`post-ref-badge ${selectedItem?.status.toLowerCase()}`}>
+              <div className="lost-found-modal-body">
+                <div className="lost-found-post-reference-card">
+                  <div className="lost-found-post-ref-header">
+                    <span className={`lost-found-post-ref-badge ${selectedItem?.status.toLowerCase()}`}>
                       {selectedItem?.status}
                     </span>
-                    <h4 className="post-ref-title">{selectedItem?.title}</h4>
+                    <h4 className="lost-found-post-ref-title">{selectedItem?.title}</h4>
                   </div>
-                  <div className="post-ref-details">
-                    <div className="post-ref-image">
+                  <div className="lost-found-post-ref-details">
+                    <div className="lost-found-post-ref-image">
                       <img src={selectedItem?.image} alt="item" />
                     </div>
-                    <div className="post-ref-info">
-                      <p><strong>Category:</strong> {selectedItem?.category || 'N/A'}</p>
-                      <p><strong>Location:</strong> {selectedItem?.location || 'N/A'}</p>
-                      <p><strong>Posted by:</strong> {selectedItem?.user}</p>
+                    <div className="lost-found-post-ref-info">
+                      <p>
+                        <strong>Category:</strong> {selectedItem?.category || 'N/A'}
+                      </p>
+                      <p>
+                        <strong>Location:</strong> {selectedItem?.location || 'N/A'}
+                      </p>
+                      <p>
+                        <strong>Posted by:</strong> {selectedItem?.user}
+                      </p>
                     </div>
                   </div>
                 </div>
-
-                <div className="chat-info">
-                  <p>Send a message to <strong>{selectedItem?.user}</strong> about their {selectedItem?.status.toLowerCase()} item: <strong>{selectedItem?.title}</strong></p>
+                <div className="lost-found-chat-info">
+                  <p>
+                    Send a message to <strong>{selectedItem?.user}</strong>{' '}
+                    about their {selectedItem?.status.toLowerCase()} item:{' '}
+                    <strong>{selectedItem?.title}</strong>
+                  </p>
                 </div>
-                
                 <textarea
-                  className="chat-textarea"
-                  placeholder={`Write a message about the ${selectedItem?.status.toLowerCase()} item "${selectedItem?.title}"...`}
+                  className="lost-found-chat-textarea"
+                  placeholder={`Write a message about the ${selectedItem?.status.toLowerCase()} item "${
+                    selectedItem?.title
+                  }"...`}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   maxLength={500}
                 />
-                <div className="char-count">
-                  {message.length}/500 characters
-                </div>
+                <div className="lost-found-char-count">{message.length}/500 characters</div>
               </div>
-
-              {/* Footer Section */}
-              <div className="modal-footer">
-                <div className="chat-actions">
-                  <button className="cancel-button" onClick={closeChatModal}>Cancel</button>
-                  <button 
-                    className="send-button" 
+              <div className="lost-found-modal-footer">
+                <div className="lost-found-chat-actions">
+                  <button className="lost-found-cancel-button" onClick={closeChatModal}>
+                    Cancel
+                  </button>
+                  <button
+                    className="lost-found-send-button"
                     onClick={handleSendMessage}
                     disabled={!message.trim()}
                   >

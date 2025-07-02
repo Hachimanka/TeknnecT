@@ -13,7 +13,7 @@ import {
   getDoc,
   setDoc,
   addDoc,
-  serverTimestamp
+  serverTimestamp,
 } from 'firebase/firestore';
 
 function formatDate(timestamp) {
@@ -33,7 +33,12 @@ function DonationsPage() {
   const [showChatModal, setShowChatModal] = useState(false);
   const [message, setMessage] = useState('');
   const [items, setItems] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [category, setCategory] = useState('All');
+  const [dateSort, setDateSort] = useState('Newest');
   const [filterType, setFilterType] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 8;
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -45,54 +50,51 @@ function DonationsPage() {
         );
 
         const querySnapshot = await getDocs(q);
-        const results = await Promise.all(querySnapshot.docs.map(async docSnap => {
-          const data = docSnap.data();
-          let userProfile = DefaultProfile;
-          let userName = data.email;
+        const results = await Promise.all(
+          querySnapshot.docs.map(async (docSnap) => {
+            const data = docSnap.data();
+            let userProfile = DefaultProfile;
+            let userName = data.email;
 
-          if (data.uid) {
-            const userDoc = await getDoc(doc(db, 'users', data.uid));
-            if (userDoc.exists()) {
-              const userData = userDoc.data();
-              if (userData.photoURL) userProfile = userData.photoURL;
-              if (userData.name) userName = userData.name;
+            if (data.uid) {
+              const userDoc = await getDoc(doc(db, 'users', data.uid));
+              if (userDoc.exists()) {
+                const userData = userDoc.data();
+                if (userData.photoURL) userProfile = userData.photoURL;
+                if (userData.name) userName = userData.name;
+              }
             }
-          }
 
-          return {
-            id: docSnap.id,
-            ...data,
-            status: data.type === 'donation' ? 'Available' : 'Needed',
-            user: userName,
-            image: data.imageUrls?.[0] || '',
-            profile: userProfile,
-          };
-        }));
+            return {
+              id: docSnap.id,
+              ...data,
+              status: data.type === 'donation' ? 'Available' : 'Needed',
+              user: userName,
+              image: data.imageUrls?.[0] || '',
+              profile: userProfile,
+            };
+          })
+        );
 
         setItems(results);
       } catch (err) {
-        console.error("Error fetching items:", err);
+        console.error('Error fetching items:', err);
       }
     };
 
     fetchItems();
   }, []);
 
-  const filteredItems = items.filter(item => {
-    if (filterType === 'all') return true;
-    if (filterType === 'available') return item.type === 'donation';
-    if (filterType === 'needed') return item.type === 'request';
-    return true;
-  });
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, category, dateSort, filterType]);
 
   const handleCardClick = (item) => setSelectedItem(item);
   const closeModal = () => setSelectedItem(null);
-  
   const openPostModal = (itemType) => {
     setDefaultItemType(itemType);
     setShowPostModal(true);
   };
-  
   const closePostModal = () => {
     setShowPostModal(false);
     setDefaultItemType('');
@@ -109,30 +111,33 @@ function DonationsPage() {
       return;
     }
 
-    const chatId = sender.uid < receiverId
-      ? `${sender.uid}_${receiverId}`
-      : `${receiverId}_${sender.uid}`;
+    const chatId =
+      sender.uid < receiverId
+        ? `${sender.uid}_${receiverId}`
+        : `${receiverId}_${sender.uid}`;
 
     try {
-      // Create/update chat document
-      await setDoc(doc(db, 'chats', chatId), {
-        users: [sender.uid, receiverId],
-        lastMessage: message.trim(),
-        lastMessageTime: serverTimestamp(),
-        lastPostId: selectedItem.id,
-        lastPostTitle: selectedItem.title,
-        lastPostStatus: selectedItem.status
-      }, { merge: true });
+      await setDoc(
+        doc(db, 'chats', chatId),
+        {
+          users: [sender.uid, receiverId],
+          lastMessage: message.trim(),
+          lastMessageTime: serverTimestamp(),
+          lastPostId: selectedItem.id,
+          lastPostTitle: selectedItem.title,
+          lastPostStatus: selectedItem.status,
+        },
+        { merge: true }
+      );
 
-      // Add the message with enhanced post identification
       const messageData = {
         sender: sender.uid,
         senderName: sender.displayName || sender.email,
-        text: `[RE: ${selectedItem.status} - ${selectedItem.title}] ${message.trim()}`,
+        text: `[RE: ${selectedItem.status} - ${
+          selectedItem.title
+        }] ${message.trim()}`,
         timestamp: serverTimestamp(),
         read: false,
-        
-        // Enhanced post identification
         postReference: {
           postId: selectedItem.id,
           postTitle: selectedItem.title,
@@ -146,18 +151,13 @@ function DonationsPage() {
           postCreatedAt: selectedItem.createdAt,
           postType: selectedItem.type
         },
-        
-        // Message type to distinguish regular messages from post-related messages
         messageType: 'donation_inquiry',
-        
-        // Additional context
-        messageContext: `Inquiry about ${selectedItem.status.toLowerCase()} donation: ${selectedItem.title}`,
-        
-        // Original message without prefix (for display flexibility)
-        originalMessage: message.trim()
+        messageContext: `Inquiry about ${selectedItem.status.toLowerCase()} item: ${
+          selectedItem.title
+        }`,
+        originalMessage: message.trim(),
       };
 
-      console.log('Sending message with data:', messageData);
       await addDoc(collection(db, 'chats', chatId, 'messages'), messageData);
 
       setShowChatModal(false);
@@ -174,136 +174,264 @@ function DonationsPage() {
     setMessage('');
   };
 
+  const filteredItems = items
+    .filter((item) => {
+      const matchesSearch =
+        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        category === 'All' || (item.category && item.category === category);
+      const matchesType = 
+        filterType === 'all' || 
+        (filterType === 'available' && item.type === 'donation') || 
+        (filterType === 'needed' && item.type === 'request');
+      
+      return matchesSearch && matchesCategory && matchesType;
+    })
+    .sort((a, b) => {
+      if (dateSort === 'Newest') {
+        return b.createdAt?.toDate() - a.createdAt?.toDate();
+      } else {
+        return a.createdAt?.toDate() - b.createdAt?.toDate();
+      }
+    });
+
+  const totalPages = Math.ceil(filteredItems.length / ITEMS_PER_PAGE);
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+  const currentItems = filteredItems.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handleNextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, totalPages));
+  };
+
+  const handlePrevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
   return (
     <div className="PageWrapper page-fade-in">
       <main className="donations-page">
-        <h1 className="page-title">Donations</h1>
-        <p className="page-subtitle">Share resources with the community or find what you need!</p>
+        <h1 className="donations-page-title">Donations</h1>
+        <p className="donations-page-subtitle">
+          Share resources with the community or find what you need!
+        </p>
 
-        <div className="action-buttons">
-          <button className="donate-btn" onClick={() => openPostModal('Donation')}>
-            Donate Item
-          </button>
-          <button className="request-btn" onClick={() => openPostModal('Request')}>
-            Request Item
-          </button>
+        <div className="donations-action-row">
+          <div className="donations-action-buttons">
+            <button
+              className="donations-donate-btn"
+              onClick={() => openPostModal('donation')}
+            >
+              Donate Item
+            </button>
+            <button
+              className="donations-request-btn"
+              onClick={() => openPostModal('request')}
+            >
+              Request Item
+            </button>
+          </div>
+          
+          <div className="donations-search-sort-controls">
+            <input
+              type="text"
+              className="donations-searchbox"
+              placeholder="Search items..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <select
+              className="donations-category-select"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+            >
+              <option value="All">All Categories</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Books">Books</option>
+              <option value="Clothing">Clothing</option>
+              <option value="Other">Others</option>
+            </select>
+            <select
+              className="donations-date-sort-select"
+              value={dateSort}
+              onChange={(e) => setDateSort(e.target.value)}
+            >
+              <option value="Newest">Newest to Oldest</option>
+              <option value="Oldest">Oldest to Newest</option>
+            </select>
+          </div>
         </div>
 
-        <div className="filter-buttons">
+        <div className="donations-filter-buttons">
           <button 
-            className={`filter-btn ${filterType === 'all' ? 'active' : ''}`}
+            className={`donations-filter-btn ${filterType === 'all' ? 'active' : ''}`}
             onClick={() => setFilterType('all')}
           >
             All Items
           </button>
           <button 
-            className={`filter-btn ${filterType === 'available' ? 'active' : ''}`}
+            className={`donations-filter-btn ${filterType === 'available' ? 'active' : ''}`}
             onClick={() => setFilterType('available')}
           >
             Available
           </button>
           <button 
-            className={`filter-btn ${filterType === 'needed' ? 'active' : ''}`}
+            className={`donations-filter-btn ${filterType === 'needed' ? 'active' : ''}`}
             onClick={() => setFilterType('needed')}
           >
             Needed
           </button>
         </div>
 
-        <section className="items-section">
-          <h2 className="section-title">
+        <section className="donations-items-section">
+          <h2 className="donations-section-title">
             {filterType === 'all' ? 'All Donations' : 
              filterType === 'available' ? 'Available Items' : 'Requested Items'}
+            {category !== 'All' ? ` in ${category}` : ''}
           </h2>
-          {filteredItems.length === 0 ? (
-            <p className="empty-message">No items found.</p>
+          
+          {currentItems.length === 0 ? (
+            <p className="donations-empty-message">
+              No posts found. Try adjusting your search or filters.
+            </p>
           ) : (
-            <div className="items-grid">
-              {filteredItems.map((item) => (
-                <div
-                  key={item.id}
-                  className={`item-card ${item.type}`}
-                  onClick={() => handleCardClick(item)}
-                >
-                  <div className={`item-badge ${item.type}`}>
-                    {item.status}
-                  </div>
-                  <div className="item-image">
-                    <img src={item.image} alt="item" />
-                  </div>
-                  <div className={`item-info ${item.type}`}>
-                    <div>
-                      <h3 className="item-title">{item.title}</h3>
-                      <p className="item-description">{item.description}</p>
-                      <p className="item-date">
-                        {item.type === 'donation'
-                          ? `Available since: ${formatDate(item.createdAt)}`
-                          : `Requested on: ${formatDate(item.createdAt)}`}
-                      </p>
-                      {item.quantity && (
-                        <p className="item-quantity">
-                          <strong>Quantity:</strong> {item.quantity}
-                        </p>
-                      )}
-                      {item.condition && (
-                        <p className="item-condition">
-                          <strong>Condition:</strong> {item.condition}
-                        </p>
-                      )}
+            <>
+              <div className="donations-items-grid">
+                {currentItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className={`donations-item-card ${item.type}`}
+                    onClick={() => handleCardClick(item)}
+                  >
+                    <div className={`donations-item-badge ${item.type}`}>
+                      {item.status}
                     </div>
-                    <div className="item-footer">
-                      <div className="item-user">
-                        <img src={item.profile} alt="profile" className="profile-pic" />
-                        <span>{item.user}</span>
+                    <div className="donations-item-image">
+                      <img src={item.image} alt="item" />
+                    </div>
+                    <div className={`donations-item-info ${item.type}`}>
+                      <div>
+                        <h3 className="donations-item-title">{item.title}</h3>
+                        <p className="donations-item-description">
+                          {item.description}
+                        </p>
+                        <p className="donations-item-date">
+                          {item.type === 'donation'
+                            ? `Available since: ${formatDate(item.createdAt)}`
+                            : `Requested on: ${formatDate(item.createdAt)}`}
+                        </p>
+                        {item.quantity && (
+                          <p className="donations-item-quantity">
+                            <strong>Quantity:</strong> {item.quantity}
+                          </p>
+                        )}
+                        {item.condition && (
+                          <p className="donations-item-condition">
+                            <strong>Condition:</strong> {item.condition}
+                          </p>
+                        )}
+                      </div>
+                      <div className="donations-item-footer">
+                        <div className="donations-item-user">
+                          <img
+                            src={item.profile}
+                            alt="profile"
+                            className="donations-profile-pic"
+                          />
+                          <span>{item.user}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="donations-pagination-controls">
+                  <button onClick={handlePrevPage} disabled={currentPage === 1}>
+                    « Prev
+                  </button>
+                  <span>
+                    Page {currentPage} of {totalPages}
+                  </span>
+                  <button
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    Next »
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </section>
 
-        {/* Main Item Modal */}
         {selectedItem && (
-          <div className="modal-overlay" onClick={closeModal}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              {/* Header Section */}
-              <div className="modal-header">
-                <button className="modal-close" onClick={closeModal}>×</button>
-                <h2 className="modal-title">{selectedItem.title}</h2>
+          <div className="donations-modal-overlay" onClick={closeModal}>
+            <div className="donations-modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="donations-modal-header">
+                <button className="donations-modal-close" onClick={closeModal}>
+                  ×
+                </button>
+                <h2 className="donations-modal-title">{selectedItem.title}</h2>
               </div>
-
-              {/* Body Section - Scrollable */}
-              <div className="modal-body">
-                <img src={selectedItem.image} alt="item" className="modal-image" />
-                
-                <div className="modal-details">
-                  <p className="spacing"><strong>Description:</strong> {selectedItem.description}</p>
-                  <p className="spacing"><strong>Status:</strong> {selectedItem.status}</p>  
-                  <p className="spacing"><strong>Category:</strong> {selectedItem.category || 'N/A'}</p>
-                  <p className="spacing"><strong>Location:</strong> {selectedItem.location || 'N/A'}</p>
+              <div className="donations-modal-body">
+                <img
+                  src={selectedItem.image}
+                  alt="item"
+                  className="donations-modal-image"
+                />
+                <div className="donations-modal-details">
+                  <p className="donations-spacing">
+                    <strong>Description:</strong> {selectedItem.description}
+                  </p>
+                  <p className="donations-spacing">
+                    <strong>Status:</strong> {selectedItem.status}
+                  </p>
+                  <p className="donations-spacing">
+                    <strong>Category:</strong> {selectedItem.category || 'N/A'}
+                  </p>
+                  <p className="donations-spacing">
+                    <strong>Location:</strong> {selectedItem.location || 'N/A'}
+                  </p>
                   {selectedItem.quantity && (
-                    <p className="spacing"><strong>Quantity:</strong> {selectedItem.quantity}</p>
+                    <p className="donations-spacing">
+                      <strong>Quantity:</strong> {selectedItem.quantity}
+                    </p>
                   )}
                   {selectedItem.condition && (
-                    <p className="spacing"><strong>Condition:</strong> {selectedItem.condition}</p>
+                    <p className="donations-spacing">
+                      <strong>Condition:</strong> {selectedItem.condition}
+                    </p>
                   )}
                   {selectedItem.urgency && (
-                    <p className="spacing"><strong>Urgency:</strong> {selectedItem.urgency}</p>
+                    <p className="donations-spacing">
+                      <strong>Urgency:</strong> {selectedItem.urgency}
+                    </p>
                   )}
-                  <p className="spacing">
-                    <strong>{selectedItem.type === 'donation' ? 'Available since:' : 'Requested on:'}</strong> {formatDate(selectedItem.createdAt)}
+                  <p className="donations-spacing">
+                    <strong>
+                      {selectedItem.type === 'donation'
+                        ? 'Available since:'
+                        : 'Requested on:'}
+                    </strong>{' '}
+                    {formatDate(selectedItem.createdAt)}
                   </p>
-                  <p className="spacing">
-                    <strong>{selectedItem.type === 'donation' ? 'Donated by:' : 'Requested by:'}</strong> {selectedItem.user}
+                  <p className="donations-spacing">
+                    <strong>
+                      {selectedItem.type === 'donation'
+                        ? 'Donated by:'
+                        : 'Requested by:'}
+                    </strong> {selectedItem.user}
                   </p>
                 </div>
               </div>
-
-              {/* Footer Section */}
-              <div className="modal-footer">
-                <button className="chat-button" onClick={() => setShowChatModal(true)}>
+              <div className="donations-modal-footer">
+                <button
+                  className="donations-chat-button"
+                  onClick={() => setShowChatModal(true)}
+                >
                   {selectedItem.type === 'donation' ? 'Contact Donor' : 'Contact Requester'}
                 </button>
               </div>
@@ -311,71 +439,74 @@ function DonationsPage() {
           </div>
         )}
 
-        {/* Post Item Modal */}
-        {showPostModal && <DonationsPostModal onClose={closePostModal} defaultType={defaultItemType} />}
+        {showPostModal && (
+          <DonationsPostModal onClose={closePostModal} defaultType={defaultItemType} />
+        )}
 
-        {/* Chat Modal */}
         {showChatModal && (
-          <div className="modal-overlay" onClick={() => setShowChatModal(false)}>
-            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-              {/* Header Section */}
-              <div className="modal-header">
-                <button className="modal-close" onClick={closeChatModal}>×</button>
-                <h2 className="modal-title">
+          <div className="donations-modal-overlay" onClick={() => setShowChatModal(false)}>
+            <div className="donations-modal-content" onClick={(e) => e.stopPropagation()}>
+              <div className="donations-modal-header">
+                <button className="donations-modal-close" onClick={closeChatModal}>
+                  ×
+                </button>
+                <h2 className="donations-modal-title">
                   {selectedItem?.type === 'donation' ? 'Contact Donor' : 'Contact Requester'}
                 </h2>
               </div>
-
-              {/* Body Section */}
-              <div className="modal-body">
-                {/* Enhanced Post Reference Card */}
-                <div className="post-reference-card">
-                  <div className="post-ref-header">
-                    <span className={`post-ref-badge ${selectedItem?.type}`}>
+              <div className="donations-modal-body">
+                <div className="donations-post-reference-card">
+                  <div className="donations-post-ref-header">
+                    <span className={`donations-post-ref-badge ${selectedItem?.type}`}>
                       {selectedItem?.status}
                     </span>
-                    <h4 className="post-ref-title">{selectedItem?.title}</h4>
+                    <h4 className="donations-post-ref-title">{selectedItem?.title}</h4>
                   </div>
-                  <div className="post-ref-details">
-                    <div className="post-ref-image">
+                  <div className="donations-post-ref-details">
+                    <div className="donations-post-ref-image">
                       <img src={selectedItem?.image} alt="item" />
                     </div>
-                    <div className="post-ref-info">
-                      <p><strong>Category:</strong> {selectedItem?.category || 'N/A'}</p>
-                      <p><strong>Location:</strong> {selectedItem?.location || 'N/A'}</p>
+                    <div className="donations-post-ref-info">
+                      <p>
+                        <strong>Category:</strong> {selectedItem?.category || 'N/A'}
+                      </p>
+                      <p>
+                        <strong>Location:</strong> {selectedItem?.location || 'N/A'}
+                      </p>
                       {selectedItem?.quantity && (
                         <p><strong>Quantity:</strong> {selectedItem.quantity}</p>
                       )}
-                      <p><strong>Posted by:</strong> {selectedItem?.user}</p>
+                      <p>
+                        <strong>Posted by:</strong> {selectedItem?.user}
+                      </p>
                     </div>
                   </div>
                 </div>
-
-                <div className="chat-info">
+                <div className="donations-chat-info">
                   <p>
-                    Send a message to <strong>{selectedItem?.user}</strong> about their{' '}
-                    {selectedItem?.type === 'donation' ? 'donation' : 'request'}: <strong>{selectedItem?.title}</strong>
+                    Send a message to <strong>{selectedItem?.user}</strong>{' '}
+                    about their {selectedItem?.type === 'donation' ? 'donation' : 'request'}:{' '}
+                    <strong>{selectedItem?.title}</strong>
                   </p>
                 </div>
-                
                 <textarea
-                  className="chat-textarea"
-                  placeholder={`Write a message about the ${selectedItem?.type === 'donation' ? 'donation' : 'request'} "${selectedItem?.title}"...`}
+                  className="donations-chat-textarea"
+                  placeholder={`Write a message about the ${selectedItem?.type === 'donation' ? 'donation' : 'request'} "${
+                    selectedItem?.title
+                  }"...`}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   maxLength={500}
                 />
-                <div className="char-count">
-                  {message.length}/500 characters
-                </div>
+                <div className="donations-char-count">{message.length}/500 characters</div>
               </div>
-
-              {/* Footer Section */}
-              <div className="modal-footer">
-                <div className="chat-actions">
-                  <button className="cancel-button" onClick={closeChatModal}>Cancel</button>
-                  <button 
-                    className="send-button" 
+              <div className="donations-modal-footer">
+                <div className="donations-chat-actions">
+                  <button className="donations-cancel-button" onClick={closeChatModal}>
+                    Cancel
+                  </button>
+                  <button
+                    className="donations-send-button"
                     onClick={handleSendMessage}
                     disabled={!message.trim()}
                   >
