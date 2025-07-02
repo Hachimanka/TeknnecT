@@ -367,7 +367,6 @@ textarea {
 @media (max-width: 600px) {
   .modal-content {
     width: 75%;
-    height: 0vh;
     margin-top: 50px;
     margin-right: 22px;
     
