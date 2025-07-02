@@ -385,3 +385,834 @@
     margin-left: 0;
   }
 }
+
+/* Add these styles to your existing CSS module */
+
+/* Search and Sort Section */
+.searchSortSection {
+  margin-bottom: 2rem;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+}
+
+.searchSortHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.searchSortHeader h4 {
+  color: #9B000A;
+  font-size: 1.3rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.resultsCount {
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+  background: #f8f9fa;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  border: 1px solid #e9ecef;
+}
+
+.searchSortControls {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-end;
+}
+
+.searchContainer {
+  position: relative;
+  flex: 2;
+  min-width: 250px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 1.1rem;
+  z-index: 2;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.8rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background: white;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 3px rgba(255, 189, 0, 0.1);
+}
+
+.searchInput::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.clearSearch {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearSearch:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.sortContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.sortLabel {
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.sortSelect {
+  padding: 0.8rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 3rem;
+}
+
+.sortSelect:focus {
+  outline: none;
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 3px rgba(255, 189, 0, 0.1);
+}
+
+.sortSelect:hover {
+  border-color: #FFBD00;
+  background-color: #fff8e1;
+}
+
+/* Items List Styles */
+.itemsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.itemTile {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.itemTile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.itemImageContainer {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.itemImageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageCount {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.itemContentWrapper {
+  padding: 1.5rem;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.itemTypeBadge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.itemContent {
+  /* Container for item details */
+}
+
+.itemTitle {
+  color: #9B000A;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+}
+
+.itemDescription {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.itemDetails {
+  border-top: 1px solid #e9ecef;
+  padding-top: 1rem;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.detailLabel {
+  color: #666;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.detailValue {
+  color: #333;
+  font-weight: 600;
+  text-align: right;
+  flex: 1;
+  margin-left: 1rem;
+}
+
+/* Dark Mode Support */
+:global(.dark-mode) .searchSortSection {
+  background: #333;
+  border-color: #555;
+}
+
+:global(.dark-mode) .searchSortHeader h4 {
+  color: #FFBD00;
+}
+
+:global(.dark-mode) .resultsCount {
+  background: #444;
+  border-color: #555;
+  color: #ccc;
+}
+
+:global(.dark-mode) .searchInput,
+:global(.dark-mode) .sortSelect {
+  background: #444;
+  border-color: #555;
+  color: #f0f0f0;
+}
+
+:global(.dark-mode) .searchInput:focus,
+:global(.dark-mode) .sortSelect:focus {
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 3px rgba(255, 189, 0, 0.1);
+}
+
+:global(.dark-mode) .searchInput:hover,
+:global(.dark-mode) .sortSelect:hover {
+  border-color: #FFBD00;
+  background-color: rgba(255, 189, 0, 0.1);
+}
+
+:global(.dark-mode) .searchInput::placeholder {
+  color: #aaa;
+}
+
+:global(.dark-mode) .searchIcon {
+  color: #aaa;
+}
+
+:global(.dark-mode) .sortLabel {
+  color: #aaa;
+}
+
+:global(.dark-mode) .clearSearch {
+  color: #aaa;
+}
+
+:global(.dark-mode) .clearSearch:hover {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #ff6b6b;
+}
+
+:global(.dark-mode) .itemTile {
+  background: #333;
+  border-color: #555;
+}
+
+:global(.dark-mode) .itemTitle {
+  color: #FFBD00;
+}
+
+:global(.dark-mode) .itemDescription {
+  color: #ccc;
+}
+
+:global(.dark-mode) .detailLabel {
+  color: #aaa;
+}
+
+:global(.dark-mode) .detailValue {
+  color: #f0f0f0;
+}
+
+:global(.dark-mode) .itemDetails {
+  border-color: #555;
+}
+
+:global(.dark-mode) .imagePlaceholder {
+  background: #444;
+  color: #aaa;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .searchSortSection {
+    padding: 1rem;
+  }
+  
+  .searchSortHeader {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+  
+  .searchSortControls {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .searchContainer,
+  .sortContainer {
+    min-width: unset;
+    width: 100%;
+  }
+  
+  .itemsList {
+    grid-template-columns: 1fr;
+  }
+  
+  .detailRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+  
+  .detailValue {
+    text-align: left;
+    margin-left: 0;
+  }
+}
+/* Add these styles to your existing CSS module */
+
+/* Search and Sort Section */
+.searchSortSection {
+  margin-bottom: 2rem;
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+}
+
+.searchSortHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.searchSortHeader h4 {
+  color: #9B000A;
+  font-size: 1.1rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.resultsCount {
+  color: #666;
+  font-size: 0.85rem;
+  font-weight: 500;
+  background: #f8f9fa;
+  padding: 0.3rem 0.6rem;
+  border-radius: 16px;
+  border: 1px solid #e9ecef;
+}
+
+.searchSortControls {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.searchContainer {
+  position: relative;
+  flex: 2;
+  min-width: 250px;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 1.1rem;
+  z-index: 2;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.8rem 1rem 0.8rem 2.8rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #333;
+  background: white;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 3px rgba(255, 189, 0, 0.1);
+}
+
+.searchInput::placeholder {
+  color: #999;
+  font-style: italic;
+}
+
+.clearSearch {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearSearch:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.sortContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.sortLabel {
+  color: #666;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.sortSelect {
+  padding: 0.7rem 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #333;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 0.9rem;
+  padding-right: 2.5rem;
+}
+
+.sortSelect:focus {
+  outline: none;
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 3px rgba(255, 189, 0, 0.1);
+}
+
+.sortSelect:hover {
+  border-color: #FFBD00;
+  background-color: #fff8e1;
+}
+
+/* Items List Styles */
+.itemsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.itemTile {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.itemTile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.itemImageContainer {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.itemImageContainer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageCount {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.imagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.itemContentWrapper {
+  padding: 1.5rem;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.itemTypeBadge {
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.deleteButton:hover {
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.itemContent {
+  /* Container for item details */
+}
+
+.itemTitle {
+  color: #9B000A;
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.8rem;
+  line-height: 1.3;
+}
+
+.itemDescription {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+.itemDetails {
+  border-top: 1px solid #e9ecef;
+  padding-top: 1rem;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.detailLabel {
+  color: #666;
+  font-weight: 500;
+  min-width: 100px;
+}
+
+.detailValue {
+  color: #333;
+  font-weight: 600;
+  text-align: right;
+  flex: 1;
+  margin-left: 1rem;
+}
+
+/* Dark Mode Support */
+:global(.dark-mode) .searchSortSection {
+  background: #333;
+  border-color: #555;
+}
+
+:global(.dark-mode) .searchSortHeader h4 {
+  color: #FFBD00;
+}
+
+:global(.dark-mode) .resultsCount {
+  background: #444;
+  border-color: #555;
+  color: #ccc;
+}
+
+:global(.dark-mode) .searchInput,
+:global(.dark-mode) .sortSelect {
+  background: #444;
+  border-color: #555;
+  color: #f0f0f0;
+}
+
+:global(.dark-mode) .searchInput:focus,
+:global(.dark-mode) .sortSelect:focus {
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 3px rgba(255, 189, 0, 0.1);
+}
+
+:global(.dark-mode) .searchInput:hover,
+:global(.dark-mode) .sortSelect:hover {
+  border-color: #FFBD00;
+  background-color: rgba(255, 189, 0, 0.1);
+}
+
+:global(.dark-mode) .searchInput::placeholder {
+  color: #aaa;
+}
+
+:global(.dark-mode) .searchIcon {
+  color: #aaa;
+}
+
+:global(.dark-mode) .sortLabel {
+  color: #aaa;
+}
+
+:global(.dark-mode) .clearSearch {
+  color: #aaa;
+}
+
+:global(.dark-mode) .clearSearch:hover {
+  background-color: rgba(220, 53, 69, 0.2);
+  color: #ff6b6b;
+}
+
+:global(.dark-mode) .itemTile {
+  background: #333;
+  border-color: #555;
+}
+
+:global(.dark-mode) .itemTitle {
+  color: #FFBD00;
+}
+
+:global(.dark-mode) .itemDescription {
+  color: #ccc;
+}
+
+:global(.dark-mode) .detailLabel {
+  color: #aaa;
+}
+
+:global(.dark-mode) .detailValue {
+  color: #f0f0f0;
+}
+
+:global(.dark-mode) .itemDetails {
+  border-color: #555;
+}
+
+:global(.dark-mode) .imagePlaceholder {
+  background: #444;
+  color: #aaa;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .searchSortSection {
+    padding: 0.8rem;
+  }
+  
+  .searchSortHeader {
+    flex-direction: column;
+    gap: 0.3rem;
+    align-items: flex-start;
+  }
+  
+  .searchSortControls {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .searchContainer,
+  .sortContainer {
+    min-width: unset;
+    width: 100%;
+  }
+  
+  .itemsList {
+    grid-template-columns: 1fr;
+  }
+  
+  .detailRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+  
+  .detailValue {
+    text-align: left;
+    margin-left: 0;
+  }
+}

@@ -7,7 +7,7 @@
 }
 
 body {  
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .HomePage {
@@ -29,6 +29,7 @@ body {
   padding-left: 20%;
   margin-top: 5vh;
   font-family: 'Poppins', sans-serif;
+  margin-top: 110px;
 }
 
 .SubTitle {
@@ -77,9 +78,9 @@ body {
 }
 
 .PageWrapper {
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100vh;
+  /*scroll-snap-type: y mandatory;*/
+  overflow-y: auto;
+  height: auto;
   scrollbar-width: none;
 }
 
