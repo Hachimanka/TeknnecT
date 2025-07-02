@@ -191,6 +191,52 @@
   transform: rotate(180deg);
 }
 
+/* Navbar Profile Avatar Styles */
+.navbar-profile-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+  border: 2px solid #FFBD00;
+  overflow: hidden;
+  background-color: #FFBD00;
+}
+
+.navbar-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.navbar-avatar-initials {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #9B000A;
+  background-color: #FFBD00;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.navbar-avatar-default {
+  font-size: 1.2rem;
+  color: #9B000A;
+  background-color: #FFBD00;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
 /* Mobile: reduce font size but keep one line */
 @media (max-width: 600px) {
   .navbar {
@@ -215,6 +261,19 @@
   .post-item-button {
     padding: 0.3rem 0.6rem;
     font-size: 0.9rem;
+  }
+
+  .navbar-profile-avatar {
+    width: 30px;
+    height: 30px;
+  }
+
+  .navbar-avatar-initials {
+    font-size: 0.8rem;
+  }
+
+  .navbar-avatar-default {
+    font-size: 1rem;
   }
 }
 
@@ -399,6 +458,22 @@ body.dark-mode .navbar-logo {
   color: #FFBD00;
   background: linear-gradient(145deg, #333, #222);
   box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Dark mode for navbar profile avatar */
+body.dark-mode .navbar-profile-avatar {
+  border-color: #FFBD00;
+  background-color: #FFBD00;
+}
+
+body.dark-mode .navbar-avatar-initials {
+  color: #9B000A;
+  background-color: #FFBD00;
+}
+
+body.dark-mode .navbar-avatar-default {
+  color: #9B000A;
+  background-color: #FFBD00;
 }
 
 .profile-picture-container {
