@@ -47,6 +47,59 @@ function DonationsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   
+  // Scroll position storage for modal prevention
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  // Modal scroll prevention functions
+  const preventModalScroll = () => {
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    setScrollPosition(currentScroll);
+    document.body.classList.add('donations-modal-open');
+    document.body.style.top = `-${currentScroll}px`;
+  };
+
+  const allowModalScroll = () => {
+    document.body.classList.remove('donations-modal-open');
+    document.body.style.top = '';
+    window.scrollTo(0, scrollPosition);
+  };
+
+  // Effect to handle modal states and scroll prevention
+  useEffect(() => {
+    const hasOpenModal = selectedItem || showPostModal || showChatModal;
+    
+    if (hasOpenModal) {
+      preventModalScroll();
+    } else {
+      allowModalScroll();
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (hasOpenModal) {
+        allowModalScroll();
+      }
+    };
+  }, [selectedItem, showPostModal, showChatModal]);
+
+  // Handle escape key to close modals
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        if (showChatModal) {
+          closeChatModal();
+        } else if (selectedItem) {
+          closeModal();
+        } else if (showPostModal) {
+          closePostModal();
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [showChatModal, selectedItem, showPostModal]);
+  
   useEffect(() => {
     const fetchItems = async () => {
       setLoading(true);
@@ -144,7 +197,10 @@ function DonationsPage() {
   }, [currentPage, processedItems]);
 
   const handleCardClick = (item) => setSelectedItem(item);
-  const closeModal = () => setSelectedItem(null);
+  
+  const closeModal = () => {
+    setSelectedItem(null);
+  };
   
   const openPostModal = (itemType) => {
     setDefaultItemType(itemType);
@@ -157,7 +213,6 @@ function DonationsPage() {
   };
 
   const handleSendMessage = async () => {
-    // (Same as original, no changes needed to the logic)
     if (!message.trim() || !selectedItem?.uid) return;
     const sender = auth.currentUser;
     const receiverId = selectedItem.uid;
@@ -194,6 +249,12 @@ function DonationsPage() {
   const closeChatModal = () => {
     setShowChatModal(false);
     setMessage('');
+  };
+
+  const handleModalOverlayClick = (e, closeFunction) => {
+    if (e.target === e.currentTarget) {
+      closeFunction();
+    }
   };
 
   return (
@@ -280,10 +341,12 @@ function DonationsPage() {
           )}
         </section>
 
-        {/* All Modals (Item Details, Post, Chat) remain unchanged from previous version */}
         {/* Main Item Modal */}
         {selectedItem && (
-          <div className="donations-modal-overlay" onClick={closeModal}>
+          <div 
+            className="donations-modal-overlay" 
+            onClick={(e) => handleModalOverlayClick(e, closeModal)}
+          >
             <div className="donations-modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="donations-modal-header">
                 <button className="donations-modal-close" onClick={closeModal}>×</button>
@@ -311,11 +374,16 @@ function DonationsPage() {
             </div>
           </div>
         )}
+        
         {/* Post Item Modal */}
         {showPostModal && <DonationsPostModal onClose={closePostModal} defaultType={defaultItemType} />}
+        
         {/* Chat Modal */}
         {showChatModal && (
-          <div className="donations-modal-overlay" onClick={() => setShowChatModal(false)}>
+          <div 
+            className="donations-modal-overlay" 
+            onClick={(e) => handleModalOverlayClick(e, closeChatModal)}
+          >
             <div className="donations-modal-content" onClick={(e) => e.stopPropagation()}>
               <div className="donations-modal-header">
                 <button className="donations-modal-close" onClick={closeChatModal}>×</button>
