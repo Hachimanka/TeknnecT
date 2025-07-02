@@ -28,7 +28,7 @@ function formatDate(timestamp) {
   });
 }
 
-function DonationsPage() {
+function DonationsPage({ darkMode }) {
   // State for Modals and Data
   const [selectedItem, setSelectedItem] = useState(null);
   const [showPostModal, setShowPostModal] = useState(false);
@@ -268,7 +268,7 @@ function DonationsPage() {
   };
   
   return (
-    <div className="donations-PageWrapper">
+    <div className={`donations-PageWrapper ${darkMode ? 'dark-mode' : ''}`}>
       <main className="donations-page-container">
         <h1 className="donations-page-title">Donations</h1>
         <p className="donations-page-subtitle">Share resources with the community or find what you need!</p>

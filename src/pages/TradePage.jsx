@@ -28,7 +28,7 @@ function formatDate(timestamp) {
   });
 }
 
-function TradePage() {
+function TradePage({ darkMode }) {
   // Modal and Form State
   const [selectedItem, setSelectedItem] = useState(null);
   const [showPostModal, setShowPostModal] = useState(false);
@@ -157,7 +157,7 @@ function TradePage() {
   };
 
   return (
-    <div className="trade-PageWrapper">
+    <div className={`trade-PageWrapper ${darkMode ? 'dark-mode' : ''}`}>
       <main className="trade-page-container">
         <h1 className="trade-page-title">Trade Marketplace</h1>
         <p className="trade-page-subtitle">Trade items with the community!</p>
