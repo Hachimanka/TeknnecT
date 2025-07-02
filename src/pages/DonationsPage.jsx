@@ -94,10 +94,12 @@ function DonationsPage() {
   }, []);
 
   // Memoized derivation of unique categories for the filter dropdown
-  const uniqueCategories = useMemo(() => {
-    const categories = new Set(items.map(item => item.category).filter(Boolean));
-    return Array.from(categories);
-  }, [items]);
+  const ALL_CATEGORIES = [
+    "Electronics",
+    "Books",
+    "Clothing",
+    "Other"
+  ];
 
   // Memoized processing for filtering and sorting
   const processedItems = useMemo(() => {
@@ -122,10 +124,18 @@ function DonationsPage() {
     }
 
     // Sort
-    results.sort((a, b) => {
-        const dateA = a.createdAt?.toDate() || 0;
-        const dateB = b.createdAt?.toDate() || 0;
-        return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+    results = [...results].sort((a, b) => {
+      const dateA = a.createdAt?.toDate?.();
+      const dateB = b.createdAt?.toDate?.();
+      
+      // Handle cases where dates might be missing or invalid
+      if (!dateA && !dateB) return 0;
+      if (!dateA) return 1;  // Put items without date at the end
+      if (!dateB) return -1; // Put items without date at the end
+      
+      return sortOrder === 'newest' ? 
+        dateB.getTime() - dateA.getTime() : 
+        dateA.getTime() - dateB.getTime();
     });
 
     return results;
@@ -227,7 +237,9 @@ function DonationsPage() {
             </select>
             <select className="donations-select-dropdown" value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
                 <option value="all">All Categories</option>
-                {uniqueCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                {ALL_CATEGORIES.map(cat => (
+                  <option key={cat} value={cat}>{cat}</option>
+                ))}
             </select>
             <select className="donations-select-dropdown" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
                 <option value="newest">Newest First</option>
