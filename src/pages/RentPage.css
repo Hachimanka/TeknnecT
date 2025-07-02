@@ -126,7 +126,7 @@
 .rent-item-image img { width: 175px; height: 175px; object-fit: cover; border-radius: 8px; }
 .rent-item-info { padding: 1rem; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; background-color: #C8E6C9; border-left: 4px solid #2E7D32; }
 .rent-item-title { font-size: 1.3rem; font-weight: bold; margin: 0 0 0.25rem 0; text-align: left; color: #1B5E20; }
-.rent-item-description { font-size: 0.9rem; margin-bottom: 0.5rem; color: #1B5E20; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+.rent-item-description { font-size: 0.9rem; margin-bottom: 0.5rem; color: #1B5E20; display: -webkit-box; /*-webkit-line-clamp: 2*/; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
 .rent-item-price { font-size: 1.1rem; font-weight: bold; margin-bottom: 0.5rem; color: #2E7D32; }
 .rent-item-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
 .rent-item-user { display: flex; align-items: center; font-size: 0.85rem; gap: 6px; color: #1B5E20; }
