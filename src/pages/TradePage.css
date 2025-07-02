@@ -374,7 +374,7 @@
   z-index: 999;
   padding: 1rem;
   overflow-y: hidden;
-  margin-top: 15px;
+  margin-top: 0px;
 }
 
 .modal-content {

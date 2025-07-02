@@ -18,7 +18,6 @@ body {
 .MainContent {
   max-width: 50vw;
   font-family: 'Poppins', sans-serif;
-  transform: translateY(10vh);
   padding-left: 1%;
 }
 
@@ -43,7 +42,7 @@ body {
 .ActionButtons {
   display: flex;
   gap: 1.5vw;
-  padding-left: 17%;
+  padding-left: 18%;
   flex-wrap: wrap;
 }
 
@@ -94,12 +93,13 @@ body {
 
 .section1 {
   background-image: url('../assets/MainPage.png');
+  padding-bottom: 90px;
 }
 
 .section3 {
   background-image: url('../assets/RedBg.png');
   height: 100vh;
-
+  margin-top: -1px;
 }
 
 .icon2 {
@@ -173,6 +173,10 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  z-index: 1;
+  padding-top: 100px;
+  padding-bottom: 30px;
+  overflow-y: hidden;
 }
 
 .Section4Heading {
@@ -183,8 +187,8 @@ body {
   padding: 0;
   text-align: center;
   position: relative;
-  transform: translateY(15vh);
   font-family: 'Poppins', sans-serif;
+  padding-top: 70px;
 }
 
 .BottomGroup {
@@ -195,7 +199,7 @@ body {
   margin-top: 12.5vh;
   gap: 22vw;
   flex-wrap: nowrap;
-  transform: translateY(7vh);
+  padding-bottom: 90px;
 }
 
 .LogoWithMessage {
@@ -272,13 +276,12 @@ body {
 
 .card1, .card2, .card3 {
   width: 18vw;
-  height: 25vh;
+  height: 30vh;
   border: 1px solid #ddd;
   border-radius: 0.8vw;
   padding: 1vh;
   box-shadow: 0 0.2vw 0.6vw rgba(0, 0, 0, 0.1);
   background-color: #fff;
-  transform: translateY(-1vh);
 }
 
 .card1 {
@@ -319,11 +322,10 @@ body {
   justify-content: center;
   align-items: flex-start;
   text-align: center;
-  margin-top: 25vh;
+  margin-top: 15vh;
   padding: 0 5vw;
   flex-wrap: wrap;
   gap: 20vw;
-  transform: translateY(8vh);
 }
 
 .ContactItem1 {
@@ -433,7 +435,7 @@ link{
   .MainContent {
     max-width: 50vw;
     font-family: 'Poppins', sans-serif;
-    transform: translateY(1vh);
+    margin-top: 10vh;
     padding-left: 1%;
   }
  
@@ -630,6 +632,7 @@ link{
     align-items: center;
     padding: 2rem;
     margin: 2rem 0;
+    transform: translateY(8vh);
   }
  
   .LogoWithMessage {
@@ -646,7 +649,7 @@ link{
     width: 60%;
     margin-top: 19rem;
     margin-bottom: 0.1vh;
-    transform: translateX(5vh);
+    transform: translateX(.1vh);
     width: 170px;
   }
  
@@ -681,7 +684,7 @@ link{
  
   .resourceLinks {
     margin-left: 150px;
-    transform: translateY(-27.5vh);
+    transform: translateY(-27.7vh);
   }
  
   .resources {
