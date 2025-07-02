@@ -471,6 +471,13 @@ link{
     font-size: 0.9rem;
     padding: 10px 16px;
     width: 90%;
+    border-radius: 7px;
+    
+  }
+
+  .GetStartedButton{
+    margin-left: 0px;
+
   }
  
   .Section.section3 {
