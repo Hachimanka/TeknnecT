@@ -29,6 +29,7 @@ body {
   padding-left: 20%;
   margin-top: 5vh;
   font-family: 'Poppins', sans-serif;
+  margin-top: 110px;
 }
 
 .SubTitle {
@@ -470,6 +471,13 @@ link{
     font-size: 0.9rem;
     padding: 10px 16px;
     width: 90%;
+    border-radius: 7px;
+    
+  }
+
+  .GetStartedButton{
+    margin-left: 0px;
+
   }
  
   .Section.section3 {

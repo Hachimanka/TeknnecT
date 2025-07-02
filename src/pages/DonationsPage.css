@@ -214,6 +214,8 @@ body.donations-modal-open {
     -webkit-overflow-scrolling: auto; /* Disable momentum scrolling */
 }
 
+
+
 /* === Responsive Design (Unchanged) === */
 @media (max-width: 768px) {
   .donations-page-container { padding: 1rem; }

@@ -19,6 +19,12 @@ function HomePage({ darkMode }) {
     navigate('/login');
   };
 
+  const scrollToHowItWorks = () => {
+  const section = document.getElementById('how-it-works-section');
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' });
+  }
+};
   return (
     <div className={`PageWrapper ${darkMode ? 'dark-mode' : ''}`}>
       {/* Section 1 with HomePage background */}
@@ -36,7 +42,7 @@ function HomePage({ darkMode }) {
               <button onClick={handleLoginClick} className="GetStartedButton">
                 Get Started
               </button>
-              <button className="HowItWorksButton">
+              <button className="HowItWorksButton" onClick={scrollToHowItWorks}>
                 How it works
               </button>
             </div>

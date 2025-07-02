@@ -4,7 +4,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './DonationsPostModal.css';
 
-function DonationsPostModal({ onClose }) {
+function DonationsPostModal({ onClose, defaultType }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -12,7 +12,10 @@ function DonationsPostModal({ onClose }) {
     };
   }, []);
 
-  const [selectedType, setSelectedType] = useState('donation');
+  // Use defaultType for initial state, fallback to 'donation'
+  const [selectedType, setSelectedType] = useState(
+    defaultType ? defaultType.toLowerCase() : 'donation'
+  );
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
@@ -236,6 +239,8 @@ function DonationsPostModal({ onClose }) {
                   type="button"
                   className={`type-buttond ${selectedType === type ? 'actived' : ''}`}
                   onClick={() => setSelectedType(type)}
+                  // Disable the button if it's NOT the defaultType
+                  disabled={defaultType && defaultType.toLowerCase() !== type}
                 >
                   {type.charAt(0).toUpperCase() + type.slice(1)}
                 </button>

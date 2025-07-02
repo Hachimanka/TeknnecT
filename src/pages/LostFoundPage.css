@@ -206,7 +206,7 @@ body.lostfound-modal-open {
 @media (max-width: 480px) {
   .lostfound-page-title { font-size: 2rem; }
   .lostfound-item-card { height: 400px; }
-  .lostfound-modal-content { max-height: 95vh; }
+  .lostfound-modal-content { margin-right: 25px; max-height: 95vh; }
   .lostfound-modal-body, .lostfound-modal-header, .lostfound-modal-footer { padding: 1rem; }
   .lostfound-modal-title { font-size: 1.2rem; }
   .lostfound-post-ref-details { flex-direction: column; text-align: center; }
