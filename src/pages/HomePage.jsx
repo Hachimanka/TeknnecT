@@ -18,13 +18,13 @@ function HomePage() {
   const handleLoginClick = () => {
     navigate('/login');
   };
-  //   const scrollToHowItWorks = () => {
-  //   const section = document.getElementById('how-it-works-section');
-  //   if (section) {
-  //     section.scrollIntoView({ behavior: 'smooth' });
-  //   }
-  // };
 
+  const scrollToHowItWorks = () => {
+  const section = document.getElementById('how-it-works-section');
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' });
+  }
+};
   return (
     <div className="PageWrapper">
       {/* Section 1 with HomePage background */}
@@ -43,7 +43,7 @@ function HomePage() {
               <button onClick={handleLoginClick} className="GetStartedButton">
                 Get Started
               </button>
-              <button className="HowItWorksButton">
+              <button className="HowItWorksButton" onClick={scrollToHowItWorks}>
                 How it works
               </button>
             </div>
