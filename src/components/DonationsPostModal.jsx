@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { db, storage, auth } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import './PostItemModal.css';
+import './DonationsPostModal.css';
 
 function DonationsPostModal({ onClose }) {
   useEffect(() => {
