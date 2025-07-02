@@ -10,20 +10,20 @@
   padding: 0.5rem;
   overflow: hidden;
 }
-.modal-content {
+.modal-contents {
   background: #fff;
   padding: 1rem;
   border-radius: 10px;
-  width: 95%;
-  max-width: 360px;
+  width: 100%;
+  max-width: 420px;
   max-height: 90vh;
-  height: 30p;
-  overflow-y: auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
   animation: slideIn 0.3s ease;
   font-size: 0.85rem;
   color: #333;
   overflow-y: auto;
+  margin-top: 30px;
+ 
   
 }
 
@@ -371,7 +371,6 @@ textarea {
 @media (max-width: 600px) {
   .modal-content {
     width: 75%;
-    height: 0vh;
     margin-top: 50px;
     margin-right: 22px;
     

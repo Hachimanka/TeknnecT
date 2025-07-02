@@ -1,0 +1,555 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 0.5rem;
+  overflow: hidden;
+}
+.modal-contents {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  max-height: 90vh;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
+  animation: slideIn 0.3s ease;
+  font-size: 0.85rem;
+  color: #333;
+  overflow-y: auto;
+  margin-top: 30px;
+ 
+  
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #8B0000;
+  margin-bottom: 1rem; /* Increased margin to push content down */
+}
+
+.plus-icon {
+  background-color: #9B000A;
+  color: white;
+  border-radius: 4px;
+  padding: 2px 5px;
+  margin-right: 0.4rem;
+}
+
+.post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem; /* Increased gap between form elements */
+  flex-grow: 1;
+
+}
+
+.form-label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: 0.8rem;
+  color: #8B0000;
+  font-size: 0.75rem;
+  text-align: center;
+}
+.form-label input,
+.form-label textarea,
+.form-label select {
+  margin-top: 0.2rem;
+  padding: 5px 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.8rem;
+}
+
+textarea {
+  resize: none;
+  height: 40px;
+}
+
+.form-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.type-category-container {
+  flex: 1;
+  min-width: 0; /* Prevents overflow */
+}
+
+.item-type-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px; /* Reduced gap slightly for better fit */
+  margin-top: 0.3rem;
+  justify-content: flex-start;
+
+}
+
+.type-button {
+  padding: 4px 7px; /* Slightly reduced padding for better fit */
+  font-size: 0.75rem; /* Reduced font size for 5 buttons */
+  border: 1px solid #8B0000;
+  border-radius: 6px;
+  background: white;
+  color: #8B0000;
+  cursor: pointer;
+  transition: 0.3s ease;
+  flex: 0 0 auto; /* Prevents buttons from growing/shrinking */
+  min-width: 0; /* Allows text to determine width */
+}
+
+.type-button.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background-color: #f5f5f5;
+  color: #999;
+  border-color: #ddd;
+}
+
+.type-button:hover:not(.active):not(.disabled) {
+  background-color: white;
+  color: #8B0000;
+  border-color: #8B0000;
+  box-shadow: none;
+}
+
+
+.type-button.disabled:hover {
+  background-color: #f5f5f5;
+  color: #999;
+}
+
+/* Active state for type buttons */
+.type-button.active {
+  background-color: #9B000A !important;
+  color: #FFBD00 !important;
+  border-color: #9B000A;
+  box-shadow: 0 2px 8px rgba(155, 0, 10, 0.3);
+}
+
+.upload-box {
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  padding: 1rem; /* Increased padding for bigger upload box */
+  font-size: 0.8rem;
+  text-align: center;
+  color: #888;
+  cursor: pointer;
+  margin-top: 0.2rem;
+  min-height: 60px; /* Added minimum height for bigger upload box */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.upload-box.has-files {
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.upload-box.drag-over {
+  border-color: #9B000A;
+  background-color: rgba(155, 0, 10, 0.05);
+  color: #9B000A;
+}
+
+.upload-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.3rem;
+}
+
+.camera-button {
+  width: 50px;
+  height: 50px;
+  font-size: 1.5rem;
+  border: 2px solid #9B000A;
+  border-radius: 50%;
+  background: white;
+  color: #9B000A;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.camera-button:hover {
+  background-color: #9B000A;
+  color: white;
+  box-shadow: 0 4px 12px rgba(155, 0, 10, 0.3);
+  transform: scale(1.05);
+}
+
+.image-previews {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.image-preview-item {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid #ddd;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.remove-image {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.remove-image:hover {
+  background: #cc0000;
+  transform: scale(1.1);
+}
+
+.add-more-button {
+  width: 50px;
+  height: 50px;
+  border: 2px dashed #9B000A;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #9B000A;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-more-button:hover {
+  background-color: rgba(155, 0, 10, 0.1);
+  border-color: #7a0000;
+}
+
+.browse-files {
+  color: #9B000A;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.selected-files {
+  margin-top: 0.5rem;
+  max-height: 80px;
+  overflow-y: auto;
+  display: none; /* Hidden since we now show previews in upload box */
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f5f5f5;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  margin-bottom: 0.2rem;
+  font-size: 0.7rem;
+}
+
+.file-name {
+  flex-grow: 1;
+  translate: true;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 0.5rem;
+}
+
+.remove-file {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.remove-file:hover {
+  background-color: #ff4444;
+  color: white;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0rem; /* Added more space above buttons */
+
+}
+
+.cancel-button,
+.post-button {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.75rem; /* Same font size for both buttons */
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background: #eee;
+  color: #444;
+}
+
+.cancel-button:hover {
+  background: #9B000A;
+  color: #ffc107;
+}
+
+.post-button {
+  background-color: #9B000A;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.post-button:hover {
+  background-color: #ffc107;
+  color: #9B000A;
+}
+@media (max-width: 600px) {
+  .modal-content {
+    width: 75%;
+    margin-top: 50px;
+    margin-right: 22px;
+    
+  }
+  
+  .type-button {
+    font-size: 0.65rem;
+    padding: 3px 5px;
+  }
+  .form-row {
+    flex-direction: row; /* Changed from column to row */
+    gap: 0.5rem; /* Increased gap for better spacing */
+    align-items: flex-start;
+  }
+  
+  /* Ensure both containers take equal space */
+  .type-category-container {
+    flex: 1;
+    min-width: 0; /* Prevents overflow */
+  
+  }
+  
+  /* Adjust item type buttons for mobile */
+  .item-type-buttons {
+    justify-content: flex-start; /* Changed from center */
+    gap: 2px;
+    flex-wrap: wrap; /* Allow wrapping if needed */
+  }
+  
+  /* Make buttons smaller on mobile */
+  .type-button {
+    font-size: 0.6rem; /* Even smaller for mobile */
+    padding: 2px 4px;
+    min-width: auto; /* Allow buttons to shrink */
+  }/* Adjust select dropdown for mobile */
+  .form-label select {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+  }
+  
+  .camera-button {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+  }
+  
+  /* Additional mobile optimizations */
+  .modal-content {
+    padding: 0.6rem; /* Slightly reduce padding */
+  }
+  
+  .form-label {
+    font-size: 0.7rem; /* Smaller labels on mobile */
+  }
+  
+  .form-label input,
+  .form-label textarea {
+    font-size: 0.75rem;
+    padding: 4px 6px;
+  }
+}
+/* Dark Mode */
+body.dark-mode .modal-content {
+  background-color: #222;
+  color: #f0f0f0;
+}
+
+/* Changed label colors to magenta/pink in dark mode */
+body.dark-mode .form-label {
+  color: #FF69B4; /* Hot pink for better visibility */
+}
+
+body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1px solid #555;
+}
+
+body.dark-mode .upload-box {
+  background-color: #333;
+  border-color: #555;
+  color: #f0f0f0;
+}
+
+body.dark-mode .upload-box.drag-over {
+  border-color: #FF69B4;
+  background-color: rgba(255, 105, 180, 0.1);
+  color: #FF69B4;
+}
+
+body.dark-mode .camera-button {
+  background-color: #444;
+  color: #FF69B4;
+  border-color: #FF69B4;
+}
+
+body.dark-mode .camera-button:hover {
+  background-color: #FF69B4;
+  color: #222;
+  box-shadow: 0 4px 12px rgba(255, 105, 180, 0.4);
+}
+
+body.dark-mode .image-preview-item {
+  border-color: #555;
+}
+
+body.dark-mode .add-more-button {
+  border-color: #FF69B4;
+  color: #FF69B4;
+}
+
+body.dark-mode .add-more-button:hover {
+  background-color: rgba(255, 105, 180, 0.1);
+  border-color: #ff1493;
+}
+
+body.dark-mode .type-button {
+  background-color: #444;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+/* Yellow highlight for active item type buttons in dark mode */
+body.dark-mode .type-button.active {
+  background-color: #FFBD00 !important;
+  color: #222 !important;
+  border-color: #FFD700;
+  box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
+}
+
+body.dark-mode .type-button:hover:not(.active) {
+  background-color: rgba(255, 189, 0, 0.15);
+  text-decoration: none;
+}
+
+body.dark-mode .selected-files {
+  background-color: transparent;
+}
+
+body.dark-mode .file-item {
+  background-color: #444;
+  color: #f0f0f0;
+}
+
+body.dark-mode .remove-file {
+  color: #ccc;
+}
+
+body.dark-mode .remove-file:hover {
+  background-color: #ff4444;
+  color: white;
+}
+
+/* Yellow styling for buttons in dark mode */
+body.dark-mode .cancel-button, body.dark-mode .post-button {
+  background-color: #444;
+  color: #f0f0f0;
+  transition: all 0.2s ease;
+}
+
+body.dark-mode .cancel-button:hover {
+  background-color: #9B000A;
+  color: #f0f0f0;
+  box-shadow: 0 2px 8px rgba(255, 0, 128, 0.342);
+}
+
+body.dark-mode .post-button:hover {
+  background-color: #FFBD00;
+  color: #222;
+  box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
+}
+
+.camera-link {
+  color: #9B000A;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.camera-link:hover {
+  color: #7A0008;
+}
+

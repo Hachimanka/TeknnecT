@@ -259,7 +259,7 @@ function PostItemModal({ onClose, defaultType }) {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content">
+      <div className="modal-contents">
         <h2 className="modal-title">
           <span className="plus-icon">➕</span> Post an Item
         </h2>
