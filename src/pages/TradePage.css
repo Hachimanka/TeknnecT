@@ -14,7 +14,7 @@
   }
 }
 .PageWrapper{
-    background-image: url('../assets/MainPage.png');
+    background-image: url('../assets/hapitwhite.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -35,7 +35,7 @@
   font-weight: bold;
   color: #9B000A;
   margin-bottom: 0.5rem;
-  margin-top: 100px;
+  margin-top: 40px;
 }
 
 .page-subtitle {
@@ -159,6 +159,8 @@
   cursor: pointer;
   flex-direction: column;
   justify-content: space-between;
+  margin-bottom: 10px;
+ 
 }
 
 .item-card:hover {
@@ -372,7 +374,7 @@
   z-index: 999;
   padding: 1rem;
   overflow-y: hidden;
-  margin-top: 15px;
+  margin-top: 0px;
 }
 
 .modal-content {
@@ -717,3 +719,5 @@
     font-size: 0.8rem;
   }
 }
+
+

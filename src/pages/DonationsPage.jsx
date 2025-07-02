@@ -101,7 +101,7 @@ function DonationsPage() {
   const handleSendMessage = async () => {
     if (!message.trim() || !selectedItem?.uid) return;
 
-    const sender = auth.currentUser;
+    const sender = auth.currentUser ;
     const receiverId = selectedItem.uid;
 
     if (!sender || !receiverId) {
@@ -148,7 +148,7 @@ function DonationsPage() {
         },
         
         // Message type to distinguish regular messages from post-related messages
-        messageType: 'donation_inquiry',
+        messageType: 'post_inquiry',
         
         // Additional context
         messageContext: `Inquiry about ${selectedItem.status.toLowerCase()} donation: ${selectedItem.title}`,
@@ -157,7 +157,6 @@ function DonationsPage() {
         originalMessage: message.trim()
       };
 
-      console.log('Sending message with data:', messageData);
       await addDoc(collection(db, 'chats', chatId, 'messages'), messageData);
 
       setShowChatModal(false);

@@ -20,7 +20,7 @@
   font-weight: bold;
   color: #9b000a;
   margin-bottom: 0.5rem;
-  margin-top: 100px;
+  margin-top: 40px;
 }
  
 .page-subtitle {
@@ -592,12 +592,12 @@
   .report-found-btn {
     width: 100%;
   }
- 
+
   .page-title {
     font-size: 2rem;
     margin-top: 50px;
   }
- 
+
   .page-subtitle {
     font-size: 1rem;
   }

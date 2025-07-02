@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
-import bottomLogo from '../assets/bottomlogo.png';
+import bottomLogo1 from '../assets/bottomlogo1.png';
 import email from '../assets/email.png';
 import phone from '../assets/phone.png';
 import location from '../assets/location.png';
@@ -132,7 +132,7 @@ function HomePage() {
 
           <div className="BottomGroup">
             <div className="LogoWithMessage">
-              <img src={bottomLogo} alt="Logo" className="bottom-logo" />
+              <img src={bottomLogo1} alt="Logo" className="bottom-logo" />
               <p className="message">
                 The student marketplace <br />
                 that makes campus life <br />
@@ -161,7 +161,7 @@ function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> 
     </div>
   );
 }

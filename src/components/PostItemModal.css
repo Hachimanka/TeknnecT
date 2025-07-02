@@ -17,7 +17,8 @@
   border-radius: 10px;
   width: 95%;
   max-width: 360px;
-  height: 500px; /* Fixed height for full visibility */
+  max-height: 85vh; /* Changed from fixed height to max-height */
+  min-height: 400px; /* Added minimum height */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -25,6 +26,7 @@
   animation: slideIn 0.3s ease;
   font-size: 0.85rem;
   color: #333;
+  overflow-y: auto; /* Allow scrolling if content exceeds max-height */
 }
 
 @keyframes slideIn {
@@ -124,7 +126,6 @@ textarea {
   box-shadow: none;
 }
 
-
 .type-button.disabled:hover {
   background-color: #f5f5f5;
   color: #999;
@@ -141,13 +142,13 @@ textarea {
 .upload-box {
   border: 2px dashed #ccc;
   border-radius: 6px;
-  padding: 1rem; /* Increased padding for bigger upload box */
+  padding: 0.8rem; /* Reduced padding slightly */
   font-size: 0.8rem;
   text-align: center;
   color: #888;
   cursor: pointer;
   margin-top: 0.2rem;
-  min-height: 60px; /* Added minimum height for bigger upload box */
+  min-height: 50px; /* Reduced minimum height */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -178,14 +179,14 @@ textarea {
   flex-wrap: wrap;
   gap: 0.5rem;
   width: 100%;
-  max-height: 100px;
+  max-height: 80px; /* Reduced max height */
   overflow-y: auto;
 }
 
 .image-preview-item {
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 45px; /* Slightly smaller preview images */
+  height: 45px;
   border-radius: 4px;
   overflow: hidden;
   border: 2px solid #ddd;
@@ -224,8 +225,8 @@ textarea {
 }
 
 .add-more-button {
-  width: 50px;
-  height: 50px;
+  width: 45px; /* Match preview image size */
+  height: 45px;
   border: 2px dashed #9B000A;
   border-radius: 4px;
   display: flex;
@@ -303,12 +304,13 @@ textarea {
   justify-content: flex-end;
   gap: 0.5rem;
   margin-top: 0.4rem;
+  flex-shrink: 0; /* Prevent buttons from shrinking */
 }
 
 .cancel-button,
 .post-button {
   padding: 0.35rem 0.7rem;
-  font-size: 0.75rem; /* Same font size for both buttons */
+  font-size: 0.75rem;
   border-radius: 6px;
   border: none;
   cursor: pointer;
@@ -338,8 +340,11 @@ textarea {
 @media (max-width: 600px) {
   .modal-content {
     width: 75%;
-    height: 65vh;
-    margin-right: 15px;
+    max-height: 80vh; /* Adjusted for mobile */
+    margin-left: 10px;
+    margin-right: 29px;
+    margin-top: 30px;
+   
   }
   
   .type-button {
@@ -348,7 +353,6 @@ textarea {
   }
   
   .form-row {
-    flex-direction: column;
     gap: 0.3rem;
   }
   
@@ -358,6 +362,7 @@ textarea {
   
   .item-type-buttons {
     justify-content: center;
+    padding-right: 30px;
   }
 }
 
@@ -437,7 +442,6 @@ body.dark-mode .remove-file {
 }
 
 body.dark-mode .remove-file:hover {
-
   background-color: #ff4444;
   color: white;
 }
@@ -460,4 +464,3 @@ body.dark-mode .post-button:hover {
   color: #222;
   box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
 }
-
