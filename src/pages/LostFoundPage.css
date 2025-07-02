@@ -1,12 +1,12 @@
-/* === Layout === */
-.PageWrapper{
-    background-image: url('../assets/MainPage.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-attachment: fixed;
-    margin: 0;
-    padding: 0;
+/*=== Layout === */
+.PageWrapper {
+  background-image: url('../assets/MainPage.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  margin: 0;
+  padding: 0;
 }
 .lost-found-page {
   max-width: 1200px;
@@ -14,38 +14,38 @@
   padding: 4rem;
   font-family: Arial, sans-serif;
 }
-
+ 
 .page-title {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #9B000A;
+  color: #9b000a;
   margin-bottom: 0.5rem;
   margin-top: 100px;
 }
-
+ 
 .page-subtitle {
   font-size: 1.2rem;
   color: #555;
   margin-bottom: 1.5rem;
 }
-
+ 
 .items-section {
   margin-top: 2rem;
 }
-
+ 
 .section-title {
   font-size: 1.8rem;
-  color: #9B000A;
+  color: #9b000a;
   margin-bottom: 1rem;
 }
-
+ 
 .items-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   justify-content: center;
 }
-
+ 
 .empty-message {
   text-align: center;
   font-size: 1.1rem;
@@ -55,54 +55,52 @@
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 8px;
 }
-
+ 
 @media (min-width: 1200px) {
   .items-grid {
     grid-template-columns: repeat(4, 1fr);
   }
 }
-
+ 
 @media (min-width: 900px) and (max-width: 1199px) {
   .items-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
+ 
 @media (min-width: 600px) and (max-width: 899px) {
   .items-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
+ 
 @media (max-width: 599px) {
   .items-grid {
     grid-template-columns: 1fr;
   }
 }
-
+ 
 /* === Buttons === */
 .action-buttons {
   display: flex;
   gap: 15px;
-  margin-bottom: 2rem;
 }
-
+ 
 .action-row {
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: center;
+  justify-content: space-between; /* Left-align buttons, right-align search */
+  flex-wrap: wrap; /* Allow wrapping if needed */
   margin-bottom: 2rem;
   gap: 15px;
 }
-
+ 
 .filters {
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
 }
-
+ 
 .search-box {
   padding: 10px 12px;
   border-radius: 6px;
@@ -110,14 +108,14 @@
   font-size: 1rem;
   width: 180px;
 }
-
+ 
 .filter-select {
   padding: 10px 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 1rem;
 }
-
+ 
 .report-lost-btn,
 .report-found-btn {
   padding: 12px 24px;
@@ -127,27 +125,27 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-
+ 
 .report-lost-btn {
-  background-color: #9B000A;
-  color: #FFBD00;
+  background-color: #9b000a;
+  color: #ffbd00;
 }
-
+ 
 .report-found-btn {
-  background-color: #FFBD00;
-  color: #9B000A;
+  background-color: #ffbd00;
+  color: #9b000a;
 }
-
-.report-lost-btn:hover{
-  background-color: #FFBD00;
-  color: #9B000A;
+ 
+.report-lost-btn:hover {
+  background-color: #ffbd00;
+  color: #9b000a;
 }
-
+ 
 .report-found-btn:hover {
-  background-color: #9B000A;
-  color: #FFBD00;
+  background-color: #9b000a;
+  color: #ffbd00;
 }
-
+ 
 /* === Card Styles === */
 .item-card {
   display: flex;
@@ -166,11 +164,11 @@
   flex-direction: column;
   justify-content: space-between;
 }
-
+ 
 .item-card:hover {
   transform: translateY(-5px);
 }
-
+ 
 /* Badge */
 .item-badge {
   position: absolute;
@@ -181,7 +179,7 @@
   padding: 5px 10px;
   border-radius: 6px;
 }
-
+ 
 /* Image section */
 .item-image {
   height: 225px;
@@ -189,13 +187,13 @@
   align-items: center;
   justify-content: center;
 }
-
+ 
 .item-image img {
   width: 175px;
   height: 175px;
   opacity: 100;
 }
-
+ 
 /* Info section */
 .item-info {
   padding: 1rem;
@@ -204,7 +202,7 @@
   justify-content: space-between;
   height: 125px;
 }
-
+ 
 .item-title {
   margin-top: -6px;
   font-size: 1.3rem;
@@ -212,32 +210,32 @@
   margin-bottom: 0.25rem;
   text-align: left;
 }
-
+ 
 .item-description {
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
-
+ 
 .item-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
+ 
 .item-user {
   display: flex;
   align-items: center;
   font-size: 0.85rem;
   gap: 6px;
 }
-
+ 
 .profile-pic {
   width: 24px;
   height: 24px;
   border-radius: 50%;
   object-fit: cover;
 }
-
+ 
 .item-action-button {
   border: none;
   padding: 6px 12px;
@@ -246,67 +244,67 @@
   font-size: 0.85rem;
   cursor: pointer;
 }
-
+ 
 .item-date {
   font-size: 0.8rem;
   color: #666;
   margin-top: 0.25rem;
   margin-bottom: 0.5rem;
 }
-
+ 
 /* For dark mode in found items */
 .item-card.found .item-date {
   color: #ccc;
 }
-
+ 
 /* === LOST Variant Styles === */
 .item-card.lost .item-badge {
-  background-color: #9B000A;
-  color: #FFBD00;
+  background-color: #9b000a;
+  color: #ffbd00;
 }
-
+ 
 .item-card.lost .item-info {
-  background-color: #FFBD00;
+  background-color: #ffbd00;
 }
-
+ 
 .item-card.lost .item-title {
-  color: #8E0009;
+  color: #8e0009;
 }
-
+ 
 .item-card.lost .item-description,
 .item-card.lost .item-user {
   color: #333;
 }
-
+ 
 .item-card.lost .item-action-button {
-  background-color: #9B000A;
-  color: #FFBD00;
+  background-color: #9b000a;
+  color: #ffbd00;
 }
-
+ 
 /* === FOUND Variant Styles === */
 .item-card.found .item-badge {
-  background-color: #FFBD00;
-  color: #9B000A;
+  background-color: #ffbd00;
+  color: #9b000a;
 }
-
+ 
 .item-card.found .item-info {
-  background-color: #9B000A;
+  background-color: #9b000a;
 }
-
+ 
 .item-card.found .item-title {
-  color: #FFBD00;
+  color: #ffbd00;
 }
-
+ 
 .item-card.found .item-description,
 .item-card.found .item-user {
   color: #f0f0f0;
 }
-
+ 
 .item-card.found .item-action-button {
-  background-color: #FFBD00;
-  color: #9B000A;
+  background-color: #ffbd00;
+  color: #9b000a;
 }
-
+ 
 /* === Modal === */
 .modal-overlay {
   position: fixed;
@@ -323,7 +321,7 @@
   overflow-y: hidden;
   margin-top: 15px;
 }
-
+ 
 .modal-content {
   max-width: 500px;
   width: 100%;
@@ -338,7 +336,7 @@
   overflow: hidden;
   transition: all 0.3s ease;
 }
-
+ 
 /* Header section with close button */
 .modal-header {
   flex-shrink: 0;
@@ -347,7 +345,7 @@
   border-bottom: 1px solid #eee;
   background-color: #fafafa;
 }
-
+ 
 .modal-close {
   position: absolute;
   top: 12px;
@@ -360,11 +358,11 @@
   color: #666;
   transition: color 0.2s ease;
 }
-
+ 
 .modal-close:hover {
-  color: #9B000A;
+  color: #9b000a;
 }
-
+ 
 .modal-title {
   margin: 0 2rem 0.5rem 0;
   font-size: 1.4rem;
@@ -372,7 +370,7 @@
   padding-right: 40px;
   color: #333;
 }
-
+ 
 /* Scrollable content area */
 .modal-body {
   flex: 1;
@@ -380,7 +378,7 @@
   padding: 1rem;
   text-align: center;
 }
-
+ 
 .modal-image {
   width: 100%;
   max-width: 350px;
@@ -391,22 +389,22 @@
   display: block;
   background-color: #f5f5f5;
 }
-
+ 
 .modal-details {
   text-align: left;
   margin-top: 1rem;
 }
-
+ 
 .modal-details p {
   margin-bottom: 0.75rem;
   line-height: 1.5;
   word-wrap: break-word;
 }
-
+ 
 .modal-details strong {
-  color: #9B000A;
+  color: #9b000a;
 }
-
+ 
 /* Footer section for buttons */
 .modal-footer {
   flex-shrink: 0;
@@ -414,12 +412,12 @@
   border-top: 1px solid #eee;
   background-color: #fafafa;
 }
-
+ 
 .chat-button {
   width: 100%;
   padding: 12px 20px;
-  background-color: #9B000A;
-  color: #FFBD00;
+  background-color: #9b000a;
+  color: #ffbd00;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -428,12 +426,12 @@
   transition: background-color 0.3s ease;
   margin-bottom: 1rem;
 }
-
+ 
 .chat-button:hover {
-  background-color: #FFBD00;
-  color: #9B000A;
+  background-color: #ffbd00;
+  color: #9b000a;
 }
-
+ 
 /* Chat Modal Specific Styles */
 .chat-info {
   background-color: #f8f9fa;
@@ -442,14 +440,14 @@
   margin-bottom: 1rem;
   text-align: left;
 }
-
+ 
 .chat-info p {
   margin: 0;
   font-size: 0.95rem;
   color: #555;
   line-height: 1.4;
 }
-
+ 
 .chat-textarea {
   width: 100%;
   height: 80px;
@@ -463,26 +461,26 @@
   font-family: Arial, sans-serif;
   transition: border-color 0.2s ease;
 }
-
+ 
 .chat-textarea:focus {
   outline: none;
-  border-color: #9B000A;
+  border-color: #9b000a;
   box-shadow: 0 0 0 2px rgba(155, 0, 10, 0.1);
 }
-
+ 
 .char-count {
   text-align: right;
   font-size: 0.8rem;
   color: #666;
   margin-bottom: 1rem;
 }
-
+ 
 .chat-actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
-
+ 
 .cancel-button,
 .send-button {
   padding: 8px 16px;
@@ -493,144 +491,189 @@
   cursor: pointer;
   transition: all 0.2s ease;
 }
-
+ 
 .cancel-button {
   background-color: #ccc;
   color: #333;
 }
-
+ 
 .cancel-button:hover {
   background-color: #bbb;
 }
-
+ 
 .send-button {
-  background-color: #9B000A;
-  color: #FFBD00;
+  background-color: #9b000a;
+  color: #ffbd00;
 }
-
+ 
 .send-button:hover:not(:disabled) {
-  background-color: #FFBD00;
-  color: #9B000A;
+  background-color: #ffbd00;
+  color: #9b000a;
 }
-
+ 
 .send-button:disabled {
   background-color: #ddd;
   color: #999;
   cursor: not-allowed;
 }
-
+ 
 .spacing {
   margin-bottom: 0.75rem;
 }
-
+ 
+/* === Mobile/Tablet - Centered Layout === */
+@media (max-width: 768px) {
+  .action-row {
+    flex-direction: column; /* Stack vertically */
+    align-items: center; /* Center everything */
+    justify-content: center;
+  }
+ 
+  .action-buttons {
+    justify-content: center; /* Center buttons */
+    width: 100%; /* Full width for proper centering */
+  }
+ 
+  .search-sort-controls {
+    margin-left: 0; /* Remove auto margin */
+    justify-content: center; /* Center search/sort */
+    width: 100%; /* Full width */
+  }
+ 
+  /* Optional: Make search/sort inputs full width but centered */
+  .searchbox,
+  .category-select,
+  .date-sort-select {
+    width: 100%;
+    max-width: 250px; /* Prevent stretching too wide */
+  }
+}
+ 
 /* Mobile responsiveness */
 @media (max-width: 480px) {
   .modal-content {
     max-width: 95%;
     height: 90vh;
     max-height: 70vh;
-    
   }
-
+ 
   .modal-header,
   .modal-body,
   .modal-footer {
     padding: 0.75rem;
   }
-
+ 
   .modal-title {
     font-size: 1.2rem;
   }
-
+ 
   .modal-image {
     height: 150px;
     max-width: 280px;
   }
-
+ 
   .chat-textarea {
     height: 60px;
     font-size: 0.85rem;
   }
-
+ 
   .cancel-button,
   .send-button {
     padding: 8px 12px;
     font-size: 0.85rem;
   }
-
+ 
   .action-buttons {
     flex-direction: column;
     gap: 10px;
   }
-
+ 
   .report-lost-btn,
   .report-found-btn {
     width: 100%;
   }
-
+ 
   .page-title {
     font-size: 2rem;
     margin-top: 50px;
   }
-
+ 
   .page-subtitle {
     font-size: 1rem;
   }
-
+ 
   .lost-found-page {
     padding: 1rem;
   }
-  
-    .action-row {
+ 
+  .action-row {
     flex-direction: column;
     align-items: stretch;
   }
-
+ 
   .filters {
     justify-content: flex-start;
     width: 100%;
   }
-
-  .search-box,
+ 
   .filter-select {
     width: 100%;
   }
+ 
+  .searchbox,
+  .category-select,
+  .date-sort-select {
+    max-width: 100%;
+  }
+ 
+  .search-sort-controls {
+    flex-direction: column; /* Stack search/sort vertically */
+    align-items: center;
+  }
+ 
+  /* PAGINATION: Mobile styles for controls */
+  .pagination-controls {
+    gap: 0.5rem;
+  }
+  .pagination-controls button {
+    padding: 6px 10px;
+  }
 }
-
+ 
 /* Scrollbar Styling */
 .modal-body::-webkit-scrollbar {
   width: 6px;
 }
-
+ 
 .modal-body::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 3px;
 }
-
+ 
 .modal-body::-webkit-scrollbar-thumb {
   background: #ccc;
   border-radius: 3px;
 }
-
+ 
 .modal-body::-webkit-scrollbar-thumb:hover {
-  background: #9B000A;
+  background: #9b000a;
 }
-
+ 
 /* Focus and accessibility improvements */
 .modal-close:focus,
 .chat-button:focus,
 .cancel-button:focus,
 .send-button:focus {
-  outline: 2px solid #9B000A;
+  outline: 2px solid #9b000a;
   outline-offset: 2px;
 }
-
+ 
 .report-lost-btn:focus,
 .report-found-btn:focus {
   outline: 2px solid #333;
   outline-offset: 2px;
 }
-
+ 
 /* Animation for modal appearance */
 @keyframes modalFadeIn {
   from {
@@ -642,12 +685,11 @@
     transform: scale(1);
   }
 }
-
+ 
 .modal-content {
   animation: modalFadeIn 0.2s ease-out;
 }
-
-
+ 
 .post-reference-card {
   background: #f8f9fa;
   border: 1px solid #e9ecef;
@@ -655,14 +697,14 @@
   padding: 15px;
   margin-bottom: 15px;
 }
-
+ 
 .post-ref-header {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
 }
-
+ 
 .post-ref-badge {
   padding: 4px 8px;
   border-radius: 4px;
@@ -670,72 +712,100 @@
   font-weight: bold;
   text-transform: uppercase;
 }
-
+ 
 .post-ref-badge.lost {
   background: #fee;
   color: #c53030;
 }
-
+ 
 .post-ref-badge.found {
   background: #f0fff4;
   color: #38a169;
 }
-
+ 
 .post-ref-title {
   margin: 0;
   font-size: 16px;
 }
-
+ 
 .post-ref-details {
   display: flex;
   gap: 15px;
 }
-
+ 
 .post-ref-image {
   flex-shrink: 0;
 }
-
+ 
 .post-ref-image img {
   width: 60px;
   height: 60px;
   object-fit: cover;
   border-radius: 4px;
 }
-
+ 
 .post-ref-info {
   flex: 1;
 }
-
+ 
 .post-ref-info p {
   margin: 5px 0;
   font-size: 14px;
 }
-
-.action-buttons {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
+ 
 .search-sort-controls {
   display: flex;
-  align-items: center;
   gap: 10px;
-  margin-left: auto;
+  margin-left: auto; /* Push search/sort to the right */
 }
-
-.searchbox {
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 1rem;
-  width: 160px;
-}
-
+ 
+.searchbox,
 .category-select,
 .date-sort-select {
   padding: 8px 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 1rem;
+  width: 100%; /* Full width on small screens */
+  max-width: 200px; /* But not too wide */
+}
+ 
+/* PAGINATION: Styles for Pagination Controls */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding: 1rem;
+}
+ 
+.pagination-controls button {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #9b000a;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+ 
+.pagination-controls button:hover:not(:disabled) {
+  background-color: #9b000a;
+  color: #ffbd00;
+  border-color: #9b000a;
+}
+ 
+.pagination-controls button:disabled {
+  background-color: #f0f0f0;
+  color: #aaa;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+ 
+.pagination-controls span {
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
 }

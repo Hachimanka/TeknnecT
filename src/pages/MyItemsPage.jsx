@@ -141,116 +141,118 @@ function MyItemsPage() {
   }
 
   return (
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <h1>My Items</h1>
-        <p>Your posting history organized by category</p>
-      </div>
+    <div className={"PageWrapper page-fade-in"}>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h1>My Items</h1>
+          <p>Your posting history organized by category</p>
+        </div>
 
-      <div className={styles.stats}>
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{items.length}</span>
-          <span className={styles.statLabel}>Total Items</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{categorizedItems.trade.length}</span>
-          <span className={styles.statLabel}>Trade Items</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{categorizedItems.rent.length}</span>
-          <span className={styles.statLabel}>Rent Items</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{categorizedItems.lost.length + categorizedItems.found.length}</span>
-          <span className={styles.statLabel}>Lost & Found</span>
-        </div>
-        <div className={styles.statCard}>
-          <span className={styles.statNumber}>{categorizedItems.donation.length}</span>
-          <span className={styles.statLabel}>Donations</span>
-        </div>
-      </div>
-
-      <div className={styles.filterSection}>
-        <h3>Filter by Category:</h3>
-        <div className={styles.filterButtons}>
-          {['all', 'trade', 'rent', 'lost', 'found', 'donation'].map(type => (
-            <button
-              key={type}
-              className={selectedCategory === type ? styles.active : ''}
-              onClick={() => setSelectedCategory(type)}
-            >
-              {getItemTypeIcon(type)} {type.charAt(0).toUpperCase() + type.slice(1)} ({categorizedItems[type]?.length || items.length})
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        {filteredItems.length === 0 ? (
-          <div className={styles.noItems}>
-            <h3>No items found</h3>
-            <p>
-              {selectedCategory === 'all'
-                ? "You haven't posted any items yet."
-                : `You don't have any ${selectedCategory} items.`}
-            </p>
+        <div className={styles.stats}>
+          <div className={styles.statCard}>
+            <span className={styles.statNumber}>{items.length}</span>
+            <span className={styles.statLabel}>Total Items</span>
           </div>
-        ) : (
-          filteredItems.map(item => (
-            <div key={item.id} className={styles.card}>
-              <div className={styles.cardHeader}>
-                <div
-                  className={styles.badge}
-                  style={{ backgroundColor: getItemTypeColor(item.type) }}
-                >
-                  {getItemTypeIcon(item.type)} {item.type?.toUpperCase()}
-                </div>
-                <button
-                  className={styles.deleteButton}
-                  onClick={() => handleDeleteItem(item.id)}
-                  disabled={deleteLoading === item.id}
-                  title="Delete item"
-                >
-                  {deleteLoading === item.id ? '...' : '🗑️'}
-                </button>
-              </div>
+          <div className={styles.statCard}>
+            <span className={styles.statNumber}>{categorizedItems.trade.length}</span>
+            <span className={styles.statLabel}>Trade Items</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statNumber}>{categorizedItems.rent.length}</span>
+            <span className={styles.statLabel}>Rent Items</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statNumber}>{categorizedItems.lost.length + categorizedItems.found.length}</span>
+            <span className={styles.statLabel}>Lost & Found</span>
+          </div>
+          <div className={styles.statCard}>
+            <span className={styles.statNumber}>{categorizedItems.donation.length}</span>
+            <span className={styles.statLabel}>Donations</span>
+          </div>
+        </div>
 
-              {item.imageUrls?.[0] && (
-                <div className={styles.image}>
-                  <img
-                    src={item.imageUrls[0]}
-                    alt={item.title}
-                    onError={(e) => (e.target.style.display = 'none')}
-                  />
-                  {item.imageUrls.length > 1 && (
-                    <div className={styles.imageCount}>
-                      +{item.imageUrls.length - 1}
-                    </div>
-                  )}
-                </div>
-              )}
+        <div className={styles.filterSection}>
+          <h3>Filter by Category:</h3>
+          <div className={styles.filterButtons}>
+            {['all', 'trade', 'rent', 'lost', 'found', 'donation'].map(type => (
+              <button
+                key={type}
+                className={selectedCategory === type ? styles.active : ''}
+                onClick={() => setSelectedCategory(type)}
+              >
+                {getItemTypeIcon(type)} {type.charAt(0).toUpperCase() + type.slice(1)} ({categorizedItems[type]?.length || items.length})
+              </button>
+            ))}
+          </div>
+        </div>
 
-              <div className={styles.content}>
-                <h3 className={styles.title}>{item.title}</h3>
-                <p className={styles.description}>{item.description}</p>
-                <div className={styles.details}>
-                  <div className={styles.row}>
-                    <span className={styles.label}>📁 Category:</span>
-                    <span className={styles.value}>{item.category}</span>
-                  </div>
-                  <div className={styles.row}>
-                    <span className={styles.label}>📍 Location:</span>
-                    <span className={styles.value}>{item.location}</span>
-                  </div>
-                  <div className={styles.row}>
-                    <span className={styles.label}>📅 Posted:</span>
-                    <span className={styles.value}>{formatDate(item.createdAt)}</span>
-                  </div>
-                </div>
-              </div>
+        <div className={styles.grid}>
+          {filteredItems.length === 0 ? (
+            <div className={styles.noItems}>
+              <h3>No items found</h3>
+              <p>
+                {selectedCategory === 'all'
+                  ? "You haven't posted any items yet."
+                  : `You don't have any ${selectedCategory} items.`}
+              </p>
             </div>
-          ))
-        )}
+          ) : (
+            filteredItems.map(item => (
+              <div key={item.id} className={styles.card}>
+                <div className={styles.cardHeader}>
+                  <div
+                    className={styles.badge}
+                    style={{ backgroundColor: getItemTypeColor(item.type) }}
+                  >
+                    {getItemTypeIcon(item.type)} {item.type?.toUpperCase()}
+                  </div>
+                  <button
+                    className={styles.deleteButton}
+                    onClick={() => handleDeleteItem(item.id)}
+                    disabled={deleteLoading === item.id}
+                    title="Delete item"
+                  >
+                    {deleteLoading === item.id ? '...' : '🗑️'}
+                  </button>
+                </div>
+
+                {item.imageUrls?.[0] && (
+                  <div className={styles.image}>
+                    <img
+                      src={item.imageUrls[0]}
+                      alt={item.title}
+                      onError={(e) => (e.target.style.display = 'none')}
+                    />
+                    {item.imageUrls.length > 1 && (
+                      <div className={styles.imageCount}>
+                        +{item.imageUrls.length - 1}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className={styles.content}>
+                  <h3 className={styles.title}>{item.title}</h3>
+                  <p className={styles.description}>{item.description}</p>
+                  <div className={styles.details}>
+                    <div className={styles.row}>
+                      <span className={styles.label}>📁 Category:</span>
+                      <span className={styles.value}>{item.category}</span>
+                    </div>
+                    <div className={styles.row}>
+                      <span className={styles.label}>📍 Location:</span>
+                      <span className={styles.value}>{item.location}</span>
+                    </div>
+                    <div className={styles.row}>
+                      <span className={styles.label}>📅 Posted:</span>
+                      <span className={styles.value}>{formatDate(item.createdAt)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
