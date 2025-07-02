@@ -20,6 +20,7 @@ function DonationsPostModal({ onClose }) {
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const fileInputRef = useRef(null);
+  const cameraInputRef = useRef(null);
 
   const handleImageUpload = (e) => {
     const files = Array.from(e.target.files);
@@ -57,6 +58,127 @@ function DonationsPostModal({ onClose }) {
     e.preventDefault();
     e.stopPropagation();
     fileInputRef.current?.click();
+  };
+
+  // Camera feature integration
+  const handleCameraClick = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'environment' }
+        });
+
+        const video = document.createElement('video');
+        video.srcObject = stream;
+        video.autoplay = true;
+        video.playsInline = true;
+
+        const cameraModal = document.createElement('div');
+        cameraModal.style.cssText = `
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.9);
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          z-index: 2000;
+        `;
+
+        video.style.cssText = `
+          max-width: 90%;
+          max-height: 70%;
+          border-radius: 10px;
+        `;
+
+        const captureBtn = document.createElement('button');
+        captureBtn.innerHTML = '📷 Capture Photo';
+        captureBtn.style.cssText = `
+          margin-top: 20px;
+          padding: 15px 30px;
+          font-size: 18px;
+          background: #2E8B57;
+          color: #FFD700;
+          border: none;
+          border-radius: 25px;
+          cursor: pointer;
+        `;
+
+        const closeBtn = document.createElement('button');
+        closeBtn.innerHTML = '✖ Close';
+        closeBtn.style.cssText = `
+          margin-top: 10px;
+          padding: 10px 20px;
+          font-size: 16px;
+          background: #666;
+          color: white;
+          border: none;
+          border-radius: 20px;
+          cursor: pointer;
+        `;
+
+        cameraModal.appendChild(video);
+        cameraModal.appendChild(captureBtn);
+        cameraModal.appendChild(closeBtn);
+        document.body.appendChild(cameraModal);
+
+        captureBtn.onclick = () => {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          canvas.width = video.videoWidth;
+          canvas.height = video.videoHeight;
+          context.drawImage(video, 0, 0);
+
+          canvas.toBlob((blob) => {
+            const file = new File([blob], `camera-${Date.now()}.jpg`, { type: 'image/jpeg' });
+            const newImage = {
+              id: Date.now() + Math.random(),
+              file,
+              preview: URL.createObjectURL(file),
+            };
+            setImages((prev) => [...prev, newImage]);
+            stream.getTracks().forEach(track => track.stop());
+            document.body.removeChild(cameraModal);
+          }, 'image/jpeg', 0.8);
+        };
+
+        closeBtn.onclick = () => {
+          stream.getTracks().forEach(track => track.stop());
+          document.body.removeChild(cameraModal);
+        };
+
+      } catch (error) {
+        alert('Camera access denied or not available. Please use file upload instead.');
+        if (cameraInputRef.current) {
+          cameraInputRef.current.click();
+        }
+      }
+    } else {
+      alert('Camera not supported on this device. Please use file upload instead.');
+      if (cameraInputRef.current) {
+        cameraInputRef.current.click();
+      }
+    }
+  };
+
+  const handleCameraCapture = (e) => {
+    const files = Array.from(e.target.files);
+    if (!files.length) return;
+
+    const newImages = files.map((file) => ({
+      id: Date.now() + Math.random(),
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    setImages((prev) => [...prev, ...newImages]);
+    e.target.value = '';
   };
 
   const handlePost = async (e) => {
@@ -97,22 +219,22 @@ function DonationsPostModal({ onClose }) {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal-content">
-        <h2 className="modal-title">
-          <span className="plus-icon">➕</span> Post an Item
+    <div className="modal-overlayd">
+      <div className="modal-contentd">
+        <h2 className="modal-titled">
+          <span className="plus-icond">➕</span> Post an Item
         </h2>
 
-        <form className="post-form" onSubmit={handlePost}>
+        <form className="post-formd" onSubmit={handlePost}>
           {/* Type Toggle Buttons */}
-          <label className="form-label">
-            <span className="form-icon">🔁</span> Post Type
-            <div className="item-type-buttons">
+          <label className="form-labeld">
+            <span className="form-icond">🔁</span> Post Type
+            <div className="item-type-buttonsd">
               {['donation', 'request'].map((type) => (
                 <button
                   key={type}
                   type="button"
-                  className={`type-button ${selectedType === type ? 'active' : ''}`}
+                  className={`type-buttond ${selectedType === type ? 'actived' : ''}`}
                   onClick={() => setSelectedType(type)}
                 >
                   {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -121,8 +243,8 @@ function DonationsPostModal({ onClose }) {
             </div>
           </label>
 
-          <label className="form-label">
-            <span className="form-icon">🏷️</span> Item Title
+          <label className="form-labeld">
+            <span className="form-icond">🏷️</span> Item Title
             <input
               type="text"
               placeholder={`What are you ${selectedType === 'donation' ? 'donating' : 'requesting'}?`}
@@ -132,8 +254,8 @@ function DonationsPostModal({ onClose }) {
             />
           </label>
 
-          <label className="form-label">
-            <span className="form-icon">💬</span> Description
+          <label className="form-labeld">
+            <span className="form-icond">💬</span> Description
             <textarea
               placeholder={`Describe the ${selectedType} item...`}
               rows="4"
@@ -143,8 +265,8 @@ function DonationsPostModal({ onClose }) {
             />
           </label>
 
-          <label className="form-label">
-            <span className="form-icon">📁</span> Category
+          <label className="form-labeld">
+            <span className="form-icond">📁</span> Category
             <select value={category} onChange={(e) => setCategory(e.target.value)} required>
               <option value="">Select category</option>
               <option>Electronics</option>
@@ -154,8 +276,8 @@ function DonationsPostModal({ onClose }) {
             </select>
           </label>
 
-          <label className="form-label">
-            <span className="form-icon">📍</span> Location
+          <label className="form-labeld">
+            <span className="form-icond">📍</span> Location
             <input
               type="text"
               placeholder="Enter location"
@@ -165,24 +287,35 @@ function DonationsPostModal({ onClose }) {
             />
           </label>
 
-          <label className="form-label">
-            <span className="form-icon">🖼️</span> Upload Images
-            <div className={`upload-box ${images.length > 0 ? 'has-files' : ''}`}>
+          <label className="form-labeld">
+            <span className="form-icond">🖼️</span> Upload Images
+            <div className={`upload-boxd ${images.length > 0 ? 'has-filesd' : ''}`}>
               {images.length === 0 ? (
-                <>
-                  Drag & drop or{' '}
-                  <span className="browse-files" onClick={handleBrowseClick}>
-                    Browse Files
-                  </span>
-                </>
+                <div className="upload-optionsd">
+                  <div className="upload-textd">
+                    <span
+                      className="browse-filesd"
+                      onClick={handleBrowseClick}
+                    >
+                      📁 Upload files
+                    </span>
+                    {' '}or{' '}
+                    <span
+                      className="camera-linkd"
+                      onClick={handleCameraClick}
+                    >
+                      📷 Use Camera
+                    </span>
+                  </div>
+                </div>
               ) : (
-                <div className="image-previews">
+                <div className="image-previewsd">
                   {images.map((img) => (
-                    <div key={img.id} className="image-preview-item">
-                      <img src={img.preview} alt={`upload-${img.id}`} className="preview-image" />
+                    <div key={img.id} className="image-preview-itemd">
+                      <img src={img.preview} alt={`upload-${img.id}`} className="preview-imaged" />
                       <button
                         type="button"
-                        className="remove-image"
+                        className="remove-imaged"
                         onClick={(e) => {
                           e.preventDefault();
                           e.stopPropagation();
@@ -193,11 +326,27 @@ function DonationsPostModal({ onClose }) {
                       </button>
                     </div>
                   ))}
-                  <button type="button" className="add-more-button" onClick={handleAddMoreClick}>
-                    +
-                  </button>
+                  <div className="add-more-optionsd">
+                    <button
+                      type="button"
+                      className="add-more-buttond"
+                      onClick={handleAddMoreClick}
+                      title="Browse Files"
+                    >
+                      📁
+                    </button>
+                    <button
+                      type="button"
+                      className="camera-button-smalld"
+                      onClick={handleCameraClick}
+                      title="Take Photo"
+                    >
+                      📷
+                    </button>
+                  </div>
                 </div>
               )}
+              {/* File input for browsing files */}
               <input
                 type="file"
                 accept="image/*"
@@ -206,14 +355,23 @@ function DonationsPostModal({ onClose }) {
                 ref={fileInputRef}
                 onChange={handleImageUpload}
               />
+              {/* Camera input for fallback */}
+              <input
+                type="file"
+                accept="image/*"
+                capture
+                style={{ display: 'none' }}
+                ref={cameraInputRef}
+                onChange={handleCameraCapture}
+              />
             </div>
           </label>
 
-          <div className="form-buttons">
-            <button type="button" className="cancel-button" onClick={onClose}>
+          <div className="form-buttonsd">
+            <button type="button" className="cancel-buttond" onClick={onClose}>
               ✖ Cancel
             </button>
-            <button type="submit" className="post-button" disabled={loading}>
+            <button type="submit" className="post-buttond" disabled={loading}>
               {loading ? 'Posting...' : `➤ Post ${selectedType.charAt(0).toUpperCase() + selectedType.slice(1)}`}
             </button>
           </div>
