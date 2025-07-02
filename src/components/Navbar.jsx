@@ -34,6 +34,23 @@ function Navbar() {
     return true;
   };
 
+  // Helper function to get user initials
+  const getUserInitials = (email) => {
+    if (!email) return 'GU'; // Guest User
+    
+    // Extract the part before @cit.edu
+    const username = email.replace('@cit.edu', '');
+    
+    // Split by dots and get first letter of each part
+    const parts = username.split('.');
+    if (parts.length >= 2) {
+      return (parts[0].charAt(0) + parts[1].charAt(0)).toUpperCase();
+    } else {
+      // If no dots, take first two letters
+      return username.substring(0, 2).toUpperCase();
+    }
+  };
+
   // Handle protected navigation
   const handleProtectedNavigation = (path) => {
     if (!user) {
@@ -68,28 +85,28 @@ function Navbar() {
     };
   }, []);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        try {
-          const userDocRef = doc(db, 'users', currentUser.uid);
-          const userDoc = await getDoc(userDocRef);
-          if (userDoc.exists()) {
-            setPhotoURL(userDoc.data().photoURL || null);
-          }
-        } catch (error) {
-          console.error('Error fetching user data:', error);
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    setUser(currentUser);
+    if (currentUser) {
+      try {
+        const userDocRef = doc(db, 'users', currentUser.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setPhotoURL(userDoc.data().photoURL || null);
         }
-      } else {
-        // Clear unread count when user logs out
-        setTotalUnreadCount(0);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
       }
-    });
+    } else {
+      // Clear user data when user logs out
+      setPhotoURL(null);
+      setTotalUnreadCount(0);
+    }
+  });
 
-    return () => unsubscribe();
-  }, []);
-
+  return () => unsubscribe();
+}, []);
   // 🔔 Listen for unread messages count
   useEffect(() => {
     if (!user) {
@@ -351,7 +368,24 @@ function Navbar() {
             ref={profileButtonRef}
             style={{ cursor: 'pointer' }}
           >
-            <FaUserCircle size={28} />
+            {/* Updated profile avatar section */}
+            <div className="navbar-profile-avatar">
+            {photoURL ? (
+              <img
+                src={photoURL}
+                alt="Profile"
+                className="navbar-avatar-image"
+              />
+            ) : user?.email ? (
+              <div className="navbar-avatar-initials">
+                {getUserInitials(user.email)}
+              </div>
+            ) : (
+              <div className="navbar-avatar-default">
+                <FaUserCircle size={24} />
+              </div>
+            )}
+          </div>
             <FaChevronDown
               size={14}
               className={`dropdown-arrow-icon ${showProfileMenu ? 'rotated' : ''}`}
