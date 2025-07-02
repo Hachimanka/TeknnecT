@@ -80,9 +80,7 @@ function RentPage() {
   const handleCardClick = (item) => setSelectedItem(item);
   const closeModal = () => setSelectedItem(null);
   
-  // Updated to pass the correct type to the modal
   const openPostModal = (itemType) => {
-    // Map the display text to the actual database type
     const typeMapping = {
       'For Rent': 'rent',
       'Looking to Rent': 'looking'
@@ -99,7 +97,7 @@ function RentPage() {
   const handleSendMessage = async () => {
     if (!message.trim() || !selectedItem?.uid) return;
 
-    const sender = auth.currentUser;
+    const sender = auth.currentUser ;
     const receiverId = selectedItem.uid;
 
     if (!sender || !receiverId) {
@@ -115,7 +113,7 @@ function RentPage() {
       // Create/update chat document
       await setDoc(doc(db, 'chats', chatId), {
         users: [sender.uid, receiverId],
-        lastMessage: message.trim(),
+        lastMessage: `[RE: ${selectedItem.status} - ${selectedItem.title}] ${message.trim()}`,
         lastMessageTime: serverTimestamp(),
         lastPostId: selectedItem.id,
         lastPostTitle: selectedItem.title,
@@ -146,7 +144,7 @@ function RentPage() {
         },
         
         // Message type to distinguish regular messages from post-related messages
-        messageType: 'rent_inquiry',
+        messageType: 'post_inquiry',
         
         // Additional context
         messageContext: `Inquiry about ${selectedItem.status.toLowerCase()} item: ${selectedItem.title}`,
@@ -155,7 +153,6 @@ function RentPage() {
         originalMessage: message.trim()
       };
 
-      console.log('Sending message with data:', messageData);
       await addDoc(collection(db, 'chats', chatId, 'messages'), messageData);
 
       setShowChatModal(false);

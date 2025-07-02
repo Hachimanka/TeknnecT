@@ -284,25 +284,50 @@ const ChatBox = () => {
   };
 
   // Component to render individual message with post identification
-  const MessageComponent = ({ msg }) => {
-    const isOwnMessage = msg.sender === currentUser.uid;
-    
-    return (
-      <div className={`chat-message-row ${isOwnMessage ? 'right' : 'left'}`}>
-        {!isOwnMessage && (
-          <img className="chat-avatar" src={activeChat.photoURL || Profile1} alt="sender" />
-        )}
-        
-        <div className={`message ${isOwnMessage ? 'right' : 'left'}`}>
-          {/* Show post reference if this is a post inquiry */}
-          {msg.messageType === 'post_inquiry' && msg.postReference && (
-            <div className="message-post-reference">
-              <div className="post-ref-header">
-                <span className={`post-status-badge ${msg.postReference.postStatus.toLowerCase()}`}>
-                  {msg.postReference.postStatus}
+  // [Previous imports...]
+
+// Updated MessageComponent with improved post reference layout
+const MessageComponent = ({ msg }) => {
+  const isOwnMessage = msg.sender === currentUser.uid;
+  
+  // Determine if this is a post-related message (works for both LostFound and Trade)
+  const isPostMessage = msg.messageType === 'post_inquiry' && msg.postReference;
+  const isTradePost = isPostMessage && msg.postReference.postType === 'trade';
+
+  return (
+    <div className={`chat-message-row ${isOwnMessage ? 'right' : 'left'}`}>
+      {/* Avatar */}
+      {!isOwnMessage && (
+        <img className="chat-avatar" src={activeChat.photoURL || Profile1} alt="sender" />
+      )}
+      
+      <div className={`message ${isOwnMessage ? 'right' : 'left'}`}>
+        {/* Post reference card - works for both Lost/Found and Trade */}
+        {isPostMessage && (
+          <div className="message-post-reference">
+            <div className="post-ref-header">
+              <div className="post-ref-header-left">
+                <span className={`post-status-badge ${
+                  isTradePost ? 'trade' : msg.postReference.postStatus.toLowerCase()
+                }`}>
+                  {isTradePost ? 'TRADE' : msg.postReference.postStatus}
                 </span>
-                <span className="post-ref-title">{msg.postReference.postTitle}</span>
+                <span className="post-ref-title" title={msg.postReference.postTitle}>
+                  {msg.postReference.postTitle}
+                </span>
               </div>
+            </div>
+            
+            <div className="post-ref-content">
+              <div className="post-ref-details">
+                {msg.postReference.postPrice && msg.postReference.postPrice !== 'N/A' && (
+                  <p><strong>Price:</strong> {msg.postReference.postPrice}</p>
+                )}
+                <p><strong>Category:</strong> {msg.postReference.postCategory}</p>
+                <p><strong>Location:</strong> {msg.postReference.postLocation}</p>
+                <p><strong>Posted by:</strong> {msg.postReference.postOwner}</p>
+              </div>
+              
               {msg.postReference.postImage && (
                 <img 
                   src={msg.postReference.postImage} 
@@ -310,36 +335,32 @@ const ChatBox = () => {
                   className="post-ref-thumbnail"
                 />
               )}
-              <div className="post-ref-details">
-                <small>📍 {msg.postReference.postLocation}</small>
-                <small>👤 {msg.postReference.postOwner}</small>
-              </div>
             </div>
-          )}
-
-          {/* Message content */}
-          <div className="message-content">
-            {/* Show original message if available, otherwise show text with prefix */}
-            {msg.originalMessage || msg.text}
           </div>
-
-          {/* Timestamp */}
-          <span className="message-timestamp">
-            {msg.timestamp?.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-          </span>
-        </div>
-
-        {isOwnMessage && (
-          <img
-            className="chat-avatar"
-            src={currentUserProfile?.photoURL || Profile1}
-            alt="you"
-          />
         )}
-      </div>
-    );
-  };
 
+        {/* Message text */}
+        <div className="message-content">
+          {msg.originalMessage || 
+           (msg.text && msg.text.replace(`[RE: ${isTradePost ? 'Trade' : msg.postReference?.postStatus} - ${msg.postReference?.postTitle}] `, ''))}
+        </div>
+        
+        <span className="message-timestamp">
+          {msg.timestamp?.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        </span>
+      </div>
+
+      {/* Your avatar */}
+      {isOwnMessage && (
+        <img
+          className="chat-avatar"
+          src={currentUser.photoURL || Profile1}
+          alt="you"
+        />
+      )}
+    </div>
+  );
+};
   // Get filtered users and sort so unread appear at top
   const getFilteredUsers = () => {
     let filteredUsers = userProfiles
