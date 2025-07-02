@@ -7,7 +7,7 @@
 }
 
 body {  
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .HomePage {
@@ -77,9 +77,9 @@ body {
 }
 
 .PageWrapper {
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
-  height: 100vh;
+  /*scroll-snap-type: y mandatory;*/
+  overflow-y: auto;
+  height: auto;
   scrollbar-width: none;
 }
 
