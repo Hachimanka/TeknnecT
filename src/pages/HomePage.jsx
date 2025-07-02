@@ -53,7 +53,7 @@ function HomePage() {
 
       {/* Section 2 with YellowBackground */}
       <section className="Section section3" id="how-it-works-section">
-        <h1 className="pageTitle">Why Use TeknecT</h1>
+        <h1 className="pageTitle">Why Use TeknnecT</h1>
         <section className="trade-items">
           <div className="card1">
             <img src={money} alt="Money" className="icon2" />
@@ -75,7 +75,7 @@ function HomePage() {
         </section>
 
         <div className="how-it-works"> 
-           <h1 className="TeknecT-Works">How TeknecT Works</h1>
+           <h1 className="TeknecT-Works">How TeknnecT Works</h1>
            <p className="Work-as">Our Platform makes it easy to trade, rent, and find lost items within your<br/>campus community</p>
         </div>
         <div className="IconsS2">
