@@ -15,6 +15,10 @@ function MyItemsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('newest');
 
+  // Modal state
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -191,6 +195,47 @@ function MyItemsPage() {
     }
   };
 
+  // Modal functions
+  const openModal = (item) => {
+    setSelectedItem(item);
+    setCurrentImageIndex(0);
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  };
+
+  const closeModal = () => {
+    setSelectedItem(null);
+    setCurrentImageIndex(0);
+    document.body.style.overflow = 'unset'; // Restore scrolling
+  };
+
+  const nextImage = () => {
+    if (selectedItem?.imageUrls?.length > 0) {
+      setCurrentImageIndex((prev) => 
+        prev === selectedItem.imageUrls.length - 1 ? 0 : prev + 1
+      );
+    }
+  };
+
+  const prevImage = () => {
+    if (selectedItem?.imageUrls?.length > 0) {
+      setCurrentImageIndex((prev) => 
+        prev === 0 ? selectedItem.imageUrls.length - 1 : prev - 1
+      );
+    }
+  };
+
+  // Handle escape key to close modal
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape' && selectedItem) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [selectedItem]);
+
   const categorizedItems = categorizeItems();
   const filteredItems = getFilteredItems();
 
@@ -246,188 +291,291 @@ function MyItemsPage() {
         </div>
       </div>
 
-<div className={styles.filterSection}>
-  <h3>Filter by Category:</h3>
-  <div className={styles.filterButtons}>
-    <button 
-      className={selectedCategory === 'all' ? styles.active : ''}
-      onClick={() => setSelectedCategory('all')}
-    >
-      All Items ({items.length})
-    </button>
-    <button 
-      className={selectedCategory === 'trade' ? styles.active : ''}
-      onClick={() => setSelectedCategory('trade')}
-    >
-      🔄 Trade ({categorizedItems.trade.length})
-    </button>
-    <button 
-      className={selectedCategory === 'rent' ? styles.active : ''}
-      onClick={() => setSelectedCategory('rent')}
-    >
-      🏠 Rent ({categorizedItems.rent.length})
-    </button>
-    <button 
-      className={selectedCategory === 'lost' ? styles.active : ''}
-      onClick={() => setSelectedCategory('lost')}
-    >
-      😰 Lost ({categorizedItems.lost.length})
-    </button>
-    <button 
-      className={selectedCategory === 'found' ? styles.active : ''}
-      onClick={() => setSelectedCategory('found')}
-    >
-      😊 Found ({categorizedItems.found.length})
-    </button>
-    <button 
-      className={selectedCategory === 'donation' ? styles.active : ''}
-      onClick={() => setSelectedCategory('donation')}
-    >
-      ❤️ Donations ({categorizedItems.donation.length})
-    </button>
-  </div>
-</div>
+      <div className={styles.filterSection}>
+        <h3>Filter by Category:</h3>
+        <div className={styles.filterButtons}>
+          <button 
+            className={selectedCategory === 'all' ? styles.active : ''}
+            onClick={() => setSelectedCategory('all')}
+          >
+            All Items ({items.length})
+          </button>
+          <button 
+            className={selectedCategory === 'trade' ? styles.active : ''}
+            onClick={() => setSelectedCategory('trade')}
+          >
+            🔄 Trade ({categorizedItems.trade.length})
+          </button>
+          <button 
+            className={selectedCategory === 'rent' ? styles.active : ''}
+            onClick={() => setSelectedCategory('rent')}
+          >
+            🏠 Rent ({categorizedItems.rent.length})
+          </button>
+          <button 
+            className={selectedCategory === 'lost' ? styles.active : ''}
+            onClick={() => setSelectedCategory('lost')}
+          >
+            😰 Lost ({categorizedItems.lost.length})
+          </button>
+          <button 
+            className={selectedCategory === 'found' ? styles.active : ''}
+            onClick={() => setSelectedCategory('found')}
+          >
+            😊 Found ({categorizedItems.found.length})
+          </button>
+          <button 
+            className={selectedCategory === 'donation' ? styles.active : ''}
+            onClick={() => setSelectedCategory('donation')}
+          >
+            ❤️ Donations ({categorizedItems.donation.length})
+          </button>
+        </div>
+      </div>
 
-      {/* New Search and Sort Section */}
+      {/* Search and Sort Section */}
       <div className={styles.searchSortSection}>
-  <div className={styles.searchSortHeader}>
-    <h4>Search & Sort</h4>
-    <span className={styles.resultsCount}>
-      Showing {filteredItems.length} of {items.length} items
-    </span>
-  </div>
-  
-  <div className={styles.searchSortControls}>
-    <div className={styles.searchContainer}>
-      <span className={styles.searchIcon}>🔍</span>
-      <input
-        type="text"
-        className={styles.searchInput}
-        placeholder="Search by title, description, category, or location..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      {searchTerm && (
-        <button 
-          className={styles.clearSearch}
-          onClick={handleClearSearch}
-          aria-label="Clear search"
-        >
-          ✕
-        </button>
-      )}
-    </div>
-    
-    <div className={styles.sortContainer}>
-      <label className={styles.sortLabel}>Sort by:</label>
-      <select 
-        className={styles.sortSelect}
-        value={sortBy}
-        onChange={(e) => setSortBy(e.target.value)}
-      >
-        <option value="newest">📅 Newest first</option>
-        <option value="oldest">📅 Oldest first</option>
-        <option value="title-asc">🔤 Title A-Z</option>
-        <option value="title-desc">🔤 Title Z-A</option>
-        <option value="category">📁 Category</option>
-        <option value="location">📍 Location</option>
-      </select>
-    </div>
-  </div>
-</div>
-
-<div className={styles.itemsList}>
-  {filteredItems.length === 0 ? (
-    <div className={styles.noItems}>
-      <h3>No items found</h3>
-      <p>
-        {searchTerm 
-          ? `No items found matching "${searchTerm}". Try a different search term.`
-          : selectedCategory === 'all' 
-          ? "You haven't posted any items yet." 
-          : `You don't have any ${selectedCategory} items.`
-        }
-      </p>
-    </div>
-  ) : (
-    filteredItems.map((item) => (
-      <div key={item.id} className={styles.itemTile}>
-        <div className={styles.itemImageContainer}>
-          {item.imageUrls?.length > 0 ? (
-            <>
-              <img 
-                src={item.imageUrls[0]} 
-                alt={item.title}
-                loading="lazy"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                  e.target.parentElement.innerHTML = 
-                    '<div class="image-placeholder">📷 Image not available</div>';
-                }}
-              />
-              {item.imageUrls.length > 1 && (
-                <div className={styles.imageCount}>+{item.imageUrls.length - 1}</div>
-              )}
-            </>
-          ) : (
-            <div className={styles.imagePlaceholder}>No image</div>
-          )}
+        <div className={styles.searchSortHeader}>
+          <h4>Search & Sort</h4>
+          <span className={styles.resultsCount}>
+            Showing {filteredItems.length} of {items.length} items
+          </span>
         </div>
         
-        <div className={styles.itemContentWrapper}>
-          <div className={styles.itemHeader}>
-            <div className={styles.itemTypeBadge} style={{ backgroundColor: getItemTypeColor(item.type) }}>
-              {getItemTypeIcon(item.type)} {item.type?.toUpperCase()}
-            </div>
-            <button 
-              className={styles.deleteButton}
-              onClick={() => handleDeleteItem(item.id)}
-              disabled={deleteLoading === item.id}
-              aria-label="Delete item"
-            >
-              {deleteLoading === item.id ? '...' : '🗑️'}
-            </button>
+        <div className={styles.searchSortControls}>
+          <div className={styles.searchContainer}>
+            <span className={styles.searchIcon}>🔍</span>
+            <input
+              type="text"
+              className={styles.searchInput}
+              placeholder="Search by title, description, category, or location..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            {searchTerm && (
+              <button 
+                className={styles.clearSearch}
+                onClick={handleClearSearch}
+                aria-label="Clear search"
+              >
+                ✕
+              </button>
+            )}
           </div>
-
-          <div className={styles.itemContent}>
-            <h3 className={styles.itemTitle} title={item.title}>
-              {item.title.length > 50 ? `${item.title.substring(0, 50)}...` : item.title}
-            </h3>
-            <p className={styles.itemDescription} title={item.description}>
-              {item.description.length > 100 
-                ? `${item.description.substring(0, 100)}...` 
-                : item.description}
-            </p>
-            
-            <div className={styles.itemDetails}>
-              <div className={styles.detailRow}>
-                <span className={styles.detailLabel}>📁 Category:</span>
-                <span className={styles.detailValue} title={item.category}>
-                  {item.category.length > 15 
-                    ? `${item.category.substring(0, 15)}...` 
-                    : item.category}
-                </span>
-              </div>
-              <div className={styles.detailRow}>
-                <span className={styles.detailLabel}>📍 Location:</span>
-                <span className={styles.detailValue} title={item.location}>
-                  {item.location.length > 15 
-                    ? `${item.location.substring(0, 15)}...` 
-                    : item.location}
-                </span>
-              </div>
-              <div className={styles.detailRow}>
-                <span className={styles.detailLabel}>📅 Posted:</span>
-                <span className={styles.detailValue}>{formatDate(item.createdAt)}</span>
-              </div>
-            </div>
+          
+          <div className={styles.sortContainer}>
+            <label className={styles.sortLabel}>Sort by:</label>
+            <select 
+              className={styles.sortSelect}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="newest">📅 Newest first</option>
+              <option value="oldest">📅 Oldest first</option>
+              <option value="title-asc">🔤 Title A-Z</option>
+              <option value="title-desc">🔤 Title Z-A</option>
+              <option value="category">📁 Category</option>
+              <option value="location">📍 Location</option>
+            </select>
           </div>
         </div>
       </div>
-    ))
-  )}
-</div>
+
+      <div className={styles.itemsList}>
+        {filteredItems.length === 0 ? (
+          <div className={styles.noItems}>
+            <h3>No items found</h3>
+            <p>
+              {searchTerm 
+                ? `No items found matching "${searchTerm}". Try a different search term.`
+                : selectedCategory === 'all' 
+                ? "You haven't posted any items yet." 
+                : `You don't have any ${selectedCategory} items.`
+              }
+            </p>
+          </div>
+        ) : (
+          filteredItems.map((item) => (
+            <div key={item.id} className={styles.itemTile} onClick={() => openModal(item)}>
+              <div className={styles.itemImageContainer}>
+                {item.imageUrls?.length > 0 ? (
+                  <>
+                    <img 
+                      src={item.imageUrls[0]} 
+                      alt={item.title}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.parentElement.innerHTML = 
+                          '<div class="image-placeholder">📷 Image not available</div>';
+                      }}
+                    />
+                    {item.imageUrls.length > 1 && (
+                      <div className={styles.imageCount}>+{item.imageUrls.length - 1}</div>
+                    )}
+                  </>
+                ) : (
+                  <div className={styles.imagePlaceholder}>No image</div>
+                )}
+              </div>
+              
+              <div className={styles.itemContentWrapper}>
+                <div className={styles.itemHeader}>
+                  <div className={styles.itemTypeBadge} style={{ backgroundColor: getItemTypeColor(item.type) }}>
+                    {getItemTypeIcon(item.type)} {item.type?.toUpperCase()}
+                  </div>
+                  <button 
+                    className={styles.deleteButton}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent modal from opening
+                      handleDeleteItem(item.id);
+                    }}
+                    disabled={deleteLoading === item.id}
+                    aria-label="Delete item"
+                  >
+                    {deleteLoading === item.id ? '...' : '🗑️'}
+                  </button>
+                </div>
+
+                <div className={styles.itemContent}>
+                  <h3 className={styles.itemTitle} title={item.title}>
+                    {item.title.length > 50 ? `${item.title.substring(0, 50)}...` : item.title}
+                  </h3>
+                  <p className={styles.itemDescription} title={item.description}>
+                    {item.description.length > 100 
+                      ? `${item.description.substring(0, 100)}...` 
+                      : item.description}
+                  </p>
+                  
+                  <div className={styles.itemDetails}>
+                    <div className={styles.detailRow}>
+                      <span className={styles.detailLabel}>📁 Category:</span>
+                      <span className={styles.detailValue} title={item.category}>
+                        {item.category.length > 15 
+                          ? `${item.category.substring(0, 15)}...` 
+                          : item.category}
+                      </span>
+                    </div>
+                    <div className={styles.detailRow}>
+                      <span className={styles.detailLabel}>📍 Location:</span>
+                      <span className={styles.detailValue} title={item.location}>
+                        {item.location.length > 15 
+                          ? `${item.location.substring(0, 15)}...` 
+                          : item.location}
+                      </span>
+                    </div>
+                    <div className={styles.detailRow}>
+                      <span className={styles.detailLabel}>📅 Posted:</span>
+                      <span className={styles.detailValue}>{formatDate(item.createdAt)}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Modal */}
+      {selectedItem && (
+        <div className={styles.modalOverlay} onClick={closeModal}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.modalCloseButton} onClick={closeModal}>
+              ✕
+            </button>
+            
+            <div className={styles.modalHeader}>
+              <div className={styles.modalTypeBadge} style={{ backgroundColor: getItemTypeColor(selectedItem.type) }}>
+                {getItemTypeIcon(selectedItem.type)} {selectedItem.type?.toUpperCase()}
+              </div>
+              <h2 className={styles.modalTitle}>{selectedItem.title}</h2>
+            </div>
+
+            <div className={styles.modalBody}>
+              {selectedItem.imageUrls?.length > 0 ? (
+                <div className={styles.modalImageContainer}>
+                  <img 
+                    src={selectedItem.imageUrls[currentImageIndex]} 
+                    alt={selectedItem.title}
+                    className={styles.modalImage}
+                  />
+                  {selectedItem.imageUrls.length > 1 && (
+                    <>
+                      <button 
+                        className={`${styles.imageNavButton} ${styles.prevButton}`}
+                        onClick={prevImage}
+                        aria-label="Previous image"
+                      >
+                        ‹
+                      </button>
+                      <button 
+                        className={`${styles.imageNavButton} ${styles.nextButton}`}
+                        onClick={nextImage}
+                        aria-label="Next image"
+                      >
+                        ›
+                      </button>
+                      <div className={styles.imageIndicators}>
+                        {selectedItem.imageUrls.map((_, index) => (
+                          <button
+                            key={index}
+                            className={`${styles.imageIndicator} ${index === currentImageIndex ? styles.active : ''}`}
+                            onClick={() => setCurrentImageIndex(index)}
+                            aria-label={`Go to image ${index + 1}`}
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className={styles.modalImagePlaceholder}>
+                  📷 No image available
+                </div>
+              )}
+
+              <div className={styles.modalInfo}>
+                <div className={styles.modalDescription}>
+                  <h3>Description</h3>
+                  <p>{selectedItem.description}</p>
+                </div>
+
+                <div className={styles.modalDetails}>
+                  <h3>Details</h3>
+                  <div className={styles.modalDetailGrid}>
+                    <div className={styles.modalDetailRow}>
+                      <span className={styles.modalDetailLabel}>📁 Category:</span>
+                      <span className={styles.modalDetailValue}>{selectedItem.category}</span>
+                    </div>
+                    <div className={styles.modalDetailRow}>
+                      <span className={styles.modalDetailLabel}>📍 Location:</span>
+                      <span className={styles.modalDetailValue}>{selectedItem.location}</span>
+                    </div>
+                    <div className={styles.modalDetailRow}>
+                      <span className={styles.modalDetailLabel}>📅 Posted:</span>
+                      <span className={styles.modalDetailValue}>{formatDate(selectedItem.createdAt)}</span>
+                    </div>
+                    {selectedItem.price && (
+                      <div className={styles.modalDetailRow}>
+                        <span className={styles.modalDetailLabel}>💰 Price:</span>
+                        <span className={styles.modalDetailValue}>${selectedItem.price}</span>
+                      </div>
+                    )}
+                    {selectedItem.contact && (
+                      <div className={styles.modalDetailRow}>
+                        <span className={styles.modalDetailLabel}>📞 Contact:</span>
+                        <span className={styles.modalDetailValue}>{selectedItem.contact}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 
+
 export default MyItemsPage;
