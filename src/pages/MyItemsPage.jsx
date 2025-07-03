@@ -246,47 +246,47 @@ function MyItemsPage() {
         </div>
       </div>
 
-      <div className={styles.filterSection}>
-        <h3>Filter by Category:</h3>
-        <div className={styles.filterButtons}>
-          <button 
-            className={selectedCategory === 'all' ? styles.active : ''}
-            onClick={() => setSelectedCategory('all')}
-          >
-            All Items ({items.length})
-          </button>
-          <button 
-            className={selectedCategory === 'trade' ? 'active' : ''}
-            onClick={() => setSelectedCategory('trade')}
-          >
-            🔄 Trade ({categorizedItems.trade.length})
-          </button>
-          <button 
-            className={selectedCategory === 'rent' ? 'active' : ''}
-            onClick={() => setSelectedCategory('rent')}
-          >
-            🏠 Rent ({categorizedItems.rent.length})
-          </button>
-          <button 
-            className={selectedCategory === 'lost' ? 'active' : ''}
-            onClick={() => setSelectedCategory('lost')}
-          >
-            😰 Lost ({categorizedItems.lost.length})
-          </button>
-          <button 
-            className={selectedCategory === 'found' ? 'active' : ''}
-            onClick={() => setSelectedCategory('found')}
-          >
-            😊 Found ({categorizedItems.found.length})
-          </button>
-          <button 
-            className={selectedCategory === 'donation' ? 'active' : ''}
-            onClick={() => setSelectedCategory('donation')}
-          >
-            ❤️ Donations ({categorizedItems.donation.length})
-          </button>
-        </div>
-      </div>
+<div className={styles.filterSection}>
+  <h3>Filter by Category:</h3>
+  <div className={styles.filterButtons}>
+    <button 
+      className={selectedCategory === 'all' ? styles.active : ''}
+      onClick={() => setSelectedCategory('all')}
+    >
+      All Items ({items.length})
+    </button>
+    <button 
+      className={selectedCategory === 'trade' ? styles.active : ''}
+      onClick={() => setSelectedCategory('trade')}
+    >
+      🔄 Trade ({categorizedItems.trade.length})
+    </button>
+    <button 
+      className={selectedCategory === 'rent' ? styles.active : ''}
+      onClick={() => setSelectedCategory('rent')}
+    >
+      🏠 Rent ({categorizedItems.rent.length})
+    </button>
+    <button 
+      className={selectedCategory === 'lost' ? styles.active : ''}
+      onClick={() => setSelectedCategory('lost')}
+    >
+      😰 Lost ({categorizedItems.lost.length})
+    </button>
+    <button 
+      className={selectedCategory === 'found' ? styles.active : ''}
+      onClick={() => setSelectedCategory('found')}
+    >
+      😊 Found ({categorizedItems.found.length})
+    </button>
+    <button 
+      className={selectedCategory === 'donation' ? styles.active : ''}
+      onClick={() => setSelectedCategory('donation')}
+    >
+      ❤️ Donations ({categorizedItems.donation.length})
+    </button>
+  </div>
+</div>
 
       {/* New Search and Sort Section */}
       <div className={styles.searchSortSection}>
