@@ -36,6 +36,12 @@ function LostFoundPage() {
   const [showChatModal, setShowChatModal] = useState(false);
   const [message, setMessage] = useState('');
 
+  // Loading and Success State
+  const [isSending, setIsSending] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [successMessageVariant, setSuccessMessageVariant] = useState('');
+  const [successMessagePosition, setSuccessMessagePosition] = useState('');
+
   // Data and Loading State
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -120,7 +126,6 @@ function LostFoundPage() {
     return processedItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   }, [currentPage, processedItems]);
 
-
   const handleCardClick = (item) => setSelectedItem(item);
   const closeModal = () => setSelectedItem(null);
   const openPostModal = (itemType) => {
@@ -132,22 +137,115 @@ function LostFoundPage() {
     setDefaultItemType('');
   };
 
+  // Random success message generator
+  const getRandomSuccessMessage = () => {
+    const messages = [
+      { title: "Message Sent! 🎉", text: "Your message has been delivered successfully!" },
+      { title: "Awesome! ✨", text: "Your inquiry has been sent to the item owner!" },
+      { title: "Success! 🚀", text: "Connection established! They'll get back to you soon." },
+      { title: "Delivered! 📬", text: "Your message is on its way to the recipient!" },
+      { title: "Great! 💫", text: "Successfully sent your message about the item!" },
+      { title: "Sent! 🎊", text: "Your inquiry has been delivered successfully!" },
+      { title: "Perfect! ⭐", text: "Message sent! Hope you find what you're looking for!" },
+      { title: "Done! 🎯", text: "Your message has been sent to the item owner!" }
+    ];
+    return messages[Math.floor(Math.random() * messages.length)];
+  };
+
+  const getRandomVariantAndPosition = () => {
+    const variants = ['variant-1', 'variant-2', 'variant-3', 'variant-4'];
+    const positions = ['', 'position-top', 'position-bottom', 'position-left', 'position-right'];
+    
+    return {
+      variant: variants[Math.floor(Math.random() * variants.length)],
+      position: positions[Math.floor(Math.random() * positions.length)]
+    };
+  };
+
+  const showSuccessNotification = (messageData) => {
+    const { variant, position } = getRandomVariantAndPosition();
+    setSuccessMessageVariant(variant);
+    setSuccessMessagePosition(position);
+    setShowSuccessMessage(true);
+
+    // Auto-hide after 3 seconds
+    setTimeout(() => {
+      setShowSuccessMessage(false);
+      // Reset classes after animation
+      setTimeout(() => {
+        setSuccessMessageVariant('');
+        setSuccessMessagePosition('');
+      }, 300);
+    }, 3000);
+  };
+
   const handleSendMessage = async () => {
-    // Logic is identical to the original and does not need changes
-    if (!message.trim() || !selectedItem?.uid) return;
-    const sender = auth.currentUser; const receiverId = selectedItem.uid;
-    if (!sender || !receiverId) { alert('Cannot send message. You may not be logged in.'); return; }
+    if (!message.trim() || !selectedItem?.uid || isSending) return;
+    
+    setIsSending(true);
+    
+    const sender = auth.currentUser; 
+    const receiverId = selectedItem.uid;
+    
+    if (!sender || !receiverId) { 
+      alert('Cannot send message. You may not be logged in.'); 
+      setIsSending(false);
+      return; 
+    }
+    
     const chatId = sender.uid < receiverId ? `${sender.uid}_${receiverId}` : `${receiverId}_${sender.uid}`;
+    
     try {
-      await setDoc(doc(db, 'chats', chatId), { users: [sender.uid, receiverId], lastMessage: message.trim(), lastMessageTime: serverTimestamp(), lastPostId: selectedItem.id, lastPostTitle: selectedItem.title, lastPostStatus: selectedItem.status }, { merge: true });
+      await setDoc(doc(db, 'chats', chatId), { 
+        users: [sender.uid, receiverId], 
+        lastMessage: message.trim(), 
+        lastMessageTime: serverTimestamp(), 
+        lastPostId: selectedItem.id, 
+        lastPostTitle: selectedItem.title, 
+        lastPostStatus: selectedItem.status 
+      }, { merge: true });
+      
       const messageData = {
-        sender: sender.uid, senderName: sender.displayName || sender.email, text: `[RE: ${selectedItem.status} - ${selectedItem.title}] ${message.trim()}`, timestamp: serverTimestamp(), read: false,
-        postReference: { postId: selectedItem.id, postTitle: selectedItem.title, postStatus: selectedItem.status, postCategory: selectedItem.category || 'N/A', postLocation: selectedItem.location || 'N/A', postImage: selectedItem.image, postDescription: selectedItem.description, postOwner: selectedItem.user, postOwnerUid: selectedItem.uid, postCreatedAt: selectedItem.createdAt },
-        messageType: 'post_inquiry', messageContext: `Inquiry about ${selectedItem.status.toLowerCase()} item: ${selectedItem.title}`, originalMessage: message.trim()
+        sender: sender.uid, 
+        senderName: sender.displayName || sender.email, 
+        text: `[RE: ${selectedItem.status} - ${selectedItem.title}] ${message.trim()}`, 
+        timestamp: serverTimestamp(), 
+        read: false,
+        postReference: { 
+          postId: selectedItem.id, 
+          postTitle: selectedItem.title, 
+          postStatus: selectedItem.status, 
+          postCategory: selectedItem.category || 'N/A', 
+          postLocation: selectedItem.location || 'N/A', 
+          postImage: selectedItem.image, 
+          postDescription: selectedItem.description, 
+          postOwner: selectedItem.user, 
+          postOwnerUid: selectedItem.uid, 
+          postCreatedAt: selectedItem.createdAt 
+        },
+        messageType: 'post_inquiry', 
+        messageContext: `Inquiry about ${selectedItem.status.toLowerCase()} item: ${selectedItem.title}`, 
+        originalMessage: message.trim()
       };
+      
       await addDoc(collection(db, 'chats', chatId, 'messages'), messageData);
-      setShowChatModal(false); setMessage(''); alert('Message sent successfully!');
-    } catch (err) { console.error('Error sending message:', err); alert('Failed to send message. Please try again.'); }
+      
+      // Close chat modal first
+      setShowChatModal(false);
+      setMessage('');
+      
+      // Close item detail modal
+      setSelectedItem(null);
+      
+      // Show success message
+      showSuccessNotification(getRandomSuccessMessage());
+      
+    } catch (err) { 
+      console.error('Error sending message:', err); 
+      alert('Failed to send message. Please try again.'); 
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const closeChatModal = () => {
@@ -294,9 +392,26 @@ function LostFoundPage() {
               <div className="lostfound-modal-footer">
                 <div className="lostfound-chat-actions">
                   <button className="lostfound-cancel-button" onClick={closeChatModal}>Cancel</button>
-                  <button className="lostfound-send-button" onClick={handleSendMessage} disabled={!message.trim()}>Send Message</button>
+                  <button 
+                    className={`lostfound-send-button ${isSending ? 'loading' : ''}`} 
+                    onClick={handleSendMessage} 
+                    disabled={!message.trim() || isSending}
+                  >
+                    <span>{isSending ? 'Sending...' : 'Send Message'}</span>
+                  </button>
                 </div>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Success Message Overlay */}
+        {showSuccessMessage && (
+          <div className={`lostfound-success-overlay ${showSuccessMessage ? 'show' : ''}`}>
+            <div className={`lostfound-success-message ${successMessageVariant} ${successMessagePosition}`}>
+              <span className="lostfound-success-icon">✨</span>
+              <h3 className="lostfound-success-title">{getRandomSuccessMessage().title}</h3>
+              <p className="lostfound-success-text">{getRandomSuccessMessage().text}</p>
             </div>
           </div>
         )}

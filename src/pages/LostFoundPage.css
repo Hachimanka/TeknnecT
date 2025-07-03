@@ -193,32 +193,179 @@ body.lostfound-modal-open {
 .lostfound-cancel-button, .lostfound-send-button { padding: 10px 20px; font-size: 0.9rem; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s ease; }
 .lostfound-cancel-button { background-color: #ccc; color: #333; }
 .lostfound-cancel-button:hover { background-color: #bbb; }
-.lostfound-send-button { background-color: #9B000A; color: #FFBD00; }
+.lostfound-send-button { background-color: #9B000A; color: #FFBD00; position: relative; }
 .lostfound-send-button:hover:not(:disabled) { background-color: #FFBD00; color: #9B000A; }
 .lostfound-send-button:disabled { background-color: #ddd; color: #999; cursor: not-allowed; }
 
-/* === Success Notification === */
-.lostfound-success-toast {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #FFBD00;
-  color: #9B000A;
-  font-size: 1.3rem;
-  font-weight: bold;
-  padding: 1rem 2rem;
-  border-radius: 12px;
-  z-index: 2000;
-  text-align: center;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-  animation: fadeOutToast 3s ease forwards;
+/* === Loading State for Send Button === */
+.lostfound-send-button.loading {
+  background-color: #777;
+  color: #fff;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
-@keyframes fadeOutToast {
-  0% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { opacity: 0; display: none; }
+.lostfound-send-button.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid transparent;
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  animation: lostfound-spin 1s linear infinite;
+}
+
+.lostfound-send-button.loading span {
+  opacity: 0;
+}
+
+@keyframes lostfound-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === Success Message Overlay === */
+.lostfound-success-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.lostfound-success-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lostfound-success-message {
+  background: linear-gradient(135deg, #9B000A 0%, #FFBD00 100%);
+  color: white;
+  padding: 2rem 3rem;
+  border-radius: 20px;
+  text-align: center;
+  justify-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  transform: scale(0.8);
+  transition: transform 0.3s ease;
+  max-width: 400px;
+  width: 90%;
+  padding-left: 50px;
+}
+
+.lostfound-success-overlay.show .lostfound-success-message {
+  transform: scale(1);
+}
+
+.lostfound-success-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+  animation: lostfound-bounce 0.6s ease;
+}
+
+@keyframes lostfound-bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-10px); }
+  60% { transform: translateY(-5px); }
+}
+
+.lostfound-success-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.lostfound-success-text {
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1.4;
+  margin-bottom: 0;
+}
+
+/* === Success Message Variations === */
+.lostfound-success-message.variant-1 {
+  background: linear-gradient(135deg, #9B000A 0%, #FFBD00 50%, #9B000A 100%);
+}
+
+.lostfound-success-message.variant-2 {
+  background: radial-gradient(circle, #FFBD00 0%, #9B000A 70%);
+}
+
+.lostfound-success-message.variant-3 {
+  background: linear-gradient(45deg, #9B000A 25%, #FFBD00 25%, #FFBD00 50%, #9B000A 50%, #9B000A 75%, #FFBD00 75%);
+  background-size: 40px 40px;
+  animation: lostfound-stripe-move 1s linear infinite;
+}
+
+@keyframes lostfound-stripe-move {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 0; }
+}
+
+.lostfound-success-message.variant-4 {
+  background: linear-gradient(135deg, #9B000A 0%, #FFBD00 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.lostfound-success-message.variant-4::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+  animation: lostfound-shine 2s ease-in-out;
+}
+
+@keyframes lostfound-shine {
+  0% { transform: rotate(0deg) translate(-100%, -100%); }
+  100% { transform: rotate(0deg) translate(100%, 100%); }
+}
+
+/* === Random Messages Positioning === */
+.lostfound-success-message.position-top {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.lostfound-success-message.position-bottom {
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.lostfound-success-message.position-left {
+  position: absolute;
+  left: 20%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lostfound-success-message.position-right {
+  position: absolute;
+  right: 20%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 /* === Responsive Design === */
@@ -226,7 +373,21 @@ body.lostfound-modal-open {
   .lostfound-page-container { padding: 1rem; }
   .lostfound-action-buttons { flex-direction: column; align-items: stretch; }
   .lostfound-report-lost-btn, .lostfound-report-found-btn { width: 100%; }
+  
+  .lostfound-success-message {
+    padding: 1.5rem 2rem;
+    max-width: 300px;
+  }
+  
+  .lostfound-success-title {
+    font-size: 1.3rem;
+  }
+  
+  .lostfound-success-text {
+    font-size: 0.9rem;
+  }
 }
+
 @media (max-width: 480px) {
   .lostfound-page-title { font-size: 2rem; }
   .lostfound-item-card { height: 400px; }
@@ -234,4 +395,24 @@ body.lostfound-modal-open {
   .lostfound-modal-body, .lostfound-modal-header, .lostfound-modal-footer { padding: 1rem; }
   .lostfound-modal-title { font-size: 1.2rem; }
   .lostfound-post-ref-details { flex-direction: column; text-align: center; }
+  
+  .lostfound-success-message {
+    max-width: 280px;
+    align-items: center;
+    justify-items: center;
+    padding-left: 50px;
+   
+  }
+  
+  .lostfound-success-icon {
+    font-size: 2.5rem;
+  }
+  
+  .lostfound-success-title {
+    font-size: 1.2rem;
+  }
+  
+  .lostfound-success-text {
+    font-size: 0.85rem;
+  }
 }
