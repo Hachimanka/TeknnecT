@@ -192,3 +192,168 @@
   .rent-modal-title { font-size: 1.2rem; }
   .rent-post-ref-details { flex-direction: column; text-align: center; }
 }
+
+/* Dark mode base styles */
+body.dark-mode .rent-PageWrapper {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/hapitwhite.png');
+}
+
+body.dark-mode .rent-page-title,
+body.dark-mode .rent-section-title {
+  color: #009D3F; /* Using your brand yellow */
+}
+
+body.dark-mode .rent-page-subtitle {
+  color: #ccc;
+}
+
+/* Dark mode cards */
+body.dark-mode .rent-item-card {
+  background-color: #333;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .rent-item-info {
+  background-color: #444;
+  border-left: 4px solid #009D3F; /* Yellow accent */
+}
+
+body.dark-mode .rent-item-title,
+body.dark-mode .rent-item-description,
+body.dark-mode .rent-item-price,
+body.dark-mode .rent-item-user {
+  color: #FFBD00; /* Yellow text */
+}
+
+body.dark-mode .rent-item-date {
+  color: #aaa;
+}
+
+body.dark-mode .rent-item-badge {
+  background-color: #009D3F;
+  color: #f0f0f0; /* Dark text on yellow badge */
+}
+
+/* Dark mode controls */
+body.dark-mode .rent-controls-bar {
+  background-color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .rent-search-input,
+body.dark-mode .rent-select-dropdown {
+  background-color: #444;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+/* Dark mode buttons */
+body.dark-mode .rent-offer-rent-btn {
+  background-color: #009D3F;
+  color: #f0f0f0;
+}
+
+body.dark-mode .rent-offer-rent-btn:hover {
+  background-color: #ffcc33;
+}
+
+/* Dark mode pagination */
+body.dark-mode .rent-pagination {
+  color: #f0f0f0;
+}
+
+body.dark-mode .rent-pagination button {
+  background-color: #333;
+  color: #FFBD00;
+  border-color: #FFBD00;
+}
+
+body.dark-mode .rent-pagination button:hover:not(:disabled) {
+  background-color: #FFBD00;
+  color: #121212;
+}
+
+/* Dark mode modals */
+body.dark-mode .rent-modal-content {
+  background-color: #333;
+}
+
+body.dark-mode .rent-modal-title,
+body.dark-mode .rent-modal-details strong,
+body.dark-mode .rent-post-ref-title {
+  color: #FFBD00;
+}
+
+body.dark-mode .rent-modal-details,
+body.dark-mode .rent-modal-details p,
+body.dark-mode .rent-post-ref-info {
+  color: #f0f0f0;
+}
+
+body.dark-mode .rent-modal-header,
+body.dark-mode .rent-modal-footer {
+  background-color: #444;
+  border-color: #555;
+}
+
+body.dark-mode .rent-post-ref-header {
+  background-color: #555;
+}
+
+body.dark-mode .rent-chat-info {
+  background-color: #444;
+  color: #f0f0f0;
+}
+
+body.dark-mode .rent-chat-textarea {
+  background-color: #444;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode .rent-chat-textarea:focus {
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 2px rgba(255, 189, 0, 0.2);
+}
+
+body.dark-mode .rent-cancel-button {
+  background-color: #666;
+  color: #f0f0f0;
+}
+
+body.dark-mode .rent-cancel-button:hover {
+  background-color: #777;
+}
+
+body.dark-mode .rent-send-button {
+  background-color: #9B000A; /* Your brand maroon */
+  color: #FFBD00; /* Your brand yellow */
+}
+
+body.dark-mode .rent-send-button:hover:not(:disabled) {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+
+body.dark-mode .rent-chat-button {
+  background-color: #9B000A;
+  color: #FFBD00;
+}
+
+body.dark-mode .rent-chat-button:hover {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+
+/* Dark mode loading/empty states */
+body.dark-mode .rent-loading-message,
+body.dark-mode .rent-empty-message {
+  color: #ccc;
+  background-color: #333;
+}
+
+/* Dark mode for post reference badge */
+body.dark-mode .rent-post-ref-badge {
+  background-color: #FFBD00;
+  color: #121212;
+}

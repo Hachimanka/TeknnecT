@@ -28,7 +28,7 @@ function formatDate(timestamp) {
   });
 }
 
-function RentPage() {
+function RentPage({ darkMode }) {
   // Modal and Form State
   const [selectedItem, setSelectedItem] = useState(null);
   const [showPostModal, setShowPostModal] = useState(false);
@@ -157,7 +157,7 @@ function RentPage() {
   };
 
   return (
-    <div className="rent-PageWrapper">
+    <div className={`rent-PageWrapper ${darkMode ? 'dark-mode' : ''}`}>
       <main className="rent-page-container">
         <h1 className="rent-page-title">Rental Marketplace</h1>
         <p className="rent-page-subtitle">Find items to rent or offer your own items for rental!</p>

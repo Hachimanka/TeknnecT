@@ -28,7 +28,7 @@ function formatDate(timestamp) {
   });
 }
 
-function LostFoundPage() {
+function LostFoundPage({ darkMode }) {
   // Modal and Form State
   const [selectedItem, setSelectedItem] = useState(null);
   const [showPostModal, setShowPostModal] = useState(false);
@@ -254,7 +254,7 @@ function LostFoundPage() {
   };
 
   return (
-    <div className="lostfound-PageWrapper">
+    <div className={`lostfound-PageWrapper ${darkMode ? 'dark-mode' : ''}`}>
       <main className="lostfound-page-container">
         <h1 className="lostfound-page-title">Lost & Found</h1>
         <p className="lostfound-page-subtitle">Have you lost or found an item? Post it here and help the community!</p>

@@ -395,24 +395,205 @@ body.lostfound-modal-open {
   .lostfound-modal-body, .lostfound-modal-header, .lostfound-modal-footer { padding: 1rem; }
   .lostfound-modal-title { font-size: 1.2rem; }
   .lostfound-post-ref-details { flex-direction: column; text-align: center; }
-  
-  .lostfound-success-message {
-    max-width: 280px;
-    align-items: center;
-    justify-items: center;
-    padding-left: 50px;
-   
-  }
-  
-  .lostfound-success-icon {
-    font-size: 2.5rem;
-  }
-  
-  .lostfound-success-title {
-    font-size: 1.2rem;
-  }
-  
-  .lostfound-success-text {
-    font-size: 0.85rem;
-  }
+}
+
+/* Dark mode base styles */
+body.dark-mode .lostfound-PageWrapper {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/hapitwhite.png');
+}
+
+body.dark-mode .lostfound-page-title,
+body.dark-mode .lostfound-section-title {
+  color: #FFBD00; /* Using your brand yellow */
+}
+
+body.dark-mode .lostfound-page-subtitle {
+  color: #ccc;
+}
+
+/* Dark mode cards */
+body.dark-mode .lostfound-item-card {
+  background-color: #333;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Lost items in dark mode */
+body.dark-mode .lostfound-item-card.lost .lostfound-item-info {
+  background-color: #444;
+  border-left: 4px solid #FFBD00;
+}
+
+body.dark-mode .lostfound-item-card.lost .lostfound-item-title {
+  color: #FFBD00;
+}
+
+body.dark-mode .lostfound-item-card.lost .lostfound-item-description,
+body.dark-mode .lostfound-item-card.lost .lostfound-item-user {
+  color: #f0f0f0;
+}
+
+/* Found items in dark mode */
+body.dark-mode .lostfound-item-card.found .lostfound-item-info {
+  background-color: #444;
+  border-left: 4px solid #9B000A;
+}
+
+body.dark-mode .lostfound-item-card.found .lostfound-item-title {
+  color: #FFBD00;
+}
+
+body.dark-mode .lostfound-item-card.found .lostfound-item-description,
+body.dark-mode .lostfound-item-card.found .lostfound-item-user {
+  color: #f0f0f0;
+}
+
+/* Badges in dark mode */
+body.dark-mode .lostfound-item-badge.lost {
+  background-color: #FFBD00;
+  color: #121212;
+}
+
+body.dark-mode .lostfound-item-badge.found {
+  background-color: #9B000A;
+  color: #FFBD00;
+}
+
+/* Dark mode controls */
+body.dark-mode .lostfound-controls-bar {
+  background-color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .lostfound-search-input,
+body.dark-mode .lostfound-select-dropdown {
+  background-color: #444;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+/* Dark mode buttons */
+body.dark-mode .lostfound-report-lost-btn {
+  background-color: #FFBD00;
+  color: #121212;
+}
+
+body.dark-mode .lostfound-report-found-btn {
+  background-color: #9B000A;
+  color: #FFBD00;
+}
+
+body.dark-mode .lostfound-report-lost-btn:hover {
+  background-color: #ffcc33;
+  color: #121212;
+}
+
+body.dark-mode .lostfound-report-found-btn:hover {
+  background-color: #b00020;
+  color: #FFBD00;
+}
+
+/* Dark mode pagination */
+body.dark-mode .lostfound-pagination {
+  color: #f0f0f0;
+}
+
+body.dark-mode .lostfound-pagination button {
+  background-color: #333;
+  color: #FFBD00;
+  border-color: #FFBD00;
+}
+
+body.dark-mode .lostfound-pagination button:hover:not(:disabled) {
+  background-color: #FFBD00;
+  color: #121212;
+}
+
+/* Dark mode modals */
+body.dark-mode .lostfound-modal-content {
+  background-color: #333;
+}
+
+body.dark-mode .lostfound-modal-title,
+body.dark-mode .lostfound-modal-details strong,
+body.dark-mode .lostfound-post-ref-title {
+  color: #FFBD00;
+}
+
+body.dark-mode .lostfound-modal-details,
+body.dark-mode .lostfound-modal-details p,
+body.dark-mode .lostfound-post-ref-info {
+  color: #f0f0f0;
+}
+
+body.dark-mode .lostfound-modal-header,
+body.dark-mode .lostfound-modal-footer {
+  background-color: #444;
+  border-color: #555;
+}
+
+body.dark-mode .lostfound-post-ref-header {
+  background-color: #555;
+}
+
+body.dark-mode .lostfound-chat-info {
+  background-color: #444;
+  color: #f0f0f0;
+}
+
+body.dark-mode .lostfound-chat-textarea {
+  background-color: #444;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode .lostfound-chat-textarea:focus {
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 2px rgba(255, 189, 0, 0.2);
+}
+
+body.dark-mode .lostfound-cancel-button {
+  background-color: #666;
+  color: #f0f0f0;
+}
+
+body.dark-mode .lostfound-cancel-button:hover {
+  background-color: #777;
+}
+
+body.dark-mode .lostfound-send-button {
+  background-color: #9B000A;
+  color: #FFBD00;
+}
+
+body.dark-mode .lostfound-send-button:hover:not(:disabled) {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+
+body.dark-mode .lostfound-chat-button {
+  background-color: #9B000A;
+  color: #FFBD00;
+}
+
+body.dark-mode .lostfound-chat-button:hover {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+
+/* Dark mode loading/empty states */
+body.dark-mode .lostfound-loading-message,
+body.dark-mode .lostfound-empty-message {
+  color: #ccc;
+  background-color: #333;
+}
+
+/* Dark mode for post reference badge */
+body.dark-mode .lostfound-post-ref-badge.lost {
+  background-color: #FFBD00;
+  color: #121212;
+}
+
+body.dark-mode .lostfound-post-ref-badge.found {
+  background-color: #9B000A;
+  color: #FFBD00;
 }
