@@ -58,6 +58,12 @@ function RentPage({ darkMode }) {
         const querySnapshot = await getDocs(q);
         const results = await Promise.all(querySnapshot.docs.map(async docSnap => {
           const data = docSnap.data();
+          
+          // Skip items that are marked as completed
+          if (data.completed === true) {
+            return null;
+          }
+          
           let userProfile = DefaultProfile;
           let userName = data.email;
 
@@ -80,7 +86,9 @@ function RentPage({ darkMode }) {
           };
         }));
 
-        setItems(results);
+        // Filter out null values (completed items)
+        const filteredResults = results.filter(item => item !== null);
+        setItems(filteredResults);
       } catch (err) {
         console.error("Error fetching rental items:", err);
       } finally {
