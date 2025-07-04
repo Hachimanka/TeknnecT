@@ -1,0 +1,72 @@
+/* src/components/About.css */
+
+.about-wrapper {
+  /* You can adjust the max-width now that there are no arrows to account for */
+  max-width: 800px; 
+  margin: 40px auto;
+  padding: 0 20px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: visible; 
+}
+
+.about-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #222;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  position: relative;      
+  height: 220px;
+  width: 100%;
+}
+
+
+.carousel-cards {
+  position: relative;
+  width: 140px; 
+  height: 190px;
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-card {
+  position: absolute;
+  width: 110px;
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  cursor: pointer;
+  z-index: 1;
+  transition:
+    transform 0.6s cubic-bezier(0.4,0,0.2,1),
+    opacity 0.4s,
+    box-shadow 0.4s;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* ... (The rest of the CSS remains the same) ... */
+.carousel-card.far-left { transform: translateX(-220%) scale(0.85); opacity: 0.2; z-index: 0; }
+.carousel-card.left { transform: translateX(-110%) scale(1); opacity: 0.6; z-index: 1; }
+.carousel-card.active { transform: translateX(0) scale(1.25); opacity: 1; box-shadow: 0 8px 24px rgba(155,0,10,0.15); border: 2px solid #ffc107; z-index: 2; width: 140px; height: 190px; }
+.carousel-card.right { transform: translateX(110%) scale(1); opacity: 0.6; z-index: 1; }
+.carousel-card.far-right { transform: translateX(220%) scale(0.85); opacity: 0.2; z-index: 0; }
+.carousel-card.hidden { pointer-events: none; opacity: 0; transform: scale(0.5) translateX(0); }
+.carousel-card-overlay { width: 100%; background: rgba(0,0,0,0.45); color: #fff; padding: 8px 0; border-radius: 0 0 14px 14px; font-size: 1rem; font-weight: 500; text-shadow: 0 1px 4px rgba(0,0,0,0.2); transition: opacity 0.3s; }
+.carousel-card:not(.active) .carousel-card-overlay { opacity: 0; }
+.member-details { margin-top: 30px; background: #fff7e6; border-radius: 12px; padding: 24px 16px; box-shadow: 0 2px 10px rgba(0,0,0,0.07); max-width: 400px; margin-left: auto; margin-right: auto; }
+.member-details h2 { margin: 0 0 8px 0; color: #9B000A; font-size: 1.5rem; }
+.member-details h4 { margin: 0 0 12px 0; color: #222; font-size: 1.1rem; font-weight: 500; }
+.member-details p { color: #444; font-size: 1rem; }
