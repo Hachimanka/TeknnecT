@@ -16,6 +16,10 @@
   z-index: 1000;
 }
 
+.messages-pane h2{
+  color: #a80000;
+}
+
 .messages-pane,
 .chat-pane {
   width: 100%;

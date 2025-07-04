@@ -1,39 +1,43 @@
 // src/components/About.jsx
-
 import React, { useState } from 'react';
 import './About.css';
 
 // --- Team Member Data ---
 const teamMembers = [
   {
-    name: 'Alice Johnson',
+    name: 'Divan Jude Rosas',
     role: 'Project Manager',
     img: require('../assets/dj.jpg'),
     description: 'Leads the team and coordinates all project activities.',
+    contact: 'divanjude.rosas@cit.edu',
   },
   {
-    name: 'Bob Smith',
+    name: 'Leonard Forrosuelo',
     role: 'Lead Developer',
-    img: require('../assets/dj.jpg'),
+    img: require('../assets/lf.jpg'),
     description: 'Responsible for backend and frontend development.',
+    contact: 'leonard.forrosuelo@cit.edu',
   },
   {
-    name: 'Carol Lee',
+    name: 'Adriyanna Diana',
     role: 'UI/UX Designer',
-    img: require('../assets/dj.jpg'),
+    img: require('../assets/ad.jpg'),
     description: 'Designs user interfaces and ensures great user experience.',
+    contact: 'adriyanna.diana@cit.edu',
   },
   {
-    name: 'David Kim',
+    name: 'Cliff Edward Alsonado',
     role: 'QA Engineer',
-    img: require('../assets/dj.jpg'),
+    img: require('../assets/ce.jpg'),
     description: 'Handles testing and quality assurance.',
+    contact: 'cliffedward.alsonado@cit.edu',
   },
   {
-    name: 'Eve Martinez',
+    name: 'John Michael Inoc',
     role: 'Marketing Lead',
-    img: require('../assets/dj.jpg'),
+    img: require('../assets/jm.jpg'),
     description: 'Manages marketing and outreach strategies.',
+    contact: 'johnmichael.inoc@cit.edu',
   },
 ];
 
@@ -41,45 +45,41 @@ function About() {
   const [current, setCurrent] = useState(0);
   const numMembers = teamMembers.length;
 
-  // Arrow navigation functions are no longer needed
-
   const getPositionClass = (index) => {
-    if (index === current) return 'active';
+    if (index === current) return 'about-card-active';
     const prev = (current - 1 + numMembers) % numMembers;
-    if (index === prev) return 'left';
+    if (index === prev) return 'about-card-left';
     const next = (current + 1) % numMembers;
-    if (index === next) return 'right';
+    if (index === next) return 'about-card-right';
     const farPrev = (current - 2 + numMembers) % numMembers;
-    if (index === farPrev) return 'far-left';
+    if (index === farPrev) return 'about-card-far-left';
     const farNext = (current + 2) % numMembers;
-    if (index === farNext) return 'far-right';
-    return 'hidden';
+    if (index === farNext) return 'about-card-far-right';
+    return 'about-card-hidden';
   };
 
   return (
-    <div className="about-wrapper">
-      <h1 className="about-title">OUR TEAM</h1>
-      <div className="carousel">
-        <div className="carousel-cards">
+    <div className="about-page-wrapper">
+      <h1 className="about-page-title">OUR TEAM</h1>
+      <div className="about-carousel">
+        <div className="about-carousel-cards">
           {teamMembers.map((member, idx) => (
             <div
               key={member.name}
-              className={`carousel-card ${getPositionClass(idx)}`}
+              className={`about-carousel-card ${getPositionClass(idx)}`}
               onClick={() => setCurrent(idx)}
               style={{ backgroundImage: `url(${member.img})` }}
             >
-              <div className="carousel-card-overlay">
-                <span className="carousel-card-name">{member.name}</span>
-              </div>
             </div>
           ))}
         </div>
       </div>
       
-      <div className="member-details">
+      <div className="about-member-details">
         <h2>{teamMembers[current].name}</h2>
         <h4>{teamMembers[current].role}</h4>
         <p>{teamMembers[current].description}</p>
+        <p>{teamMembers[current].contact}</p>
       </div>
     </div>
   );
