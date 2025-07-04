@@ -19,10 +19,13 @@ function HomePage({ darkMode }) {
     navigate('/login');
   };
 
-  const scrollToHowItWorks = () => {
+const scrollToHowItWorks = () => {
   const section = document.getElementById('how-it-works-section');
   if (section) {
-    const yOffset = 220; // Adjust this value as needed (e.g., -60 for a 60px header)
+    // Detect mobile view (width <= 768px)
+    const isMobile = window.innerWidth <= 768;
+    // Use a smaller offset for mobile
+    const yOffset = isMobile ? 700 : 220; // Adjust 40 as needed for your mobile header
     const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
