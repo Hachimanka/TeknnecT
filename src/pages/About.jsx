@@ -1,5 +1,4 @@
-// src/components/About.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './About.css';
 
 // --- Team Member Data ---
@@ -45,6 +44,18 @@ function About() {
   const [current, setCurrent] = useState(0);
   const numMembers = teamMembers.length;
 
+  // Prevent zooming out
+  useEffect(() => {
+    const handleTouchMove = (e) => {
+      if (e.scale < 1) {
+        e.preventDefault();
+      }
+    };
+    
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    return () => document.removeEventListener('touchmove', handleTouchMove);
+  }, []);
+
   const getPositionClass = (index) => {
     if (index === current) return 'about-card-active';
     const prev = (current - 1 + numMembers) % numMembers;
@@ -79,7 +90,7 @@ function About() {
         <h2>{teamMembers[current].name}</h2>
         <h4>{teamMembers[current].role}</h4>
         <p>{teamMembers[current].description}</p>
-        <p>{teamMembers[current].contact}</p>
+        <p className="about-contact">{teamMembers[current].contact}</p>
       </div>
     </div>
   );
