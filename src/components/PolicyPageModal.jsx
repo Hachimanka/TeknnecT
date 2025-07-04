@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaTimes, FaCheck, FaExclamationTriangle } from 'react-icons/fa';
 import './PolicyPageModal.css';
 
-function PolicyPageModal({ onAccept, onDecline }) {
+function PolicyPageModal({ onAccept, onDecline, viewOnly }) {
   const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
   const [acceptChecked, setAcceptChecked] = useState(false);
 
@@ -14,6 +14,7 @@ function PolicyPageModal({ onAccept, onDecline }) {
   }, []);
 
   const handleScroll = (e) => {
+    if (viewOnly) return;
     const { scrollTop, scrollHeight, clientHeight } = e.target;
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 10;
     if (isAtBottom && !hasScrolledToBottom) {
@@ -22,13 +23,13 @@ function PolicyPageModal({ onAccept, onDecline }) {
   };
 
   const handleAccept = () => {
-    if (acceptChecked && hasScrolledToBottom) {
+    if (acceptChecked && hasScrolledToBottom && onAccept) {
       onAccept();
     }
   };
 
   const handleDecline = () => {
-    onDecline();
+    if (onDecline) onDecline();
   };
 
   return (
@@ -150,7 +151,7 @@ function PolicyPageModal({ onAccept, onDecline }) {
             </p>
             
             {/* Checkbox appears at bottom of content */}
-            {hasScrolledToBottom && (
+            {!viewOnly && hasScrolledToBottom && (
               <div className="AcceptanceSection">
                 <label className="CheckboxLabel">
                   <input
@@ -167,7 +168,8 @@ function PolicyPageModal({ onAccept, onDecline }) {
         </div>
 
         <div className="PolicyModalFooter">
-          {!hasScrolledToBottom && (
+          {/* Only show scroll reminder and Accept/Decline if not viewOnly */}
+          {!viewOnly && !hasScrolledToBottom && (
             <div className="ScrollReminder">
               <FaExclamationTriangle />
               <span>Please scroll to the bottom to read all terms</span>
@@ -175,20 +177,32 @@ function PolicyPageModal({ onAccept, onDecline }) {
           )}
 
           <div className="ButtonGroup">
-            <button 
-              className="DeclineButton" 
-              onClick={handleDecline}
-            >
-              Decline
-            </button>
-            <button 
-              className="AcceptButton" 
-              onClick={handleAccept}
-              disabled={!acceptChecked || !hasScrolledToBottom}
-            >
-              <FaCheck />
-              Accept & Continue
-            </button>
+            {viewOnly ? (
+              <button
+                className="AcceptButton"
+                onClick={handleDecline}
+                style={{ width: '100%' }}
+              >
+                Close
+              </button>
+            ) : (
+              <>
+                <button 
+                  className="DeclineButton" 
+                  onClick={handleDecline}
+                >
+                  Decline
+                </button>
+                <button 
+                  className="AcceptButton" 
+                  onClick={handleAccept}
+                  disabled={!acceptChecked || !hasScrolledToBottom}
+                >
+                  <FaCheck />
+                  Accept & Continue
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

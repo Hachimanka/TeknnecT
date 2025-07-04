@@ -62,6 +62,7 @@ h2 {
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  text-align: center;
 }
 
 .CloseButton:hover {
@@ -330,4 +331,17 @@ h2 {
   .PolicySection h4 {
     font-size: 1rem;
   }
+}
+.AcceptButton[style*="width: 100%"] {
+  background: #9B000A;
+  color: #ffc107;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.AcceptButton[style*="width: 100%"]:hover {
+  background: #ffc107;
+  color: #9B000A;
 }

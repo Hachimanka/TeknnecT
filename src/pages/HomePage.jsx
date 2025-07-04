@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import './HomePage.css';
 import bottomLogo1 from '../assets/bottomlogo1.png';
 import email from '../assets/email.png';
@@ -10,26 +11,26 @@ import tao from '../assets/tao.png';
 import posticon from '../assets/Posticon.png';
 import exchangeicon from '../assets/Exchangeicon.png';
 import connecticon from '../assets/Connecticon.png';
-import {Link} from 'react-router-dom';
+import PolicyPageModal from '../components/PolicyPageModal';
 
 function HomePage({ darkMode }) {
   const navigate = useNavigate();
+  const [showPolicyModal, setShowPolicyModal] = useState(false);
 
   const handleLoginClick = () => {
     navigate('/login');
   };
 
-const scrollToHowItWorks = () => {
-  const section = document.getElementById('how-it-works-section');
-  if (section) {
-    // Detect mobile view (width <= 768px)
-    const isMobile = window.innerWidth <= 768;
-    // Use a smaller offset for mobile
-    const yOffset = isMobile ? 700 : 220; // Adjust 40 as needed for your mobile header
-    const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: y, behavior: 'smooth' });
-  }
-};
+  const scrollToHowItWorks = () => {
+    const section = document.getElementById('how-it-works-section');
+    if (section) {
+      const isMobile = window.innerWidth <= 768;
+      const yOffset = isMobile ? 700 : 220;
+      const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className={`PageWrapper ${darkMode ? 'dark-mode' : ''}`}>
       {/* Section 1 with HomePage background */}
@@ -58,52 +59,52 @@ const scrollToHowItWorks = () => {
       {/* Section 2 with YellowBackground */}
       <section className={`Section section3 ${darkMode ? 'dark-mode' : ''}`} id="why-use-teknect">
         <h1 className="pageTitle" id="how-it-works-section">Why Use TeknnecT</h1>
-          <section className="trade-items">
-            {/* Cards with dark mode support */}
-            <div className={`card1 ${darkMode ? 'dark-card' : ''}`}>
-              <img src={money} alt="Money" className="icon2" />
-              <h3 className="title"><strong>Save Money</strong></h3>
-              <p className="description">Trade or rent items instead of buying new ones. Keep more money in your pocket for what really matters.</p>
-            </div>
-
-            <div className={`card2 ${darkMode ? 'dark-card' : ''}`}>
-              <img src={earth} alt="Earth" className="icon2" />
-              <h3 className="title"><strong>Eco-Friendly</strong></h3>
-              <p className="description">Reduce waste by reusing and sharing resources. Help create a more sustainable campus community.</p>
-            </div>
-
-            <div className={`card3 ${darkMode ? 'dark-card' : ''}`}>
-              <img src={tao} alt="Person" className="icon2" />
-              <h3 className="title"><strong>Build Community</strong></h3>
-              <p className="description">Connect with fellow students, make new friends, and help each other succeed throughout your academic journey.</p>
-            </div>
-          </section>
-
-          <div className="how-it-works">
-            <h1 className="TeknecT-Works">How TeknnecT Works</h1>
-            <p className="Work-as">Our Platform makes it easy to trade, rent, and find lost items within your campus community</p>
+        <section className="trade-items">
+          {/* Cards with dark mode support */}
+          <div className={`card1 ${darkMode ? 'dark-card' : ''}`}>
+            <img src={money} alt="Money" className="icon2" />
+            <h3 className="title"><strong>Save Money</strong></h3>
+            <p className="description">Trade or rent items instead of buying new ones. Keep more money in your pocket for what really matters.</p>
           </div>
-          
-          <div className="IconsS2">
-            <div className="icon-group">
-              <img src={posticon} alt="posticon" className="icon3" />
-              <h1 className="PostText">Post your Item</h1>
-              <p className="desc1">Create a listing for items you want to trade, rent out, or report as lost or found.</p>
-            </div>
-            
-            <div className="icon-group">
-              <img src={connecticon} alt="connecticon" className="icon3" />
-              <h1 className="PostText">Connect with Students</h1>
-              <p className="desc">Receive requests and messages from interested students on campus.</p>
-            </div>
 
-            <div className="icon-group">
-              <img src={exchangeicon} alt="exchangeicon" className="icon3" />
-              <h1 className="PostText">Complete the Exchange</h1>
-              <p className="desc">Meet safely on campus to trade, rent, or return lost items to their owners.</p>
-            </div>
+          <div className={`card2 ${darkMode ? 'dark-card' : ''}`}>
+            <img src={earth} alt="Earth" className="icon2" />
+            <h3 className="title"><strong>Eco-Friendly</strong></h3>
+            <p className="description">Reduce waste by reusing and sharing resources. Help create a more sustainable campus community.</p>
+          </div>
+
+          <div className={`card3 ${darkMode ? 'dark-card' : ''}`}>
+            <img src={tao} alt="Person" className="icon2" />
+            <h3 className="title"><strong>Build Community</strong></h3>
+            <p className="description">Connect with fellow students, make new friends, and help each other succeed throughout your academic journey.</p>
           </div>
         </section>
+
+        <div className="how-it-works">
+          <h1 className="TeknecT-Works">How TeknnecT Works</h1>
+          <p className="Work-as">Our Platform makes it easy to trade, rent, and find lost items within your campus community</p>
+        </div>
+        
+        <div className="IconsS2">
+          <div className="icon-group">
+            <img src={posticon} alt="posticon" className="icon3" />
+            <h1 className="PostText">Post your Item</h1>
+            <p className="desc1">Create a listing for items you want to trade, rent out, or report as lost or found.</p>
+          </div>
+          
+          <div className="icon-group">
+            <img src={connecticon} alt="connecticon" className="icon3" />
+            <h1 className="PostText">Connect with Students</h1>
+            <p className="desc">Receive requests and messages from interested students on campus.</p>
+          </div>
+
+          <div className="icon-group">
+            <img src={exchangeicon} alt="exchangeicon" className="icon3" />
+            <h1 className="PostText">Complete the Exchange</h1>
+            <p className="desc">Meet safely on campus to trade, rent, or return lost items to their owners.</p>
+          </div>
+        </div>
+      </section>
 
       {/* Section 3 with BottomPage2 background */}
       <section className="Section section4">
@@ -155,19 +156,30 @@ const scrollToHowItWorks = () => {
                 <Link to="/rent">Rent</Link><br />
                 <Link to="/lost-found">Lost & Found</Link><br />
                 <Link to="/donations">Donations</Link><br />
-                <Link to="/about">About Us</Link><br />
               </div>
 
               <div className="resourceLinks">
                 <h3 className="resources">Resources</h3>
-                <Link to="/">About Us</Link><br />
-                <Link to="/trade">Policy & Privacy</Link><br />
+                <Link to="/about">About Us</Link><br />
+                {/* Button instead of Link for Policy & Privacy */}
+                <button className="policy-link-btn" onClick={() => setShowPolicyModal(true)}>
+                 Policy & Privacy
+                </button>
+                <br />
                 <Link to="/rent">About You</Link><br />
               </div>
             </div>
           </div>
         </div>
       </section> 
+
+      {/* Policy Modal (viewOnly mode) */}
+      {showPolicyModal && (
+        <PolicyPageModal
+          viewOnly
+          onDecline={() => setShowPolicyModal(false)}
+        />
+      )}
     </div>
   );
 }

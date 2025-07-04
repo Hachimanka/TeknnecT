@@ -47,7 +47,7 @@ function LoginPage() {
         setUserCredential(userCred);
         setShowPolicyModal(true);
       } else {
-        navigate('/lost-found'); // ✅ Navigate directly if policy already accepted
+        navigate('/'); // ✅ Navigate directly if policy already accepted
       }
 
     } catch (err) {
@@ -60,7 +60,7 @@ function LoginPage() {
     // Mark policy as accepted for this user
     localStorage.setItem(`policy_accepted_${userCredential.user.uid}`, 'true');
     setShowPolicyModal(false);
-    navigate('/lost-found'); // ✅ Navigate after accepting policy
+    navigate('/'); // ✅ Navigate after accepting policy
   };
 
   const handlePolicyDecline = () => {
