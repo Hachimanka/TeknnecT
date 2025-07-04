@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { auth, db } from '../firebase';
-import { collection, query, where, getDocs, orderBy, deleteDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDocs, orderBy, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import styles from './MyItemsPage.module.css';
 
@@ -10,6 +10,10 @@ function MyItemsPage() {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [deleteLoading, setDeleteLoading] = useState(null);
+  const [completeLoading, setCompleteLoading] = useState(null);
+  
+  // New state for posts/completed filter
+  const [statusFilter, setStatusFilter] = useState('posts'); // 'posts' or 'completed'
   
   // New state for search and sort
   const [searchTerm, setSearchTerm] = useState('');
@@ -84,6 +88,35 @@ function MyItemsPage() {
     }
   };
 
+  const handleCompleteTransaction = async (itemId) => {
+    if (!window.confirm('Mark this transaction as completed? This will hide it from public listings.')) {
+      return;
+    }
+
+    try {
+      setCompleteLoading(itemId);
+      const itemRef = doc(db, 'items', itemId);
+      await updateDoc(itemRef, {
+        completed: true,
+        completedAt: new Date()
+      });
+      
+      // Update local state
+      setItems(items.map(item => 
+        item.id === itemId 
+          ? { ...item, completed: true, completedAt: new Date() }
+          : item
+      ));
+      
+      alert('Transaction marked as completed!');
+    } catch (error) {
+      console.error('Error completing transaction:', error);
+      alert('Error completing transaction. Please try again.');
+    } finally {
+      setCompleteLoading(null);
+    }
+  };
+
   const formatDate = (timestamp) => {
     if (!timestamp) return 'Unknown date';
     
@@ -98,6 +131,15 @@ function MyItemsPage() {
   };
 
   const categorizeItems = () => {
+    // Filter based on status first
+    const statusFilteredItems = items.filter(item => {
+      if (statusFilter === 'posts') {
+        return !item.completed;
+      } else {
+        return item.completed;
+      }
+    });
+
     const categorized = {
       trade: [],
       rent: [],
@@ -106,7 +148,7 @@ function MyItemsPage() {
       donation: []
     };
 
-    items.forEach(item => {
+    statusFilteredItems.forEach(item => {
       const type = item.type?.toLowerCase();
       if (categorized[type]) {
         categorized[type].push(item);
@@ -116,9 +158,16 @@ function MyItemsPage() {
     return categorized;
   };
 
-  // Updated filtering function that includes search
+  // Updated filtering function that includes search and status
   const getFilteredItems = () => {
     let filtered = items;
+
+    // Filter by status (posts/completed)
+    if (statusFilter === 'posts') {
+      filtered = filtered.filter(item => !item.completed);
+    } else {
+      filtered = filtered.filter(item => item.completed);
+    }
 
     // Filter by category
     if (selectedCategory !== 'all') {
@@ -239,6 +288,10 @@ function MyItemsPage() {
   const categorizedItems = categorizeItems();
   const filteredItems = getFilteredItems();
 
+  // Get counts for status filter
+  const postsCount = items.filter(item => !item.completed).length;
+  const completedCount = items.filter(item => item.completed).length;
+
   if (!user) {
     return (
       <div className={styles.container}>
@@ -291,6 +344,24 @@ function MyItemsPage() {
         </div>
       </div>
 
+      {/* Status Filter Section - UPDATED */}
+      <div className={styles.transactionFilterSection}>
+        <div className={styles.transactionFilterButtons}>
+          <button 
+            className={`${statusFilter === 'posts' ? styles.active : ''}`}
+            onClick={() => setStatusFilter('posts')}
+          >
+            📋 Posts ({postsCount})
+          </button>
+          <button 
+            className={`${statusFilter === 'completed' ? styles.active : ''}`}
+            onClick={() => setStatusFilter('completed')}
+          >
+            ✅ Completed Transactions ({completedCount})
+          </button>
+        </div>
+      </div>
+
       <div className={styles.filterSection}>
         <h3>Filter by Category:</h3>
         <div className={styles.filterButtons}>
@@ -298,7 +369,7 @@ function MyItemsPage() {
             className={selectedCategory === 'all' ? styles.active : ''}
             onClick={() => setSelectedCategory('all')}
           >
-            All Items ({items.length})
+            All Items ({categorizedItems.trade.length + categorizedItems.rent.length + categorizedItems.lost.length + categorizedItems.found.length + categorizedItems.donation.length})
           </button>
           <button 
             className={selectedCategory === 'trade' ? styles.active : ''}
@@ -338,7 +409,7 @@ function MyItemsPage() {
         <div className={styles.searchSortHeader}>
           <h4>Search & Sort</h4>
           <span className={styles.resultsCount}>
-            Showing {filteredItems.length} of {items.length} items
+            Showing {filteredItems.length} of {statusFilter === 'posts' ? postsCount : completedCount} items
           </span>
         </div>
         
@@ -389,8 +460,12 @@ function MyItemsPage() {
               {searchTerm 
                 ? `No items found matching "${searchTerm}". Try a different search term.`
                 : selectedCategory === 'all' 
-                ? "You haven't posted any items yet." 
-                : `You don't have any ${selectedCategory} items.`
+                ? statusFilter === 'posts' 
+                  ? "You haven't posted any items yet." 
+                  : "You don't have any completed transactions yet."
+                : statusFilter === 'posts'
+                ? `You don't have any active ${selectedCategory} items.`
+                : `You don't have any completed ${selectedCategory} transactions.`
               }
             </p>
           </div>
@@ -424,17 +499,34 @@ function MyItemsPage() {
                   <div className={styles.itemTypeBadge} style={{ backgroundColor: getItemTypeColor(item.type) }}>
                     {getItemTypeIcon(item.type)} {item.type?.toUpperCase()}
                   </div>
-                  <button 
-                    className={styles.deleteButton}
-                    onClick={(e) => {
-                      e.stopPropagation(); // Prevent modal from opening
-                      handleDeleteItem(item.id);
-                    }}
-                    disabled={deleteLoading === item.id}
-                    aria-label="Delete item"
-                  >
-                    {deleteLoading === item.id ? '...' : '🗑️'}
-                  </button>
+                  <div className={styles.itemActionButtons}>
+                    {!item.completed && (
+                      <button 
+                        className={styles.completeButton}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCompleteTransaction(item.id);
+                        }}
+                        disabled={completeLoading === item.id}
+                        aria-label="Complete transaction"
+                        title="Mark as completed"
+                      >
+                        {completeLoading === item.id ? '...' : '✅'}
+                      </button>
+                    )}
+                    <button 
+                      className={styles.deleteButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeleteItem(item.id);
+                      }}
+                      disabled={deleteLoading === item.id}
+                      aria-label="Delete item"
+                      title="Delete item"
+                    >
+                      {deleteLoading === item.id ? '...' : '🗑️'}
+                    </button>
+                  </div>
                 </div>
 
                 <div className={styles.itemContent}>
@@ -464,11 +556,39 @@ function MyItemsPage() {
                           : item.location}
                       </span>
                     </div>
+                    
+                    {/* Fixed: Always show consistent number of rows */}
                     <div className={styles.detailRow}>
-                      <span className={styles.detailLabel}>📅 Posted:</span>
-                      <span className={styles.detailValue}>{formatDate(item.createdAt)}</span>
+                      <span className={styles.detailLabel}>
+                        {item.completed ? '✅ Completed:' : '📅 Posted:'}
+                      </span>
+                      <span className={styles.detailValue}>
+                        {item.completed 
+                          ? formatDate(item.completedAt) 
+                          : formatDate(item.createdAt)}
+                      </span>
                     </div>
                   </div>
+                </div>
+
+                {/* Updated: Use complete transaction button from CSS */}
+                <div className={styles.cardActions}>
+                  {!item.completed ? (
+                    <button 
+                      className={styles.completeTransactionButton}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCompleteTransaction(item.id);
+                      }}
+                      disabled={completeLoading === item.id}
+                    >
+                      {completeLoading === item.id ? 'Completing...' : 'Complete Transaction'}
+                    </button>
+                  ) : (
+                    <div className={styles.completedBadge}>
+                      ✅ Completed
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -476,6 +596,7 @@ function MyItemsPage() {
         )}
       </div>
 
+      {/* Modal */}
       {/* Modal */}
       {selectedItem && (
         <div className={styles.modalOverlay} onClick={closeModal}>
@@ -555,6 +676,12 @@ function MyItemsPage() {
                       <span className={styles.modalDetailLabel}>📅 Posted:</span>
                       <span className={styles.modalDetailValue}>{formatDate(selectedItem.createdAt)}</span>
                     </div>
+                    {selectedItem.completed && (
+                      <div className={styles.modalDetailRow}>
+                        <span className={styles.modalDetailLabel}>✅ Completed:</span>
+                        <span className={styles.modalDetailValue}>{formatDate(selectedItem.completedAt)}</span>
+                      </div>
+                    )}
                     {selectedItem.price && (
                       <div className={styles.modalDetailRow}>
                         <span className={styles.modalDetailLabel}>💰 Price:</span>
@@ -570,6 +697,84 @@ function MyItemsPage() {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Modal Actions Section - NEW */}
+            <div className={`${styles.modalActions} ${selectedItem.completed ? styles.completed : ''}`}>
+              {!selectedItem.completed ? (
+                <>
+                  <button 
+                    className={styles.modalCompleteButton}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCompleteTransaction(selectedItem.id);
+                    }}
+                    disabled={completeLoading === selectedItem.id}
+                    aria-label="Complete transaction"
+                  >
+                    {completeLoading === selectedItem.id ? (
+                      <>
+                        <span>⏳</span>
+                        Completing...
+                      </>
+                    ) : (
+                      <>
+                        <span>✅</span>
+                        Complete Transaction
+                      </>
+                    )}
+                  </button>
+                  <button 
+                    className={styles.modalDeleteButton}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteItem(selectedItem.id);
+                    }}
+                    disabled={deleteLoading === selectedItem.id}
+                    aria-label="Delete item"
+                  >
+                    {deleteLoading === selectedItem.id ? (
+                      <>
+                        <span>⏳</span>
+                        Deleting...
+                      </>
+                    ) : (
+                      <>
+                        <span>🗑️</span>
+                        Delete Item
+                      </>
+                    )}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div className={styles.modalCompletedBadge}>
+                    <span>✅</span>
+                    Transaction Completed
+                  </div>
+                  <button 
+                    className={styles.modalDeleteButton}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleDeleteItem(selectedItem.id);
+                    }}
+                    disabled={deleteLoading === selectedItem.id}
+                    aria-label="Delete item"
+                  >
+                    {deleteLoading === selectedItem.id ? (
+                      <>
+                        <span>⏳</span>
+                        Deleting...
+                      </>
+                    ) : (
+                      <>
+                        <span>🗑️</span>
+                        Delete Item
+                      </>
+                    )}
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
