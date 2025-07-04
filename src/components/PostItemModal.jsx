@@ -220,6 +220,103 @@ function PostItemModal({ onClose, defaultType }) {
     }
   };
 
+  const showRandomEmojiSuccess = () => {
+    const successEmojis = [
+      '🎉', '🥳', '🎊', '✨', '🌟', '⭐', '🔥', '💫', '🚀', '🎯',
+      '🏆', '🥇', '👏', '🙌', '💪', '✅', '🎈', '🎁', '🌈', '💝',
+      '🎵', '🎶', '🎪', '🎭', '🎨', '🎲', '🎳', '🎮', '🎰', '🎢'
+    ];
+    
+    const randomEmoji = successEmojis[Math.floor(Math.random() * successEmojis.length)];
+    
+    // Create success modal
+    const successModal = document.createElement('div');
+    successModal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 3000;
+      animation: fadeIn 0.3s ease-in-out;
+    `;
+    
+    // Create emoji element
+    const emojiElement = document.createElement('div');
+    emojiElement.innerHTML = randomEmoji;
+    emojiElement.style.cssText = `
+      font-size: 120px;
+      animation: bounce 1s ease-in-out infinite alternate;
+      margin-bottom: 20px;
+    `;
+    
+    // Create success text
+    const successText = document.createElement('div');
+    successText.innerHTML = 'Item Posted Successfully!';
+    successText.style.cssText = `
+      font-size: 24px;
+      color: white;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 20px;
+    `;
+    
+    // Create close button
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = 'Continue';
+    closeButton.style.cssText = `
+      padding: 12px 24px;
+      font-size: 16px;
+      background: #9B000A;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+    `;
+    
+    // Add CSS animations
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes bounce {
+        from { transform: translateY(0px); }
+        to { transform: translateY(-20px); }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Add elements to modal
+    successModal.appendChild(emojiElement);
+    successModal.appendChild(successText);
+    successModal.appendChild(closeButton);
+    document.body.appendChild(successModal);
+    
+    // Close button functionality
+    closeButton.onclick = () => {
+      document.body.removeChild(successModal);
+      document.head.removeChild(style);
+      onClose();
+    };
+    
+    // Auto close after 3 seconds
+    setTimeout(() => {
+      if (document.body.contains(successModal)) {
+        document.body.removeChild(successModal);
+        document.head.removeChild(style);
+        onClose();
+      }
+    }, 3000);
+  };
+
   const handlePost = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -247,8 +344,8 @@ function PostItemModal({ onClose, defaultType }) {
         createdAt: serverTimestamp(),
       });
 
-      alert('✅ Item posted successfully!');
-      onClose();
+      // Show random emoji success message instead of alert
+      showRandomEmojiSuccess();
     } catch (err) {
       console.error('❌ Error posting item:', err);
       alert('Error posting item. Try again.');

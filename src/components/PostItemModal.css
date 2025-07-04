@@ -428,8 +428,9 @@ textarea {
     padding: 4px 6px;
   }
 }
-/* Dark Mode */
-body.dark-mode .modal-content {
+
+/* Dark Mode - FIXED VERSION */
+body.dark-mode .modal-contents {
   background-color: #222;
   color: #f0f0f0;
 }
@@ -439,10 +440,29 @@ body.dark-mode .form-label {
   color: #FF69B4; /* Hot pink for better visibility */
 }
 
-body.dark-mode input, body.dark-mode textarea, body.dark-mode select {
-  background-color: #333;
-  color: #f0f0f0;
-  border: 1px solid #555;
+/* FIXED: Input fields now have light background with dark text for better readability */
+body.dark-mode input, 
+body.dark-mode textarea, 
+body.dark-mode select {
+  background-color: #f8f8f8 !important; /* Light background */
+  color: #333 !important; /* Dark text */
+  border: 1px solid #FF69B4 !important; /* Pink border to match theme */
+}
+
+/* Focus states for inputs in dark mode */
+body.dark-mode input:focus, 
+body.dark-mode textarea:focus, 
+body.dark-mode select:focus {
+  background-color: #ffffff !important; /* Even lighter on focus */
+  color: #222 !important; /* Darker text on focus */
+  border: 2px solid #FF69B4 !important; /* Thicker pink border */
+  outline: none;
+}
+
+/* Placeholder text styling in dark mode */
+body.dark-mode input::placeholder, 
+body.dark-mode textarea::placeholder {
+  color: #888 !important; /* Medium gray for placeholder */
 }
 
 body.dark-mode .upload-box {
@@ -497,9 +517,16 @@ body.dark-mode .type-button.active {
   box-shadow: 0 2px 8px rgba(255, 189, 0, 0.4);
 }
 
-body.dark-mode .type-button:hover:not(.active) {
+body.dark-mode .type-button:hover:not(.active):not(.disabled) {
   background-color: rgba(255, 189, 0, 0.15);
-  text-decoration: none;
+  color: #FFBD00;
+  border-color: #FFBD00;
+}
+
+body.dark-mode .type-button.disabled {
+  background-color: #2a2a2a;
+  color: #666;
+  border-color: #444;
 }
 
 body.dark-mode .selected-files {
@@ -521,7 +548,8 @@ body.dark-mode .remove-file:hover {
 }
 
 /* Yellow styling for buttons in dark mode */
-body.dark-mode .cancel-button, body.dark-mode .post-button {
+body.dark-mode .cancel-button, 
+body.dark-mode .post-button {
   background-color: #444;
   color: #f0f0f0;
   transition: all 0.2s ease;
@@ -530,7 +558,7 @@ body.dark-mode .cancel-button, body.dark-mode .post-button {
 body.dark-mode .cancel-button:hover {
   background-color: #9B000A;
   color: #f0f0f0;
-  box-shadow: 0 2px 8px rgba(255, 0, 128, 0.342);
+  box-shadow: 0 2px 8px rgba(155, 0, 10, 0.4);
 }
 
 body.dark-mode .post-button:hover {
@@ -549,3 +577,19 @@ body.dark-mode .post-button:hover {
   color: #7A0008;
 }
 
+/* Dark mode camera link */
+body.dark-mode .camera-link {
+  color: #FF69B4;
+}
+
+body.dark-mode .camera-link:hover {
+  color: #ff1493;
+}
+
+body.dark-mode .browse-files {
+  color: #FF69B4;
+}
+
+body.dark-mode .browse-files:hover {
+  color: #ff1493;
+}
