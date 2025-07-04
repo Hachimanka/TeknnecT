@@ -155,7 +155,7 @@ const scrollToHowItWorks = () => {
                 <Link to="/rent">Rent</Link><br />
                 <Link to="/lost-found">Lost & Found</Link><br />
                 <Link to="/donations">Donations</Link><br />
-                <Link to="/about">About</Link><br />
+                <Link to="/about">About Us</Link><br />
               </div>
 
               <div className="resourceLinks">
