@@ -388,7 +388,7 @@ function PostItemModal({ onClose, defaultType }) {
             <label className="form-label type-category-container">
               <span className="form-icon">🔁</span> Item Type
               <div className="item-type-buttons">
-                {['trade', 'rent', 'lost', 'found', 'donate'].map((type) => {
+                {['trade', 'rent', 'lost', 'found', 'donation'].map((type) => {
                   // Check if this button should be disabled
                   const isDisabled = defaultType && defaultType.toLowerCase() !== type;
                   
