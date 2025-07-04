@@ -22,7 +22,7 @@ function HomePage({ darkMode }) {
   const scrollToHowItWorks = () => {
   const section = document.getElementById('how-it-works-section');
   if (section) {
-    const yOffset = -80; // Adjust this value as needed (e.g., -60 for a 60px header)
+    const yOffset = 300; // Adjust this value as needed (e.g., -60 for a 60px header)
     const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
