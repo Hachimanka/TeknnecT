@@ -124,7 +124,7 @@ function HomePage({ darkMode }) {
               <img src={phone} alt="Phone Icon" className="icon" />
               <div>
                 <p className="ContactLabel">Phone</p>
-                <p className="ContactInfo">091-7652-5690</p>
+                <p className="ContactInfo">0917-652-5690</p>
               </div>
             </div>
 
