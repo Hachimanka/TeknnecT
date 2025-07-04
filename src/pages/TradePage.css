@@ -191,3 +191,157 @@
   .trade-modal-title { font-size: 1.2rem; }
   .trade-post-ref-details { flex-direction: column; text-align: center; }
 }
+
+/* Dark mode base styles */
+body.dark-mode .trade-PageWrapper {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/hapitwhite.png');
+}
+
+body.dark-mode .trade-page-title,
+body.dark-mode .trade-section-title {
+  color: #FFBD00;
+}
+
+body.dark-mode .trade-page-subtitle {
+  color: #ccc;
+}
+
+/* Dark mode cards */
+body.dark-mode .trade-item-card {
+  background-color: #333;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .trade-item-info {
+  background-color: #444;
+  border-left: 4px solid #E7AF06;
+}
+
+body.dark-mode .trade-item-title,
+body.dark-mode .trade-item-description,
+body.dark-mode .trade-item-price,
+body.dark-mode .trade-item-user {
+  color: #FFBD00;
+}
+
+body.dark-mode .trade-item-date {
+  color: #aaa;
+}
+
+/* Dark mode controls */
+body.dark-mode .trade-controls-bar {
+  background-color: #333;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .trade-search-input,
+body.dark-mode .trade-select-dropdown {
+  background-color: #444;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+/* Dark mode buttons */
+body.dark-mode .trade-post-trade-btn {
+  background-color: #FFBD00;
+  color: #121212;
+}
+
+body.dark-mode .trade-post-trade-btn:hover {
+  background-color: #ffcc33;
+}
+
+/* Dark mode pagination */
+body.dark-mode .trade-pagination {
+  color: #f0f0f0;
+}
+
+body.dark-mode .trade-pagination button {
+  background-color: #333;
+  color: #FFBD00;
+  border-color: #FFBD00;
+}
+
+body.dark-mode .trade-pagination button:hover:not(:disabled) {
+  background-color: #FFBD00;
+  color: #121212;
+}
+
+/* Dark mode modals */
+body.dark-mode .trade-modal-content {
+  background-color: #333;
+}
+
+body.dark-mode .trade-modal-title,
+body.dark-mode .trade-modal-details strong,
+body.dark-mode .trade-post-ref-title {
+  color: #FFBD00;
+}
+
+body.dark-mode .trade-modal-details,
+body.dark-mode .trade-modal-details p,
+body.dark-mode .trade-post-ref-info {
+  color: #f0f0f0;
+}
+
+body.dark-mode .trade-modal-header,
+body.dark-mode .trade-modal-footer {
+  background-color: #444;
+  border-color: #555;
+}
+
+body.dark-mode .trade-post-ref-header {
+  background-color: #555;
+}
+
+body.dark-mode .trade-chat-info {
+  background-color: #444;
+  color: #f0f0f0;
+}
+
+body.dark-mode .trade-chat-textarea {
+  background-color: #444;
+  color: #f0f0f0;
+  border-color: #555;
+}
+
+body.dark-mode .trade-chat-textarea:focus {
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 2px rgba(255, 189, 0, 0.2);
+}
+
+body.dark-mode .trade-cancel-button {
+  background-color: #666;
+  color: #f0f0f0;
+}
+
+body.dark-mode .trade-cancel-button:hover {
+  background-color: #777;
+}
+
+body.dark-mode .trade-send-button {
+  background-color: #9B000A;
+  color: #FFBD00;
+}
+
+body.dark-mode .trade-send-button:hover:not(:disabled) {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+
+body.dark-mode .trade-chat-button {
+  background-color: #9B000A;
+  color: #FFBD00;
+}
+
+body.dark-mode .trade-chat-button:hover {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+
+/* Dark mode loading/empty states */
+body.dark-mode .trade-loading-message,
+body.dark-mode .trade-empty-message {
+  color: #ccc;
+  background-color: #333;
+}

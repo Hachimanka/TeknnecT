@@ -19,10 +19,13 @@ function HomePage({ darkMode }) {
     navigate('/login');
   };
 
-  const scrollToHowItWorks = () => {
+const scrollToHowItWorks = () => {
   const section = document.getElementById('how-it-works-section');
   if (section) {
-    const yOffset = -80; // Adjust this value as needed (e.g., -60 for a 60px header)
+    // Detect mobile view (width <= 768px)
+    const isMobile = window.innerWidth <= 768;
+    // Use a smaller offset for mobile
+    const yOffset = isMobile ? 700 : 220; // Adjust 40 as needed for your mobile header
     const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
@@ -54,7 +57,7 @@ function HomePage({ darkMode }) {
 
       {/* Section 2 with YellowBackground */}
       <section className={`Section section3 ${darkMode ? 'dark-mode' : ''}`} id="why-use-teknect">
-        <h1 className="pageTitle" id="how-it-works-section">Why Use TeknecT</h1>
+        <h1 className="pageTitle" id="how-it-works-section">Why Use TeknnecT</h1>
           <section className="trade-items">
             {/* Cards with dark mode support */}
             <div className={`card1 ${darkMode ? 'dark-card' : ''}`}>
@@ -77,7 +80,7 @@ function HomePage({ darkMode }) {
           </section>
 
           <div className="how-it-works">
-            <h1 className="TeknecT-Works">How TeknecT Works</h1>
+            <h1 className="TeknecT-Works">How TeknnecT Works</h1>
             <p className="Work-as">Our Platform makes it easy to trade, rent, and find lost items within your campus community</p>
           </div>
           
@@ -152,14 +155,14 @@ function HomePage({ darkMode }) {
                 <Link to="/rent">Rent</Link><br />
                 <Link to="/lost-found">Lost & Found</Link><br />
                 <Link to="/donations">Donations</Link><br />
-                <Link to="/about">About</Link><br />
+                <Link to="/about">About Us</Link><br />
               </div>
 
               <div className="resourceLinks">
                 <h3 className="resources">Resources</h3>
-                <Link to="/">Home</Link><br />
-                <Link to="/trade">Trade</Link><br />
-                <Link to="/rent">Rent</Link><br />
+                <Link to="/">About Us</Link><br />
+                <Link to="/trade">Policy & Privacy</Link><br />
+                <Link to="/rent">About You</Link><br />
               </div>
             </div>
           </div>
