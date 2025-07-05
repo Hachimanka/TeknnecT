@@ -762,7 +762,7 @@
 }
 
 /* Enhanced Mobile Responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .container {
     padding: 1rem 0.5rem; /* Reduced padding for more space */
     max-width: 100%;
@@ -948,7 +948,7 @@
 }
 
 /* Tablet responsiveness - better space utilization */
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: 1024px) and (min-width: 601px) {
   .container {
     max-width: 100%;
     padding: 2rem 1rem;
@@ -1477,7 +1477,7 @@
 }
 
 /* Mobile Responsiveness for Modal */
-@media (max-width: 768px) {
+@media (max-width: 600x) {
   .modalOverlay {
     padding: 0.5rem;
   }
@@ -1758,7 +1758,7 @@
    ============================================== */
 
 :global(.dark-mode) .transactionFilterButtons {
-  background: #333;
+  
   border-color: #555;
 }
 
@@ -1798,7 +1798,7 @@
    MOBILE RESPONSIVENESS
    ============================================== */
 
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .transactionFilterSection {
     margin: 0 0.5rem 2rem 0.5rem;
     width: calc(100% - 1rem); 
@@ -1807,11 +1807,54 @@
   }
 
   .transactionFilterButtons {
-    width: 100%;
-    justify-content: center;
-    gap: 0.5rem;
-    box-sizing: border-box; 
-  }
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.transactionFilterButton {
+  padding: 0.8rem 1.4rem;
+  border: 2px solid #ddd;
+  background: white;
+  color: #666;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+  min-width: 140px;
+  text-align: center;
+  margin: 0 2px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  z-index: 1;
+}
+
+.transactionFilterButton.active {
+  background: linear-gradient(135deg, #FFBD00, #ffcc33);
+  border-color: #FFBD00;
+  color: #9B000A;
+  font-weight: bold;
+  box-shadow: 0 4px 16px rgba(255, 189, 0, 0.15);
+  z-index: 2;
+}
+
+.transactionFilterButton:focus {
+  outline: none;
+  border-color: #FFBD00;
+  box-shadow: 0 0 0 3px rgba(255, 189, 0, 0.2);
+}
+
+.transactionFilterButton:hover {
+  border-color: #FFBD00;
+  background-color: #fff8e1;
+  color: #9B000A;
+  box-shadow: 0 6px 20px rgba(255, 189, 0, 0.12);
+}
 
   .transactionFilterButtons button {
     padding: 0.6rem 0.8rem; 
@@ -1890,7 +1933,7 @@
    TABLET RESPONSIVENESS
    ============================================== */
 
-@media (max-width: 1024px) and (min-width: 769px) {
+@media (max-width: 1024px) and (min-width: 601px) {
   .transactionFilterButtons button {
     padding: 0.7rem 1.2rem;
     font-size: 0.9rem;
@@ -1931,4 +1974,3 @@
   }
 
 }
-
