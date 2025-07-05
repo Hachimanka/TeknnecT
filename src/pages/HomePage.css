@@ -256,6 +256,7 @@ body {
   color: #000;
   text-align: left;
   margin-left: 100px;
+
 }
 
 .quickLinks a,
@@ -704,7 +705,7 @@ link{
  
   .resourceLinks {
     margin-left: 150px;
-    transform: translateY(-21vh);
+    transform: translateY(-25vh);
   }
  
   .resources {

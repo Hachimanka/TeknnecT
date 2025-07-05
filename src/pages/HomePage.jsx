@@ -193,7 +193,7 @@ function HomePage({ darkMode }) {
                  Policy & Privacy
                 </button>
                 <br />
-                <Link to="/rent">About You</Link><br />
+                {/*<Link to="/rent">About You</Link><br />*/}
               </div>
             </div>
           </div>
