@@ -678,7 +678,10 @@ useEffect(() => {
               </span>
             )}
           </div>
-          <button className="post-item-button" onClick={handlePostItem}>
+          <button
+            className={`post-item-button${darkMode ? ' post-item-button-dark' : ''}`}
+            onClick={handlePostItem}
+          >
             Post Item
           </button>
 

@@ -404,6 +404,10 @@ body.dark-mode .SubTitles {
   transform: scale(1.1);
 }
 
+.resources {
+  margin-left: -20px;
+}
+
 /* Desktop-specific responsive adjustments */
 @media (min-width: 1025px) and (max-width: 1440px) {
   :root {

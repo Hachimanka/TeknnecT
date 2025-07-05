@@ -119,10 +119,11 @@ function LostFoundPage({ darkMode }) {
     if (filterType !== 'all') { results = results.filter(item => item.type === filterType); }
     if (filterCategory !== 'all') { results = results.filter(item => item.category === filterCategory); }
     if (searchTerm.trim() !== '') { results = results.filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase())); }
-    results.sort((a, b) => {
-        const dateA = a.createdAt?.toDate() || 0;
-        const dateB = b.createdAt?.toDate() || 0;
-        return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+    results = [...results].sort((a, b) => {
+      // Always sort by createdAt, even if category is 'all'
+      const dateA = a.createdAt && a.createdAt.toDate ? a.createdAt.toDate() : new Date(0);
+      const dateB = b.createdAt && b.createdAt.toDate ? b.createdAt.toDate() : new Date(0);
+      return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
     });
     return results;
   }, [items, filterType, filterCategory, searchTerm, sortOrder]);

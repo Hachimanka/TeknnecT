@@ -179,6 +179,12 @@
   background-color: #ffe8c2;
 }
 
+.post-item-button-dark {
+  background: #FFBD00 !important;
+  color: #222 !important;
+  border: none;
+}
+
 .dropdown-arrow-icon {
   display: flex;
   align-items: center;

@@ -265,6 +265,73 @@ h2 {
   box-shadow: none;
 }
 
+/* Dark Mode Styles */
+body.dark-mode .PolicyModal {
+  background: #232323;
+  color: #f8f8f8;
+}
+
+body.dark-mode .PolicyModalHeader {
+  background: linear-gradient(135deg, #222 0%, #9B000A 100%);
+  color: #FFBD00;
+}
+
+body.dark-mode .PolicyModalHeader h2,
+body.dark-mode .PolicyModalContent h2 {
+  color: #FFBD00;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .PolicyModalContent {
+  background: #232323;
+  color: #f0eaea;
+}
+
+body.dark-mode .PolicySection h3 {
+  color: #FFBD00;
+  border-bottom: 2px solid #333;
+}
+
+body.dark-mode .PolicySection h4 {
+  color: #ffc107;
+}
+
+body.dark-mode .PolicySection p,
+body.dark-mode .PolicySection ul,
+body.dark-mode .PolicySection li {
+  color: #e0e0e0;
+}
+
+body.dark-mode .LastSection {
+  background: #292929;
+  border-left: 4px solid #FFBD00;
+}
+
+body.dark-mode .ScrollReminder {
+  color: #FFBD00;
+}
+
+body.dark-mode .DeclineButton {
+  background: #FFBD00;
+  color: #9B000A;
+}
+body.dark-mode .DeclineButton:hover {
+  background: #9B000A;
+  color: #FFBD00;
+}
+body.dark-mode .AcceptButton {
+  background: linear-gradient(135deg, #333 0%, #FFBD00 100%);
+  color: #232323;
+}
+body.dark-mode .AcceptButton:hover:not(:disabled) {
+  background: #FFBD00;
+  color: #9B000A;
+}
+body.dark-mode .AcceptButton:disabled {
+  background: #444;
+  color: #aaa;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .PolicyModal {
