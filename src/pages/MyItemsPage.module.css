@@ -762,7 +762,7 @@
 }
 
 /* Enhanced Mobile Responsiveness */
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .container {
     padding: 1rem 0.5rem; /* Reduced padding for more space */
     max-width: 100%;
@@ -948,7 +948,7 @@
 }
 
 /* Tablet responsiveness - better space utilization */
-@media (max-width: 1024px) and (min-width: 601px) {
+@media (max-width: 1024px) and (min-width: 651px) {
   .container {
     max-width: 100%;
     padding: 2rem 1rem;
@@ -1611,7 +1611,7 @@
   white-space: nowrap;
   position: relative;
   overflow: hidden;
-  min-width: 140px;
+  min-width: 180px;
   text-align: center;
 }
 
@@ -1798,7 +1798,7 @@
    MOBILE RESPONSIVENESS
    ============================================== */
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .transactionFilterSection {
     margin: 0 0.5rem 2rem 0.5rem;
     width: calc(100% - 1rem); 
@@ -1812,6 +1812,7 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
+  width: 100%;
 }
 
 .transactionFilterButton {
@@ -1859,13 +1860,15 @@
   .transactionFilterButtons button {
     padding: 0.6rem 0.8rem; 
     font-size: 0.8rem; 
-    min-width: 90px; 
+    min-width: unset; 
     flex: 1;
-    max-width: 47%; 
+    max-width: 48%; 
     box-sizing: border-box; 
     white-space: nowrap; 
     overflow: hidden; 
     text-overflow: ellipsis; 
+    border-radius: 8px; 
+    line-height: 1.2;
   }
 
   .transactionFilterButtons button:hover {
@@ -1933,7 +1936,7 @@
    TABLET RESPONSIVENESS
    ============================================== */
 
-@media (max-width: 1024px) and (min-width: 601px) {
+@media (max-width: 1024px) and (min-width: 651px) {
   .transactionFilterButtons button {
     padding: 0.7rem 1.2rem;
     font-size: 0.9rem;
@@ -1973,4 +1976,42 @@
     min-width: 140px;
   }
 
+}
+
+@media (min-width: 651px) {
+  .completeTransactionButton {
+    display: none;
+  }
+  
+  .itemTileActions .completeTransactionButton {
+    display: none;
+  }
+  
+  .cardActions .completeTransactionButton {
+    display: none;
+  }
+}
+
+/* Keep the button visible on mobile (650px and below) */
+@media (max-width: 650px) {
+  .completeTransactionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .itemTileActions .completeTransactionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  .cardActions .completeTransactionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 }
