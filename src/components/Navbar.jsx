@@ -1,3 +1,4 @@
+
 import { useRef, useEffect, useState} from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaComments, FaUserCircle, FaChevronDown } from 'react-icons/fa';
@@ -9,7 +10,308 @@ import PostItemModal from './PostItemModal';
 import { onAuthStateChanged } from 'firebase/auth';
 import ChatBox from '../components/Chatbox';
 
-function Navbar() {
+
+// --- Onboarding Tour Steps ---
+const TOUR_STEPS = [
+  {
+    selector: '.navbar-center a', // Home link
+    message: 'This is the Home link. See the latest posts and updates here.',
+  },
+  {
+    selector: '.navbar-center .navbar-link:nth-child(2)', // Trade button
+    message: 'This is the Trade section. Trade items with other students here!',
+  },
+  {
+    selector: '.navbar-center .navbar-link:nth-child(3)', // Rent button
+    message: 'This is the Rent section. Click here to rent items from other students!',
+  },
+  {
+    selector: '.navbar-center .navbar-link:nth-child(4)', // Lost & Found
+    message: 'Lost something? Check here or report lost/found items.',
+  },
+  {
+    selector: '.navbar-center .navbar-link:nth-child(5)', // Donations
+    message: 'Support others or request help in the Donations section.',
+  },
+  {
+    selector: '.chat-icon', // Message icon
+    message: 'This is your Messages. Click here to chat with other users!',
+  },
+  {
+    selector: '.post-item-button', // Post Item button
+    message: 'Post your own item here! Share what you have with the community.',
+  },
+  {
+    selector: '.profile-section', // Profile/avatar
+    message: 'Access your profile and settings here.\n\nYou can switch between light/dark mode, view your items, or log out. Click your avatar to open the menu.',
+    messagePosition: 'far-bottom-left', // Show message further to the left and below the avatar
+  },
+];
+
+function Navbar(props) {
+  // Onboarding tour state
+  const [tourStep, setTourStep] = useState(null);
+  // Allow parent to trigger the tour
+  useEffect(() => {
+    if (props.triggerTour) {
+      setTourStep(0);
+    }
+  }, [props.triggerTour]);
+  const startTour = () => setTourStep(0);
+  const nextTourStep = () => setTourStep((prev) => (prev < TOUR_STEPS.length - 1 ? prev + 1 : null));
+  const endTour = () => setTourStep(null);
+  // Add/remove blur class to body when tour is active
+  useEffect(() => {
+    if (tourStep !== null) {
+      document.body.classList.add('tour-active');
+    } else {
+      document.body.classList.remove('tour-active');
+    }
+    return () => document.body.classList.remove('tour-active');
+  }, [tourStep]);
+// --- SpotlightTour Component ---
+function SpotlightTour({ step, onNext, onClose, isLast }) {
+  const [targetRect, setTargetRect] = useState(null);
+  useEffect(() => {
+    const el = document.querySelector(step.selector);
+    if (!el) return;
+    // For mobile: scroll horizontally if needed to bring the element into view
+    if (window.innerWidth <= 768 && el.scrollIntoView) {
+      // Always scroll the navbar container to the start before spotlighting the first item
+      if (step.selector === '.navbar-center a') {
+        const navbarCenter = document.querySelector('.navbar-center');
+        if (navbarCenter && navbarCenter.scrollTo) {
+          navbarCenter.scrollTo({ left: 0, behavior: 'auto' });
+        }
+        // Wait for scroll to start, then scroll the element into view
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' });
+          // Wait for DOM to update, then measure
+          setTimeout(() => {
+            setTargetRect(el.getBoundingClientRect());
+          }, 100);
+        }, 100);
+      } else {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' });
+        setTimeout(() => {
+          setTargetRect(el.getBoundingClientRect());
+        }, 400);
+      }
+    } else {
+      setTargetRect(el.getBoundingClientRect());
+    }
+  }, [step]);
+
+  // Prevent scrolling and interaction with everything except the tour message/buttons
+  useEffect(() => {
+    // Prevent scrolling
+    const originalOverflow = document.body.style.overflow;
+    const originalTouchAction = document.body.style.touchAction;
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
+    // Prevent keyboard navigation
+    const handleKeydown = (e) => {
+      // Allow tab/shift+tab only inside the tour message
+      const focusable = document.querySelectorAll('.spotlight-tour-message button');
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            last.focus();
+            e.preventDefault();
+          }
+        } else {
+          if (document.activeElement === last) {
+            first.focus();
+            e.preventDefault();
+          }
+        }
+      } else if (["ArrowUp","ArrowDown","PageUp","PageDown","Home","End"," ","Spacebar"].includes(e.key)) {
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('keydown', handleKeydown, true);
+    // Prevent mouse/touch interaction outside the tour message
+    const stopEvent = (e) => {
+      // Only allow interaction with the tour message/buttons
+      const message = document.querySelector('.spotlight-tour-message');
+      if (message && !message.contains(e.target)) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('mousedown', stopEvent, true);
+    document.addEventListener('touchstart', stopEvent, { capture: true, passive: false });
+    document.addEventListener('wheel', stopEvent, { capture: true, passive: false });
+    // Clean up
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.body.style.touchAction = originalTouchAction;
+      document.removeEventListener('keydown', handleKeydown, true);
+      document.removeEventListener('mousedown', stopEvent, true);
+      document.removeEventListener('touchstart', stopEvent, true);
+      document.removeEventListener('wheel', stopEvent, true);
+    };
+  }, []);
+  if (!targetRect) return null;
+  // Default: below and centered
+  let messageStyle = {
+    position: 'fixed',
+    left: targetRect.left + targetRect.width / 2,
+    top: targetRect.bottom + 12,
+    transform: 'translateX(-50%)',
+    zIndex: 10003,
+    background: '#fff',
+    color: '#222',
+    borderRadius: 8,
+    padding: '1.2rem 1.5rem',
+    boxShadow: '0 4px 24px rgba(0,0,0,0.18)',
+    minWidth: 220,
+    maxWidth: 320,
+    textAlign: 'center',
+    fontFamily: 'Poppins, Arial, sans-serif',
+    whiteSpace: 'pre-line',
+    outline: 'none',
+  };
+  // If step.messagePosition === 'left', show message to the left of the target
+  if (step.messagePosition === 'left') {
+    messageStyle = {
+      ...messageStyle,
+      left: targetRect.left - 340,
+      top: targetRect.top + targetRect.height / 2,
+      transform: 'translateY(-50%)',
+      textAlign: 'left',
+      minWidth: 260,
+      maxWidth: 340,
+    };
+  }
+  // If step.messagePosition === 'far-left', show message even further to the left
+  if (step.messagePosition === 'far-left') {
+    messageStyle = {
+      ...messageStyle,
+      left: targetRect.left - 440,
+      top: targetRect.top + targetRect.height / 2,
+      transform: 'translateY(-50%)',
+      textAlign: 'left',
+      minWidth: 260,
+      maxWidth: 340,
+    };
+  }
+  // If step.messagePosition === 'far-bottom-left', show message further left and below
+  if (step.messagePosition === 'far-bottom-left') {
+    // On mobile, keep message fully visible on screen
+    const isMobile = window.innerWidth <= 768;
+    let left = targetRect.left - 220;
+    if (isMobile) {
+      left = Math.max(12, left);
+    }
+    messageStyle = {
+      ...messageStyle,
+      left,
+      top: targetRect.bottom + 32,
+      transform: 'none',
+      textAlign: 'left',
+      minWidth: isMobile ? 180 : 260,
+      maxWidth: isMobile ? 220 : 340,
+    };
+  }
+  // Overlay to block all interaction
+  const overlayStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '100vh',
+    background: 'rgba(0,0,0,0.35)',
+    zIndex: 10000,
+    pointerEvents: 'auto',
+    touchAction: 'none',
+    userSelect: 'none',
+  };
+  const spotlightStyle = {
+    position: 'fixed',
+    left: targetRect.left - 8,
+    top: targetRect.top - 8,
+    width: targetRect.width + 16,
+    height: targetRect.height + 16,
+    borderRadius: 16,
+    // No boxShadow at all: no light or dark outside the border radius
+    pointerEvents: 'none',
+    zIndex: 10001,
+    transition: 'all 0.3s',
+    background: 'transparent',
+  };
+  // Overlay with a "hole" for the spotlight: use pointer-events to allow the spotlight area to be interactive, but block everything else
+  // We'll use two overlays: one for the full screen, and one for the spotlight area (transparent, pointer-events: none)
+  // To get a rounded spotlight, use an SVG mask
+  const maskId = 'spotlight-mask';
+  const svgWidth = window.innerWidth;
+  const svgHeight = window.innerHeight;
+  const x = Math.max(0, targetRect.left - 8);
+  const y = Math.max(0, targetRect.top - 8);
+  const w = targetRect.width + 16;
+  const h = targetRect.height + 16;
+  const r = 16;
+  return (
+    <>
+      {/* SVG overlay with a rounded rectangle cutout */}
+      <svg
+        width={svgWidth}
+        height={svgHeight}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100vw',
+          height: '100vh',
+          zIndex: 10000,
+          pointerEvents: 'auto',
+        }}
+        aria-hidden="true"
+      >
+        <defs>
+          <mask id={maskId}>
+            {/* Full white = visible, black = transparent */}
+            <rect x="0" y="0" width={svgWidth} height={svgHeight} fill="white" />
+            <rect x={x} y={y} width={w} height={h} rx={r} ry={r} fill="black" />
+          </mask>
+        </defs>
+        <rect
+          x="0"
+          y="0"
+          width={svgWidth}
+          height={svgHeight}
+          fill="rgba(0,0,0,0.35)"
+          mask={`url(#${maskId})`}
+        />
+      </svg>
+      {/* The spotlight border itself (visual only, pointer-events: none) */}
+      <div style={spotlightStyle} aria-hidden="true" />
+      <div
+        className="spotlight-tour-message"
+        style={messageStyle}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Onboarding Tour Step"
+      >
+        <div style={{ marginBottom: 12 }}>{step.message}</div>
+        <button onClick={isLast ? onClose : onNext} style={{
+          background: '#9B000A', color: '#fff', border: 'none', borderRadius: 6, padding: '0.5rem 1.2rem', cursor: 'pointer'
+        }} autoFocus>
+          {isLast ? 'Finish' : 'Next'}
+        </button>
+        <button onClick={onClose} style={{
+          background: 'transparent', color: '#9B000A', border: 'none', marginLeft: 16, cursor: 'pointer'
+        }}>
+          Skip
+        </button>
+      </div>
+    </>
+  );
+}
   const [showModal, setShowModal] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -23,6 +325,8 @@ function Navbar() {
   const profileButtonRef = useRef(null);
 
   const navigate = useNavigate();
+
+  
   
   // Helper function to check authentication and redirect if needed
   const requireAuth = (callback) => {
@@ -302,6 +606,22 @@ useEffect(() => {
 
   return (
     <div className="page-header" style={{ position: 'relative' }}>
+      {/* Onboarding Tour Trigger Button (for demo, remove if you want to trigger after login) */}
+      {user && (
+        <button className="start-tour-btn" style={{position:'fixed',bottom:24,right:24,zIndex:10003,background:'#9B000A',color:'#fff',border:'none',borderRadius:8,padding:'0.7rem 1.5rem',fontWeight:600,cursor:'pointer'}} onClick={startTour}>
+          Take a Tour
+        </button>
+      )}
+
+      {/* Spotlight Tour Overlay */}
+      {tourStep !== null && (
+        <SpotlightTour
+          step={TOUR_STEPS[tourStep]}
+          onNext={nextTourStep}
+          onClose={endTour}
+          isLast={tourStep === TOUR_STEPS.length - 1}
+        />
+      )}
       <nav className="navbar">
         <div className="navbar-left">
           <Link to="/" className="navbar-logo">

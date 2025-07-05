@@ -18,7 +18,12 @@ function HomePage({ darkMode }) {
   const [showPolicyModal, setShowPolicyModal] = useState(false);
 
   const handleLoginClick = () => {
-    navigate('/login');
+    // If already logged in, trigger onboarding tour instead of navigating
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      window.dispatchEvent(new Event('triggerOnboardingTour'));
+    } else {
+      navigate('/login');
+    }
   };
 
   const scrollToHowItWorks = () => {

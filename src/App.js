@@ -16,11 +16,19 @@ import About from './pages/About';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  
+  const [triggerTour, setTriggerTour] = useState(false);
+
   // Apply dark mode class to body element
   useState(() => {
     document.body.classList.toggle('dark-mode', darkMode);
   }, [darkMode]);
+
+  // Listen for a custom event to trigger the tour
+  useState(() => {
+    const handler = () => setTriggerTour((v) => !v);
+    window.addEventListener('triggerOnboardingTour', handler);
+    return () => window.removeEventListener('triggerOnboardingTour', handler);
+  }, []);
 
   return (
     <div className={`app-container ${darkMode ? 'dark-mode' : ''}`}>
@@ -28,6 +36,7 @@ function App() {
         <Navbar 
           darkMode={darkMode} 
           setDarkMode={setDarkMode} 
+          triggerTour={triggerTour}
         />
         <Routes>
           <Route path="/" element={<HomePage darkMode={darkMode} />} />

@@ -275,6 +275,8 @@
   .navbar-avatar-default {
     font-size: 1rem;
   }
+
+ 
 }
 
 .profile-section {
@@ -593,3 +595,9 @@ body.dark-mode .navbar-avatar-default {
 .my-items-button:hover {
   background-color: #ffcc33;
 }
+
+body.dark-mode .my-items-button {
+  background-color: #FFBD00;
+  color: #9B000A;
+}
+

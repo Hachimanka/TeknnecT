@@ -47,6 +47,8 @@ function LoginPage() {
         setUserCredential(userCred);
         setShowPolicyModal(true);
       } else {
+        // Mark as logged in for onboarding tour logic
+        localStorage.setItem('isLoggedIn', 'true');
         navigate('/'); // ✅ Navigate directly if policy already accepted
       }
 
@@ -59,6 +61,7 @@ function LoginPage() {
   const handlePolicyAccept = () => {
     // Mark policy as accepted for this user
     localStorage.setItem(`policy_accepted_${userCredential.user.uid}`, 'true');
+    localStorage.setItem('isLoggedIn', 'true');
     setShowPolicyModal(false);
     navigate('/'); // ✅ Navigate after accepting policy
   };
