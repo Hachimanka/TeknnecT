@@ -346,22 +346,21 @@ function MyItemsPage() {
 
       {/* Status Filter Section - UPDATED */}
       <div className={styles.transactionFilterSection}>
-        <div className={styles.transactionFilterButtons}>
-          <button 
-            className={`${statusFilter === 'posts' ? styles.active : ''}`}
-            onClick={() => setStatusFilter('posts')}
-          >
-            📋 Posts ({postsCount})
-          </button>
-          <button 
-            className={`${statusFilter === 'completed' ? styles.active : ''}`}
-            onClick={() => setStatusFilter('completed')}
-          >
-            ✅ Completed Transactions ({completedCount})
-          </button>
-        </div>
-      </div>
-
+  <div className={styles.transactionFilterButtons}>
+    <button 
+      className={`${styles.transactionFilterButton} ${statusFilter === 'posts' ? styles.active : ''}`}
+      onClick={() => setStatusFilter('posts')}
+    >
+      📋 Posts ({postsCount})
+    </button>
+    <button 
+      className={`${styles.transactionFilterButton} ${statusFilter === 'completed' ? styles.active : ''}`}
+      onClick={() => setStatusFilter('completed')}
+    >
+      ✅ Completed Transactions ({completedCount})
+    </button>
+  </div>
+</div>
       <div className={styles.filterSection}>
         <h3>Filter by Category:</h3>
         <div className={styles.filterButtons}>
