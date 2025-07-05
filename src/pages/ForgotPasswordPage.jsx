@@ -42,13 +42,18 @@ function ForgotPasswordPage() {
         <h3>Forgot your password?</h3>
         <h4>Reset Password</h4>
         <form className="LoginForm" onSubmit={handleResetPassword}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <div className="PasswordInput">
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={{ paddingRight: '2.5rem' }}
+            />
+            {/* Invisible span for alignment */}
+            <span className="PasswordToggle" style={{ visibility: 'hidden' }}></span>
+          </div>
 
           <button type="submit">Reset Password</button>
 

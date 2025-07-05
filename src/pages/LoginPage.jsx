@@ -35,14 +35,15 @@ function LoginPage() {
 
       if (!userCred.user.emailVerified) {
         setError('❗ Please verify your email before logging in.');
-        return; // ⛔ Stop here, don't navigate
+        // Optionally, sign out the user to clear any session
+        await auth.signOut();
+        return; // ⛔ Stop here, don't navigate or set any login state
       }
 
+      // Only proceed if email is verified
       console.log('✅ Login successful:', userCred.user); // DEBUG LOG
-      
       // Check if this is first login (you can customize this logic)
       const isFirstLogin = localStorage.getItem(`policy_accepted_${userCred.user.uid}`) === null;
-      
       if (isFirstLogin) {
         setUserCredential(userCred);
         setShowPolicyModal(true);
@@ -92,13 +93,18 @@ function LoginPage() {
           {error && <p className="Error">{error}</p>}
 
           <form className="LoginForm" onSubmit={handleLogin}>
-            <input 
-              type="email" 
-              placeholder="Email" 
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <div className="PasswordInput">
+              <input 
+                type="email" 
+                placeholder="Email" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                style={{ paddingRight: '2.5rem' }}
+              />
+              {/* Invisible span for alignment */}
+              <span className="PasswordToggle" style={{ visibility: 'hidden' }}><FaEye /></span>
+            </div>
 
             <div className="PasswordInput">
               <input 

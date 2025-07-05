@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './HomePage.css';
 import bottomLogo1 from '../assets/bottomlogo1.png';
@@ -12,18 +12,40 @@ import posticon from '../assets/Posticon.png';
 import exchangeicon from '../assets/Exchangeicon.png';
 import connecticon from '../assets/Connecticon.png';
 import PolicyPageModal from '../components/PolicyPageModal';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebase';
 
 function HomePage({ darkMode }) {
+  // Listen for onboarding tour trigger event
+  useEffect(() => {
+    const handleTourTrigger = () => {
+      // Set a flag in localStorage for Navbar to pick up and start the tour
+      localStorage.removeItem('teknnect_tour_shown');
+      // Optionally, you can force a reload or dispatch a custom event
+      window.location.reload(); // Navbar will auto-trigger the tour after login
+    };
+    window.addEventListener('triggerOnboardingTour', handleTourTrigger);
+    return () => window.removeEventListener('triggerOnboardingTour', handleTourTrigger);
+  }, []);
   const navigate = useNavigate();
   const [showPolicyModal, setShowPolicyModal] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const handleLoginClick = () => {
-    // If already logged in, trigger onboarding tour instead of navigating
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      window.dispatchEvent(new Event('triggerOnboardingTour'));
-    } else {
+    // If not logged in, go to login page
+    if (!user) {
       navigate('/login');
+      return;
     }
+    // If logged in, trigger onboarding tour
+    window.dispatchEvent(new Event('triggerOnboardingTour'));
   };
 
   const scrollToHowItWorks = () => {

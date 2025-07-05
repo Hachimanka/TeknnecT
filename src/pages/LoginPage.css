@@ -1,3 +1,35 @@
+@media (max-width: 480px) {
+  .LoginBox {
+    max-width: 80vw;
+    width: 100%;
+    padding: 1rem !important;
+    border-radius: 12px;
+    box-sizing: border-box;
+    margin-right: 30px;
+  }
+  .LoginForm input,
+  .PasswordInput input {
+    font-size: 1rem;
+    padding: 0.7rem;
+  }
+  .LoginForm {
+    gap: 0.7rem;
+  }
+  .Links {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
+    width: 100%;
+  }
+  h3, h4 {
+    font-size: 1.1rem;
+  }
+}
 
 .LoginPage {
   height: 100vh; /* full height */

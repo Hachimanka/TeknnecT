@@ -12,6 +12,7 @@ function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -33,14 +34,18 @@ function RegisterPage() {
 
   const handleRegister = async (e) => {
   e.preventDefault();
+  if (loading) return;
+  setLoading(true);
 
   if (!email.endsWith('@cit.edu')) {
     alert('Only @cit.edu email addresses are allowed to register.');
+    setLoading(false);
     return;
   }
 
   if (password !== confirmPassword) {
     alert('Passwords do not match!');
+    setLoading(false);
     return;
   }
 
@@ -60,11 +65,18 @@ function RegisterPage() {
     // Send verification email
     await sendEmailVerification(user);
 
+    // Sign out the user after registration to prevent automatic login
+    if (auth.currentUser) {
+      await auth.signOut();
+    }
+
     alert('Registration successful! A verification email has been sent. Please verify your email before logging in.');
     navigate('/login');
   } catch (error) {
     console.error('Error registering:', error);
     alert('Failed to register: ' + error.message);
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -83,13 +95,18 @@ function RegisterPage() {
         <h3>Welcome!</h3>
         <h4>Register</h4>
         <form className="LoginForm" onSubmit={handleRegister}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <div className="PasswordInput">
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              style={{ paddingRight: '2.5rem' }}
+            />
+            {/* Invisible span for alignment */}
+            <span className="PasswordToggle" style={{ visibility: 'hidden' }}><FaEye /></span>
+          </div>
 
           <div className="PasswordInput">
             <input
@@ -117,7 +134,9 @@ function RegisterPage() {
             </span>
           </div>
 
-          <button type="submit">Register</button>
+          <button type="submit" disabled={loading}>
+            {loading ? 'Registering...' : 'Register'}
+          </button>
 
           <div className="Links" style={{ justifyContent: 'center', marginTop: '0.8rem' }}>
             <Link to="/login">Already have an account?</Link>

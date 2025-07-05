@@ -604,15 +604,16 @@ useEffect(() => {
 
   const displayName = user?.email ? user.email.replace('@cit.edu', '') : 'Guest';
 
+  // Trigger tour after first login only
+  useEffect(() => {
+    if (user && localStorage.getItem('teknnect_tour_shown') !== '1') {
+      setTimeout(() => setTourStep(0), 400); // slight delay for UI
+      localStorage.setItem('teknnect_tour_shown', '1');
+    }
+  }, [user]);
+
   return (
     <div className="page-header" style={{ position: 'relative' }}>
-      {/* Onboarding Tour Trigger Button (for demo, remove if you want to trigger after login) */}
-      {user && (
-        <button className="start-tour-btn" style={{position:'fixed',bottom:24,right:24,zIndex:10003,background:'#9B000A',color:'#fff',border:'none',borderRadius:8,padding:'0.7rem 1.5rem',fontWeight:600,cursor:'pointer'}} onClick={startTour}>
-          Take a Tour
-        </button>
-      )}
-
       {/* Spotlight Tour Overlay */}
       {tourStep !== null && (
         <SpotlightTour
