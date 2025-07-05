@@ -13,6 +13,7 @@ function LoginPage() {
   const [error, setError] = useState('');
   const [showPolicyModal, setShowPolicyModal] = useState(false);
   const [userCredential, setUserCredential] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -29,33 +30,34 @@ function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     try {
       const userCred = await signInWithEmailAndPassword(auth, email, password);
 
       if (!userCred.user.emailVerified) {
         setError('❗ Please verify your email before logging in.');
-        // Optionally, sign out the user to clear any session
         await auth.signOut();
-        return; // ⛔ Stop here, don't navigate or set any login state
+        setLoading(false);
+        return;
       }
 
       // Only proceed if email is verified
       console.log('✅ Login successful:', userCred.user); // DEBUG LOG
-      // Check if this is first login (you can customize this logic)
       const isFirstLogin = localStorage.getItem(`policy_accepted_${userCred.user.uid}`) === null;
       if (isFirstLogin) {
         setUserCredential(userCred);
         setShowPolicyModal(true);
       } else {
-        // Mark as logged in for onboarding tour logic
         localStorage.setItem('isLoggedIn', 'true');
-        navigate('/'); // ✅ Navigate directly if policy already accepted
+        navigate('/');
       }
 
     } catch (err) {
       console.error('❌ Login failed:', err); // DEBUG LOG
       setError('Invalid email or password');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -124,7 +126,9 @@ function LoginPage() {
               <Link to="/register">Register</Link>
             </div>
 
-            <button type="submit">Login</button>
+            <button type="submit" disabled={loading}>
+              {loading ? 'Loading...' : 'Login'}
+            </button>
           </form>
         </div>
       </div>
