@@ -397,6 +397,20 @@ body.lostfound-modal-open {
   .lostfound-post-ref-details { flex-direction: column; text-align: center; }
 }
 
+/* Responsive: 2 cards per row, square look on mobile */
+@media (max-width: 700px) {
+  .lostfound-items-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.7rem;
+  }
+  .lostfound-item-card {
+    max-width: 100%;
+    height: 46vw;
+    min-height: 140px;
+    aspect-ratio: 1/1;
+  }
+}
+
 /* Dark mode base styles */
 body.dark-mode .lostfound-PageWrapper {
   background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/hapitwhite.png');
@@ -413,8 +427,9 @@ body.dark-mode .lostfound-page-subtitle {
 
 /* Dark mode cards */
 body.dark-mode .lostfound-item-card {
-  background-color: #333;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  background: #232323;
+  color: #ffe082;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.32);
 }
 
 /* Lost items in dark mode */
@@ -596,4 +611,14 @@ body.dark-mode .lostfound-post-ref-badge.lost {
 body.dark-mode .lostfound-post-ref-badge.found {
   background-color: #9B000A;
   color: #FFBD00;
+}
+
+body.dark-mode .lostfound-item-date {
+  color: #ffe082 !important;
+}
+body.dark-mode .lostfound-item-info.lost {
+  background: #2d1616 !important;
+}
+body.dark-mode .lostfound-item-info.found {
+  background: #7c3f00 !important;
 }

@@ -231,6 +231,20 @@ body.donations-modal-open {
   .donations-post-ref-details { flex-direction: column; text-align: center; }
 }
 
+/* Responsive: 2 cards per row, square look on mobile */
+@media (max-width: 700px) {
+  .donations-items-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.7rem;
+  }
+  .donations-item-card {
+    max-width: 100%;
+    height: 46vw;
+    min-height: 140px;
+    aspect-ratio: 1/1;
+  }
+}
+
 /* Dark mode base styles */
 body.dark-mode .donations-PageWrapper {
   background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/hapitwhite.png');
@@ -247,8 +261,9 @@ body.dark-mode .donations-page-subtitle {
 
 /* Dark mode cards */
 body.dark-mode .donations-item-card {
-  background-color: #333;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  background: #232323;
+  color: #ffe082;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.32);
 }
 
 /* Donation items in dark mode */
@@ -434,4 +449,12 @@ body.dark-mode .donations-post-ref-badge.donation {
 body.dark-mode .donations-post-ref-badge.request {
   background-color: #9B000A;
   color: #FFBD00;
+}
+
+/* Dark mode specific changes */
+body.dark-mode .donations-item-date {
+  color: #ffe082 !important;
+}
+body.dark-mode .donations-item-info {
+  background: #1b2e1b !important;
 }

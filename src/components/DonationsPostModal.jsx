@@ -22,6 +22,7 @@ function DonationsPostModal({ onClose, defaultType }) {
   const [location, setLocation] = useState('');
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const fileInputRef = useRef(null);
   const cameraInputRef = useRef(null);
 
@@ -187,7 +188,7 @@ function DonationsPostModal({ onClose, defaultType }) {
   const handlePost = async (e) => {
     e.preventDefault();
     setLoading(true);
-
+    setSuccess(false);
     try {
       const imageUrls = await Promise.all(
         images.map(async (img) => {
@@ -196,9 +197,7 @@ function DonationsPostModal({ onClose, defaultType }) {
           return await getDownloadURL(imageRef);
         })
       );
-
       const user = auth.currentUser;
-
       await addDoc(collection(db, 'items'), {
         title,
         description,
@@ -210,24 +209,56 @@ function DonationsPostModal({ onClose, defaultType }) {
         email: user?.email || '',
         createdAt: serverTimestamp(),
       });
-
-      alert(`✅ ${selectedType.charAt(0).toUpperCase() + selectedType.slice(1)} item posted successfully!`);
-      onClose();
+      setSuccess(true);
+      setTimeout(() => {
+        setSuccess(false);
+        onClose();
+      }, 1800);
     } catch (err) {
       console.error('❌ Error posting item:', err);
       alert('Error posting item. Try again.');
     }
-
     setLoading(false);
   };
 
   return (
     <div className="modal-overlayd">
       <div className="modal-contentd">
+        {success ? (
+          <div className="success-message-donation" style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '320px',
+            background: 'rgba(255,255,255,0.7)',
+            borderRadius: '18px',
+            boxShadow: '0 2px 16px rgba(0,0,0,0.08)',
+            position: 'relative',
+            zIndex: 10
+          }}>
+            <span style={{
+              fontSize: '4rem',
+              marginBottom: '18px',
+              display: 'block',
+              textAlign: 'center',
+              filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.10))'
+            }}>✅</span>
+            <div style={{
+              marginTop: 0,
+              fontWeight: 700,
+              fontSize: '1.35rem',
+              color: '#2E8B57',
+              textAlign: 'center',
+              letterSpacing: '0.5px',
+              textShadow: '0 1px 8px rgba(255,255,255,0.5)'
+            }}>Post Successful!</div>
+          </div>
+        ) : (
+        <>
         <h2 className="modal-titled">
           <span className="plus-icond">➕</span> Post an Item
         </h2>
-
         <form className="post-formd" onSubmit={handlePost}>
           {/* Type Toggle Buttons */}
           <label className="form-labeld">
@@ -381,6 +412,8 @@ function DonationsPostModal({ onClose, defaultType }) {
             </button>
           </div>
         </form>
+        </>
+        )}
       </div>
     </div>
   );

@@ -192,6 +192,20 @@
   .trade-post-ref-details { flex-direction: column; text-align: center; }
 }
 
+/* Responsive: 2 cards per row, square look on mobile */
+@media (max-width: 700px) {
+  .trade-items-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.7rem;
+  }
+  .trade-item-card {
+    max-width: 100%;
+    height: 46vw;
+    min-height: 140px;
+    aspect-ratio: 1/1;
+  }
+}
+
 /* Dark mode base styles */
 body.dark-mode .trade-PageWrapper {
   background-image: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)), url('../assets/hapitwhite.png');
@@ -208,24 +222,22 @@ body.dark-mode .trade-page-subtitle {
 
 /* Dark mode cards */
 body.dark-mode .trade-item-card {
-  background-color: #333;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-}
-
-body.dark-mode .trade-item-info {
-  background-color: #444;
-  border-left: 4px solid #E7AF06;
+  background: #232323;
+  color: #f8e8b0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.32);
 }
 
 body.dark-mode .trade-item-title,
 body.dark-mode .trade-item-description,
 body.dark-mode .trade-item-price,
-body.dark-mode .trade-item-user {
-  color: #FFBD00;
+body.dark-mode .trade-item-user,
+body.dark-mode .trade-item-date {
+  color: #ffe082;
 }
 
-body.dark-mode .trade-item-date {
-  color: #aaa;
+body.dark-mode .trade-item-info {
+  background: #2d2d2d;
+  border-left: 4px solid #ffe082;
 }
 
 /* Dark mode controls */
@@ -344,4 +356,8 @@ body.dark-mode .trade-loading-message,
 body.dark-mode .trade-empty-message {
   color: #ccc;
   background-color: #333;
+}
+
+body.dark-mode .trade-item-date {
+  color: #b9f6ca;
 }
