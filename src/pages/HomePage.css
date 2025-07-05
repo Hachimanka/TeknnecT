@@ -1,3 +1,9 @@
+body.dark-mode .SubTitle {
+  color: #FFBD00 !important;
+}
+.body.dark-mode .SubTitle {
+  color: #FFBD00 !important;
+}
 /* ============================
    ✅ DESKTOP / DEFAULT STYLES - RESPONSIVE SCALING
 ============================ */
@@ -38,6 +44,23 @@ body {
   margin-bottom: 3vh;
   padding-left: 20%;
   font-family: "Century Gothic", sans-serif;
+  text-align: left;
+}
+
+.SubTitles {
+  padding-left: 20%;
+  font-size: 1rem;
+  color: #000;
+  font-family: "Century Gothic", sans-serif;
+  margin-bottom: 2vh;
+  text-align: left;
+}
+body.dark-mode .SubTitles {
+  color: #FFBD00 !important;
+}
+
+body.dark-mode .SubTitles {
+  color: #FFBD00 !important;
 }
 
 .ActionButtons {
@@ -238,12 +261,14 @@ body {
   line-height: 12px;
 }
 
-.quickLinks{
+
+
+.quickLinks {
   flex: auto;
   display: flex;
   flex-direction: column;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: #000;
   text-align: left;
 }
@@ -252,11 +277,10 @@ body {
   display: flex;
   flex-direction: column;
   font-family: 'Poppins', sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   color: #000;
   text-align: left;
   margin-left: 100px;
-
 }
 
 .quickLinks a,
@@ -424,6 +448,13 @@ link{
   cursor: pointer;
   text-align: center;
   font: inherit;
+  box-shadow: none;
+}
+
+body.dark-mode .policy-link-btn {
+  background: none !important;
+  color: #FFBD00 !important;
+  box-shadow: none !important;
 }
 /* ===========================
    📱 MOBILE RESPONSIVE STYLES
@@ -714,9 +745,11 @@ link{
 }
 
 /* Dark mode styles */
-body.dark-mode .MainTitle,
+body.dark-mode .MainTitle {
+  color: #FFBD00 !important;
+}
 body.dark-mode .SubTitle {
-  color: #FFBD00;
+  color: #FFBD00 !important;
 }
 
 body.dark-mode .GetStartedButton {
@@ -757,10 +790,14 @@ body.dark-mode .description {
 
 body.dark-mode .message,
 body.dark-mode .ContactLabel,
-body.dark-mode .ContactInfo,
+body.dark-mode .ContactInfo {
+  color: #f0f0f0;
+}
+body.dark-mode .quickLinks,
+body.dark-mode .resourceLinks,
 body.dark-mode .quickLinks a,
 body.dark-mode .resourceLinks a {
-  color: #f0f0f0;
+  color: #FFBD00 !important;
 }
 
 body.dark-mode .section4 {

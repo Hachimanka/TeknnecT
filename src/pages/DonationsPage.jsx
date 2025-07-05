@@ -387,9 +387,16 @@ function DonationsPage({ darkMode }) {
                 </div>
               </div>
               <div className="donations-modal-footer">
-                <button className="donations-chat-button" onClick={() => setShowChatModal(true)}>
-                  {selectedItem.type === 'donation' ? 'Contact Donor' : 'Contact Requester'}
-                </button>
+                {auth.currentUser && selectedItem.uid !== auth.currentUser.uid ? (
+                  <button className="donations-chat-button" onClick={() => setShowChatModal(true)}>
+                    {selectedItem.type === 'donation' ? 'Contact Donor' : 'Contact Requester'}
+                  </button>
+                ) : (
+                  <div style={{textAlign: 'center', color: '#888', fontWeight: 500, padding: '0.2rem 0', minHeight: '32px'}}>
+                    <div style={{fontSize: '1rem', lineHeight: 1.1}}>Your Post</div>
+                    <div style={{fontSize: '0.85rem', lineHeight: 1.1}}>This is your post. Other users can contact you about this item.</div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

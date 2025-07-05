@@ -4,7 +4,7 @@ import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import './PostItemModal.css';
 
-function PostItemModal({ onClose, defaultType }) {
+function PostItemModal({ onClose, defaultType, onPostSuccess }) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -332,7 +332,7 @@ function PostItemModal({ onClose, defaultType }) {
 
       const user = auth.currentUser;
 
-      await addDoc(collection(db, 'items'), {
+      const newPost = {
         title,
         description,
         category,
@@ -341,8 +341,19 @@ function PostItemModal({ onClose, defaultType }) {
         imageUrls,
         uid: user?.uid || '',
         email: user?.email || '',
-        createdAt: serverTimestamp(),
+        createdAt: new Date(), // Use local date for instant UI update
+      };
+
+      // Add to Firestore
+      await addDoc(collection(db, 'items'), {
+        ...newPost,
+        createdAt: serverTimestamp(), // Firestore timestamp for DB
       });
+
+      // Call parent callback to update UI instantly
+      if (onPostSuccess) {
+        onPostSuccess(newPost);
+      }
 
       // Show random emoji success message instead of alert
       showRandomEmojiSuccess();

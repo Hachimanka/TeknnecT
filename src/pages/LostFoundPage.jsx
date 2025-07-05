@@ -106,10 +106,13 @@ function LostFoundPage({ darkMode }) {
     fetchItems();
   }, []);
 
-  const uniqueCategories = useMemo(() => {
-    const categories = new Set(items.map(item => item.category).filter(Boolean));
-    return Array.from(categories);
-  }, [items]);
+  // Standardized categories for consistency with Rent/other pages
+  const ALL_CATEGORIES = [
+    "Electronics",
+    "Books",
+    "Clothing",
+    "Other"
+  ];
 
   const processedItems = useMemo(() => {
     let results = items;
@@ -287,7 +290,7 @@ function LostFoundPage({ darkMode }) {
             </select>
             <select className="lostfound-select-dropdown" value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
                 <option value="all">All Categories</option>
-                {uniqueCategories.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                {ALL_CATEGORIES.map(cat => <option key={cat} value={cat}>{cat}</option>)}
             </select>
             <select className="lostfound-select-dropdown" value={sortOrder} onChange={(e) => setSortOrder(e.target.value)}>
                 <option value="newest">Newest First</option>
@@ -355,7 +358,14 @@ function LostFoundPage({ darkMode }) {
                 </div>
               </div>
               <div className="lostfound-modal-footer">
-                <button className="lostfound-chat-button" onClick={() => setShowChatModal(true)}>Chat With Uploader</button>
+                {auth.currentUser && selectedItem.uid !== auth.currentUser.uid ? (
+                  <button className="lostfound-chat-button" onClick={() => setShowChatModal(true)}>Chat With Uploader</button>
+                ) : (
+                  <div style={{textAlign: 'center', color: '#888', fontWeight: 500, padding: '0.2rem 0', minHeight: '32px'}}>
+                    <div style={{fontSize: '1rem', lineHeight: 1.1}}>Your Post</div>
+                    <div style={{fontSize: '0.85rem', lineHeight: 1.1}}>This is your post. Other users can contact you about this item.</div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

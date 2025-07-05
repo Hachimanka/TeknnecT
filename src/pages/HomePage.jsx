@@ -167,11 +167,8 @@ function HomePage({ darkMode }) {
           <div className="BottomGroup">
             <div className="LogoWithMessage">
               <img src={bottomLogo1} alt="Logo" className="bottom-logo" />
-              <p className="message">
-                The student marketplace <br />
-                that makes campus life <br />
-                easier and more <br />
-                sustainable
+              <p className="SubTitle">
+                The student marketplace that<br /> makes campus life easier and <br/> more sustainable.
               </p>
             </div>
 
